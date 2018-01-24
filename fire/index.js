@@ -2,12 +2,12 @@ const firebase = require('firebase')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 const config = {
-  apiKey: process.env.firekey,
-  authDomain: process.env.fireAuth,
-  databaseURL: process.env.dbURL,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId
+  apiKey: 'AIzaSyCIIAO9N0xWau3Gsv6LFCBmGres-q48u_0',
+  authDomain: 'on-my-line.firebaseapp.com',
+  databaseURL: 'https://on-my-line.firebaseio.com',
+  projectId: 'on-my-line',
+  storageBucket: 'on-my-line.appspot.com',
+  messagingSenderId: '553434504337'
 };
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
