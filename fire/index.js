@@ -2,13 +2,13 @@ const firebase = require('firebase')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 const config = {
-  apiKey: 'AIzaSyBzz-Wq2dzMgM7E8cdSYnYoX5fbVUT-XQo',
-  authDomain: 'firebones-6bc2a.firebaseapp.com',
-  databaseURL: 'https://firebones-6bc2a.firebaseio.com',
-  projectId: 'firebones-6bc2a',
-  storageBucket: 'firebones-6bc2a.appspot.com',
-  messagingSenderId: '1030378391678'
-}
+  apiKey: 'AIzaSyCIIAO9N0xWau3Gsv6LFCBmGres-q48u_0',
+  authDomain: 'on-my-line.firebaseapp.com',
+  databaseURL: 'https://on-my-line.firebaseio.com',
+  projectId: 'on-my-line',
+  storageBucket: 'on-my-line.appspot.com',
+  messagingSenderId: '553434504337'
+};
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
 // Initialize the app, but make sure to do it only once.
