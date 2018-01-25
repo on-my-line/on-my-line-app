@@ -6,7 +6,8 @@ import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import firebase from 'APP/fire'
 import Demos from 'APP/demos'
-import WhatIsYourLine from './components/WhatIsYourLine'
+import {default as Home} from './components/Home'
+import {default as WhatIsYourLine} from './components/WhatIsYourLine'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // Get the auth API from Firebase.
@@ -52,7 +53,7 @@ const App = ({children}) =>
 render(
   <MuiThemeProvider>
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path="/" component={Home}>
         <IndexRedirect to="demos"/>
         {Demos /* Put all the demos and a description page at /demos */}
       </Route>
