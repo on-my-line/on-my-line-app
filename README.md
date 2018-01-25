@@ -92,7 +92,7 @@ copy the call to `initializeApp`, I've already got that.
 Then, in your code, you can import firebase like so:
 
 ```javascript
-import firebase from 'APP/fire'
+import firebase from '../fire'
 ```
 
 ## 4. Deploy
