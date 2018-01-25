@@ -21,7 +21,7 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => console.log(`doing all good things on port ${PORT}`))
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err.stack)
   res.status(err.status || 500).send(err.message || 'Internal server error')
 })
 
