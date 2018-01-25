@@ -4,10 +4,9 @@ import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import {render} from 'react-dom'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-import firebase from 'APP/fire'
-import Demos from 'APP/demos'
-import {default as Home} from './components/Home'
-import {default as WhatIsYourLine} from './components/WhatIsYourLine'
+import firebase from '../fire'
+import Demos from '../demos'
+import WhatIsYourLine from './components/WhatIsYourLine'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // Get the auth API from Firebase.
@@ -40,8 +39,8 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 // and whatever children the router gave us.
 const App = ({children}) =>
     <div>
-      <nav>
-        {/* WhoAmI takes a firebase auth API and renders either a
+    <nav>
+          {/* WhoAmI takes a firebase auth API and renders either a
             greeting and a logout button, or sign in buttons, depending
             on if anyone's logged in */}
         <WhoAmI auth={auth}/>

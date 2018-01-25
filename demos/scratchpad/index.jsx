@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route} from 'react-router'
-import firebase from 'APP/fire'
+import firebase from '../../fire'
 const db = firebase.database()
 
 import Scratchpad from './Scratchpad'
