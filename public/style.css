@@ -1,0 +1,28 @@
+#routes{
+	stroke: green;
+	stroke-width:5;
+	fill:none;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:100;
+}
+
+#nycBoroughs {
+  stroke: none;
+	stroke-width: 0px;
+	fill: #ddd;
+	opacity:.9;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+#stops{
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:150;
+	fill: white;
+	stroke: black;
+}
