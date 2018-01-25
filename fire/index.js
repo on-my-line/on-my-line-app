@@ -8,7 +8,7 @@ const config = {
   projectId: 'on-my-line',
   storageBucket: 'on-my-line.appspot.com',
   messagingSenderId: '553434504337'
-};
+}
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
 
 // Initialize the app, but make sure to do it only once.

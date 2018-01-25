@@ -2,17 +2,15 @@
 import React from 'react'
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import {render} from 'react-dom'
-
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
-
 import firebase from 'APP/fire'
-
 import Demos from 'APP/demos'
+import WhatIsYourLine from './components/WhatIsYourLine'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
-
 // Ensure that we have (almost) always have a user ID, by creating
 // an anonymous user if nobody is signed in.
 auth.onAuthStateChanged(user => user || auth.signInAnonymously())
@@ -40,24 +38,27 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
 const App = ({children}) =>
-  <div>
-    <nav>
-      {/* WhoAmI takes a firebase auth API and renders either a
-          greeting and a logout button, or sign in buttons, depending
-          on if anyone's logged in */}
-      <WhoAmI auth={auth}/>
-    </nav>
-    {/* Render our children (whatever the router gives us) */}
-    {children}
-  </div>
+    <div>
+      <nav>
+        {/* WhoAmI takes a firebase auth API and renders either a
+            greeting and a logout button, or sign in buttons, depending
+            on if anyone's logged in */}
+        <WhoAmI auth={auth}/>
+      </nav>
+      {/* Render our children (whatever the router gives us) */}
+      {children}
+    </div>
 
 render(
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRedirect to="demos"/>
-      {Demos /* Put all the demos and a description page at /demos */}
-    </Route>
-    <Route path='*' component={NotFound}/>
-  </Router>,
+  <MuiThemeProvider>
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRedirect to="demos"/>
+        {Demos /* Put all the demos and a description page at /demos */}
+      </Route>
+      <Route exact path='/auto' component={WhatIsYourLine} />
+      <Route path='*' component={NotFound}/>
+    </Router>
+  </MuiThemeProvider>,
   document.getElementById('main')
 )
