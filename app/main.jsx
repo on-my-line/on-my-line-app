@@ -40,6 +40,7 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 // Our root App component just renders a little frame with a nav
 // and whatever children the router gave us.
+
 const App = ({children}) =>
     <div>
     <nav>
