@@ -7,21 +7,21 @@ const defaultYelp = []
 
 const setYelpThings = yelpThings => ({type: SET_YELP_THINGS, yelpThings})
 
-export const fetchYelpThunk = (arrayOfStops) => //array of arrays lon/lat
+export const fetchYelpThunk = (arrayOfStops) => // array of arrays lon/lat
   dispatch => {
-      const fetchAllPromiseArray = []
-      arrayOfStops.forEach( stop => {
-          let promise =  axios.get(`/yelp/${stop[1]}_${stop[0]}_1000`)
+    const fetchAllPromiseArray = []
+    arrayOfStops.forEach(stop => {
+      const promise = axios.get(`/yelp/${stop[1]}_${stop[0]}_1000`)
           .then(response => response)
-          fetchAllPromiseArray.push(promise)
-      })
-      Promise.all(fetchAllPromiseArray)
+      fetchAllPromiseArray.push(promise)
+    })
+    Promise.all(fetchAllPromiseArray)
       .then(resolvedArray => {
-          let allYelpThings = []
-          resolvedArray.forEach(yelpResponse => {
-              allYelpThings.push(yelpResponse)
-          })
-          return allYelpThings
+        const allYelpThings = []
+        resolvedArray.forEach(yelpResponse => {
+          allYelpThings.push(yelpResponse)
+        })
+        return allYelpThings
       })
       .then(allYelpThings =>
           dispatch(setYelpThings(allYelpThings)))
@@ -29,12 +29,12 @@ export const fetchYelpThunk = (arrayOfStops) => //array of arrays lon/lat
   }
 
 export default function(state = defaultYelp, action) {
-    switch (action.type) {
-        case SET_YELP_THINGS:
-            return action.yelpThings
-    default:
-        return state
-    }
+  switch (action.type) {
+  case SET_YELP_THINGS:
+    return action.yelpThings
+  default:
+    return state
+  }
 }
 
-//comment
+// comment

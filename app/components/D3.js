@@ -5,7 +5,7 @@ import allStops from '../../allStops'
 import { connect } from 'react-redux'
 import { fetchYelpThunk } from '../store'
 
-const dummy = [[-73.953676,40.822008],[-73.958372,40.815581]]
+const dummy = [[-73.953676, 40.822008], [-73.958372, 40.815581]]
 
 class D3Trial extends Component {
   constructor(props) {
@@ -48,18 +48,14 @@ class D3Trial extends Component {
   }
 }
 
-const mapState = (state) => {
-  return {
-    yelp: state.yelp
-  }
-}
+const mapState = (state) => ({
+  yelp: state.yelp
+})
 
-const mapDispatch = (dispatch) => {
-  return {
-    fetchYelp(arrayOfStops) {
-      dispatch(fetchYelpThunk)
-    }
+const mapDispatch = (dispatch) => ({
+  fetchYelp(arrayOfStops) {
+    dispatch(fetchYelpThunk)
   }
-}
+})
 
 export default connect(mapState, mapDispatch)(D3Trial)
