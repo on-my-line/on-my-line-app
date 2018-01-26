@@ -13,11 +13,11 @@ const mapState = (state, ownProps) => ({
 const Home = props => (
   <div className="center-screen">
     <WhatIsYourLine />
-    {props.line ?
+    {/* {props.line ?
     <WhatIsYourStop /> : null}
     {props.line && props.stop ?
     props.ownProps.history.push('/')
-    : null}
+    : null} */}
   </div>
 )
 
