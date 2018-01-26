@@ -12,6 +12,10 @@ app.use(volleyball)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use('/yelp', require('./yelp'))
+app.use('/eventBrite', require('./eventBrite'))
+app.use('/meetup', require('./meetup'))
+
 app.use(express.static(path.join(__dirname, '../public')))
 
 app.get('*', (req, res) => {
