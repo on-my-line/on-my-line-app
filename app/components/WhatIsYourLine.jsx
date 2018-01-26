@@ -11,23 +11,22 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  handleSubmit(evt) {
-    evt.preventDefault()
-    dispatch(setLine(evt.target.line.value))
+  handleChange: value => {
+    console.log(value)
+    dispatch(setLine(value))
   }
 })
 
 const WhatIsYourLine = (props) => (
   <div>
     <AutoComplete
-      floatingLabelText="M, L, 2, 3...."
+      floatingLabelText="What is your line?"
       filter={AutoComplete.fuzzyFilter}
       dataSource={stops}
       maxSearchResults={5}
       name="line"
       value={props.line}
-      onChange={props.handleChange}
-      onSubmit={props.handleSubmit}
+      onNewRequest={props.handleChange}
     />
   </div>
 )

@@ -1,7 +1,7 @@
 const SELECT_LINE = "SELECT_LINE"
 
-export const selectLine = line => ({
-    type: SELECT_INE,
+export const setLine = line => ({
+    type: SELECT_LINE,
     line
 })
 
