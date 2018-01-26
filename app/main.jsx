@@ -5,7 +5,6 @@ import {render} from 'react-dom'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
 import firebase from '../fire'
-import Demos from '../demos'
 import WhatIsYourLine from './components/WhatIsYourLine'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {Provider} from 'react-redux'
@@ -57,11 +56,7 @@ render(
   <Provider store={store}>
   <MuiThemeProvider>
     <Router history={browserHistory}>
-      <Route path="/home" component={Home} />
-      <Route path="/" component={App}>
-        <IndexRedirect to="demos"/>
-        {Demos /* Put all the demos and a description page at /demos */}
-      </Route>
+      <Route path="/" component={Home} />
       <Route exact path='/auto' component={WhatIsYourLine} />
       <Route path='*' component={NotFound}/>
     </Router>

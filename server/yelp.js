@@ -6,7 +6,7 @@ const YELP_API_KEY = process.env.YELP_API_KEY
 
 const client = yelp.client(YELP_API_KEY)
 
-router.get('/:lat_long_rad', (req, res, next) => {
+router.get('/:lat_long_rad', (req, res, next) => { 
   const userInput = req.params.lat_long_rad
   const userInputSplit = userInput.split('_')
   const searchRequest = {
@@ -17,7 +17,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
   client.search(searchRequest)
   .then(response => {
     const Results = response.jsonBody.businesses
-    res.json(Results)
+    return Results
   })
   .then(results => {
     const yelpThings = results.map(elem => {
