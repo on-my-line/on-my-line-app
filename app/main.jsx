@@ -8,6 +8,9 @@ import firebase from '../fire'
 import Demos from '../demos'
 import WhatIsYourLine from './components/WhatIsYourLine'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import {Provider} from 'react-redux'
+import store from './store'
+import {default as Home} from './components/Home'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -50,8 +53,10 @@ const App = ({children}) =>
     </div>
 
 render(
+  <Provider store={store}>
   <MuiThemeProvider>
     <Router history={browserHistory}>
+      <Route path="/home" component={Home} />
       <Route path="/" component={App}>
         <IndexRedirect to="demos"/>
         {Demos /* Put all the demos and a description page at /demos */}
@@ -59,6 +64,7 @@ render(
       <Route exact path='/auto' component={WhatIsYourLine} />
       <Route path='*' component={NotFound}/>
     </Router>
-  </MuiThemeProvider>,
+  </MuiThemeProvider>
+  </Provider>,
   document.getElementById('main')
 )
