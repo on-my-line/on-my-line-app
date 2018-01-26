@@ -18,8 +18,25 @@ router.get('/:lat_long_rad', (req, res, next) => {
   .then(response => {
     const Results = response.jsonBody.businesses
     res.json(Results)
-      //console.log(prettyJson)
-  }).catch(next)
+  })
+  .then(results => {
+    const yelpThings = results.map(elem => {
+      return (
+        {
+          name: elem.name,
+          url: elem.url,
+          lat: elem.coordinates[0],
+          lon: elem.coordinates[0],
+          rating: elem.rating,
+          price: elem.price,
+          location: elem.location.isplay_address[0],
+          phone: elem.phone,
+          distance: elem.distance
+        })
+    })
+    res.json(yelpThings)
+  })
+  .catch(next)
 })
 
 module.exports = router
