@@ -17,7 +17,7 @@ export const fetchYelpThunk = (LatLonRad) =>
 export default function(state = defaultYelp, action) {
     switch (action.type) {
         case SET_YELP_THINGS:
-            return action.yelpthings
+            return action.yelpThings
     default:
         return state
     }

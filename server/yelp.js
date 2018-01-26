@@ -29,9 +29,8 @@ router.get('/:lat_long_rad', (req, res, next) => {
           lon: elem.coordinates[0],
           rating: elem.rating,
           price: elem.price,
-          location: elem.location.isplay_address[0],
+          location: elem.location.display_address[0],
           phone: elem.phone,
-          distance: elem.distance
         })
     })
     res.json(yelpThings)

@@ -14,8 +14,23 @@ router.get('/:lat_long_rad', (req, res, next) => {
     const url = `https://api.meetup.com/2/concierge?lon=${longitude}&lat=${latitude}&radius=${radius}&key=${API_KEY}`
     
     axios.get(url)
-    .then(response => response.data)
-    .then(data => res.json(data))
+    .then(response => response.data.results)
+    .then(data => {
+        const meetupThings = data.map(elem => {
+            return (
+                {
+                    name: elem.name,
+                    url: elem.event_url,
+                    lat: elem.venue.lat,
+                    lon: elem.venue.lon,
+                    price: (elem.fee) ? elem.fee.amount : null,
+                    location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
+                    time: elem.time //in datetime form
+                }
+            )
+        })
+        res.json(meetupThings)
+    })
     .catch(next)
 })
 
