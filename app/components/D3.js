@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import CongressionalDistricts from './d3GeoTrial'
 import allRoutes from '../../allRoutes'
 import allStops from '../../allStops'
+import { connect } from 'react-redux'
+import { fetchYelpThunk } from '../store'
 
-export default class D3Trial extends Component {
+const dummy = [[-73.953676,40.822008],[-73.958372,40.815581]]
+
+class D3Trial extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,3 +47,19 @@ export default class D3Trial extends Component {
     )
   }
 }
+
+const mapState = (state) => {
+  return {
+    yelp: state.yelp
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    fetchYelp(arrayOfStops) {
+      dispatch(fetchYelpThunk)
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(D3Trial)
