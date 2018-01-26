@@ -1,26 +1,26 @@
 import React from 'react'
 import AutoComplete from 'material-ui/AutoComplete'
 import {connect} from 'react-redux'
-import {setLine} from '../store'
+import {setStop} from '../store'
 
 const stops = ['A', 'C', 'E', 'B', 'D', 'F', 'M', 'G', 'L', 'J', 'Z', 'N', 'Q',
   'R', 'W', '1', '2', '3', '4', '5', '6', '7', 'S']
 
 const mapState = state => ({
-  line: state.line
+  line: state.stop
 })
 
 const mapDispatch = dispatch => ({
   handleChange: value => {
     console.log(value)
-    dispatch(setLine(value))
+    dispatch(setStop(value))
   }
 })
 
-const WhatIsYourLine = (props) => (
+const WhatIsYourStop = props => (
   <div>
     <AutoComplete
-      floatingLabelText="What is your line?"
+      floatingLabelText="How about your stop?"
       filter={AutoComplete.fuzzyFilter}
       dataSource={stops}
       maxSearchResults={5}
@@ -31,6 +31,6 @@ const WhatIsYourLine = (props) => (
   </div>
 )
 
-const WhatIsYourLineContainer = connect(mapState, mapDispatch)(WhatIsYourLine)
+const WhatIsYourStopContainer = connect(mapState, mapDispatch)(WhatIsYourStop)
 
-export default WhatIsYourLineContainer
+export default WhatIsYourStopContainer
