@@ -1,5 +1,4 @@
 'use strict'
-let webpack = require('webpack')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
     , devMode = require('.').isDevelopment
 
