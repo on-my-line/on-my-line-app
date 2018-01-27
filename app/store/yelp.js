@@ -17,14 +17,23 @@ export const fetchYelpThunk = (arrayOfStops) => // array of arrays lon/lat
     })
     Promise.all(fetchAllPromiseArray)
       .then(resolvedArray => {
-        const allYelpThings = []
+        let allYelpThings = []
         resolvedArray.forEach(yelpResponse => {
-          allYelpThings.push(yelpResponse)
+          allYelpThings = [...allYelpThings, ...yelpResponse.data]
         })
-        return allYelpThings
+        let alreadyFound = {}
+        let uniqueThings = []
+        allYelpThings.forEach(obj => {
+            let name = obj.name
+            if(!alreadyFound[name]){
+                alreadyFound[name] = true
+                uniqueThings.push(obj)
+            }
+        })
+        return uniqueThings
       })
-      .then(allYelpThings =>
-          dispatch(setYelpThings(allYelpThings)))
+      .then(uniqueYelpThings =>
+          dispatch(setYelpThings(uniqueYelpThings)))
       .catch(err => console.log(err))
   }
 

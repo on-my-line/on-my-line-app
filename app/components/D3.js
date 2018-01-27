@@ -3,7 +3,7 @@ import CongressionalDistricts from './d3GeoTrial'
 import allRoutes from '../../allRoutes'
 import allStops from '../../allStops'
 import { connect } from 'react-redux'
-import { fetchYelpThunk } from '../store'
+import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk } from '../store'
 
 const dummy = [[-73.953676, 40.822008], [-73.958372, 40.815581]]
 
@@ -19,6 +19,8 @@ class D3Trial extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ targetLine: event.target.targetLine.value })
+    this.props.fetchYelp(dummy)
+    //this.props.fetchMeetup(dummy)
   }
 
   render() {
@@ -54,8 +56,14 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
   fetchYelp(arrayOfStops) {
-    dispatch(fetchYelpThunk)
-  }
+    dispatch(fetchYelpThunk(arrayOfStops))
+  },
+  fetchMeetup(arrayOfStops){
+    dispatch(fetchMeetupThunk(arrayOfStops))
+  },
+  fetchEventBrite(arrayOfStops){
+    dispatch(fetchEventBriteThunk(arrayOfStops))
+  },
 })
 
 export default connect(mapState, mapDispatch)(D3Trial)

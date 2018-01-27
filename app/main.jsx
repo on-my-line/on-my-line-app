@@ -10,6 +10,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {Provider} from 'react-redux'
 import store from './store'
 import {default as Home} from './components/Home'
+import {default as D3} from './components/D3.js'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -58,6 +59,7 @@ render(
     <Router history={browserHistory}>
       <Route path="/" component={Home} />
       <Route exact path='/auto' component={WhatIsYourLine} />
+      <Route path='/myLine' component={D3} />
       <Route path='*' component={NotFound}/>
     </Router>
   </MuiThemeProvider>

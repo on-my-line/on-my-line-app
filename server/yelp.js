@@ -18,19 +18,23 @@ router.get('/:lat_long_rad', (req, res, next) => {
   .then(response => {
     const Results = response.jsonBody.businesses
     return Results
-  })
+   })
   .then(results => {
-    const yelpThings = results.map(elem => (
-      {
-        name: elem.name,
-        url: elem.url,
-        lat: elem.coordinates[0],
-        lon: elem.coordinates[0],
-        rating: elem.rating,
-        price: elem.price,
-        location: elem.location.display_address[0],
-        phone: elem.phone,
-      }))
+    const yelpThings = results.map(elem => {
+      return(
+        {
+          name: elem.name,
+          url: elem.url,
+          lat: elem.coordinates.latitude,
+          lon: elem.coordinates.longitude,
+          rating: elem.rating,
+          price: elem.price,
+          location: elem.location.display_address[0],
+          phone: elem.phone,
+        }
+      ) 
+    }
+    )
     res.json(yelpThings)
   })
   .catch(next)
