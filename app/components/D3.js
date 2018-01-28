@@ -19,8 +19,8 @@ class D3Trial extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ targetLine: event.target.targetLine.value })
-    this.props.fetchYelp(dummy)
-    //this.props.fetchMeetup(dummy)
+    //this.props.fetchYelp(dummy)
+    this.props.fetchMeetup(dummy)
   }
 
   render() {

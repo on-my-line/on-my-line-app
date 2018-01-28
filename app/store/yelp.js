@@ -7,11 +7,11 @@ const defaultYelp = []
 
 const setYelpThings = yelpThings => ({type: SET_YELP_THINGS, yelpThings})
 
-export const fetchYelpThunk = (arrayOfStops) => // array of arrays lon/lat
+export const fetchYelpThunk = (arrayOfStops, rad=1000) => // array of arrays lon/lat
   dispatch => {
     const fetchAllPromiseArray = []
     arrayOfStops.forEach(stop => {
-      const promise = axios.get(`/yelp/${stop[1]}_${stop[0]}_1000`)
+      const promise = axios.get(`/yelp/${stop[1]}_${stop[0]}_${rad}`)
           .then(response => response)
       fetchAllPromiseArray.push(promise)
     })
