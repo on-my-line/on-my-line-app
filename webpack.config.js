@@ -1,4 +1,5 @@
 'use strict'
+let webpack = require('webpack')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
     , devMode = require('.').isDevelopment
 
@@ -35,8 +36,8 @@ module.exports = {
         }
       }]
     }]
-  },
-  plugins: devMode
-    ? [new LiveReloadPlugin({appendScriptTag: true})]
-    : []
+  }
+  // plugins: devMode
+  //   ? [new LiveReloadPlugin({appendScriptTag: true})]
+  //   : []
 }
