@@ -12,16 +12,17 @@ router.get('/:lat_long_rad', (req, res, next) => {
     const userInputSplit = userInput.split('_')
     const latitude = userInputSplit[0]
     const longitude = userInputSplit[1]
-    const radius = (userInputSplit[2])/1000 //follow by "mi" or "km"
+    const radius = ((userInputSplit[2])/1000) //follow by "mi" or "km"
     const url = `https://www.eventbriteapi.com/v3/events/?expand=venue&location.latitude=${latitude}&location.longitude=${longitude}&location.within=${radius}km&token=${TOKEN}`
-    
+    console.log(latitude, longitude, radius)
     axios.get(url)
     .then(response => response.data.events)
     .then(data => {
-        const eventBriteThings = data.map(elem => {
+        const eventBriteThings = data.filter(elem => elem.venue)
+        .map(elem => {
             return (
                 {
-                    name: elem.name,
+                    name: elem.name.text,
                     url: elem.url,
                     lat: elem.venue.latitude,
                     lon: elem.venue.longitude,
