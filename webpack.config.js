@@ -36,8 +36,8 @@ module.exports = {
         }
       }]
     }]
-  },
-  plugins: devMode
-    ? [new LiveReloadPlugin({appendScriptTag: true})]
-    : []
+  }
+  // plugins: devMode
+  //   ? [new LiveReloadPlugin({appendScriptTag: true})]
+  //   : []
 }
