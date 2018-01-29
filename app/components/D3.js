@@ -7,7 +7,7 @@ import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
 import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk } from '../store'
 
-const dummy = [[-73.953676, 40.822008], [-73.958372, 40.815581]]
+const dummy = [{coordinates: [-73.949724,40.744065], stopId: "G24"}, {coordinates: [-73.954449,40.731352], stopId:"G26"}]
 
 class D3Trial extends Component {
   constructor(props) {
@@ -15,15 +15,22 @@ class D3Trial extends Component {
     this.state = {
       targetLine: ''
     }
-    // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  // handleSubmit(event) {
-  //   event.preventDefault()
-  //   this.setState({ targetLine: event.target.targetLine.value })
-  //   //this.props.fetchYelp(dummy)
-  //   this.props.fetchMeetup(dummy)
-  // }
+  componentDidMount() {
+    //event.preventDefault()
+    //this.setState({ targetLine: event.target.targetLine.value })
+    // this.props.fetchYelp(
+    //   allStops.features.filter(stop => {
+    //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
+    //     return stopSet.has('F') 
+    //   })
+    //   .map( stop => stop.geometry.coordinates)
+    // )
+    this.props.fetchYelp(dummy)
+    this.props.fetchMeetup(dummy)
+    //this.props.fetchEventBrite(dummy)
+  }
 
   render() {
     const lineParam = this.props.match.params.line

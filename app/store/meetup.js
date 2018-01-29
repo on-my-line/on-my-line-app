@@ -5,45 +5,49 @@ const SET_MEETUP_THINGS = 'SET_MEETUP_THINGS'
 
 const defaultMeetup = []
 
-const setMeetupThings = meetupThings => ({type: SET_MEETUP_THINGS, meetupThings})
+const setMeetupThings = meetupThings => ({ type: SET_MEETUP_THINGS, meetupThings })
 
-export const fetchMeetupThunk = (arrayOfStops, rad=1000) =>
-  dispatch => {
-    const fetchAllPromiseArray = []
-    arrayOfStops.forEach(stop => {
-      const promise = axios.get(`/meetup/${stop[1]}_${stop[0]}_${rad}`)
-          .then(response => response)
-      fetchAllPromiseArray.push(promise)
-    })
-    Promise.all(fetchAllPromiseArray)
-        .then(resolvedArray => {
-            let allMeetupThings = []
-            resolvedArray.forEach(meetupResponse => {
-            allMeetupThings = [...allMeetupThings, ...meetupResponse.data]
-            })
-            let alreadyFound = {}
-            let uniqueThings = []
-            allMeetupThings.forEach(obj => {
-                let name = obj.name
-                //let date = obj.date
-                if(!alreadyFound[name]){
-                    alreadyFound[name] = true
-                    uniqueThings.push(obj)
-                }
-    //right now it is only picking up the nearest date of the event if it is reoccuring. 
-            })
-            return uniqueThings
-        })
-        .then(uniqueMeetupThings =>
-            dispatch(setMeetupThings(uniqueMeetupThings)))
-        .catch(err => console.log(err))
-  }
+export const fetchMeetupThunk = (arrayOfStops, rad = 400) =>
+    dispatch => {
+        const fetchAllPromiseArray = []
+        arrayOfStops.forEach(stopObj => {
+            const stopId = stopObj.stopId
+            const promise = axios.get(`/meetup/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`)
+                .then(response => {
+                    response.data.forEach(thing => {
+                        thing.stopId = stopId
+                    })
+                    return response
+                })
+                    fetchAllPromiseArray.push(promise)
+                })
+            Promise.all(fetchAllPromiseArray)
+                .then(resolvedArray => {
+                    let allMeetupThings = []
+                    resolvedArray.forEach(meetupResponse => {
+                        allMeetupThings = [...allMeetupThings, ...meetupResponse.data]
+                    })
+                    let alreadyFound = {}
+                    let uniqueThings = []
+                    allMeetupThings.forEach(obj => {
+                        let name = obj.id
+                        if (!alreadyFound[name]) {
+                            alreadyFound[name] = true
+                            uniqueThings.push(obj)
+                        }
+                    })
+                    return uniqueThings
+                })
+                .then(uniqueMeetupThings =>
+                    dispatch(setMeetupThings(uniqueMeetupThings)))
+                .catch(err => console.log(err))
+        }
 
-export default function(state = defaultMeetup, action) {
-    switch (action.type) {
-        case SET_MEETUP_THINGS:
-            return action.meetupThings
-    default:
-        return state
-    }
-}
+export default function (state = defaultMeetup, action) {
+            switch (action.type) {
+                case SET_MEETUP_THINGS:
+                    return action.meetupThings
+                default:
+                    return state
+            }
+        }
