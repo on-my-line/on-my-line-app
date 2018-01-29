@@ -26,9 +26,10 @@ export default class CongressionalDistricts extends Component {
 
   componentDidUpdate() {
     console.log(allStops.features)
+    ///what d3 is hooking into on the dom
     const svg = d3.select(this.refs.anchor),
       { width, height } = this.props
-
+    ///how large the map is
     const projection = d3.geoMercator()
           .center([-73.94, 40.70])
           .scale(150000)
@@ -37,7 +38,7 @@ export default class CongressionalDistricts extends Component {
     const path = d3.geoPath(projection)
 
     const nycBoroughs = this.state.nycBoroughs
-
+    //append features to the svg
     svg.append('g')
            .attr('id', 'nycBoroughs')
            .selectAll('path')

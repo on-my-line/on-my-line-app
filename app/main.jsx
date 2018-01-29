@@ -1,6 +1,7 @@
 'use strict'
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
+import {Route, IndexRedirect, browserHistory} from 'react-router'
+import { BrowserRouter as Router } from 'react-router-dom'
 import {render} from 'react-dom'
 import WhoAmI from './components/WhoAmI'
 import NotFound from './components/NotFound'
@@ -11,6 +12,7 @@ import {Provider} from 'react-redux'
 import store from './store'
 import {default as Home} from './components/Home'
 import {default as D3} from './components/D3.js'
+import Routes from './routes'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -56,12 +58,7 @@ const App = ({children}) =>
 render(
   <Provider store={store}>
   <MuiThemeProvider>
-    <Router history={browserHistory}>
-      <Route path="/" component={Home} />
-      <Route exact path='/auto' component={WhatIsYourLine} />
-      <Route path='/myLine' component={D3} />
-      <Route path='*' component={NotFound}/>
-    </Router>
+      <Routes />
   </MuiThemeProvider>
   </Provider>,
   document.getElementById('main')
