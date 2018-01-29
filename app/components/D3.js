@@ -56,7 +56,7 @@ class D3Trial extends Component {
               }
             </ul>
                 <svg className="scaling-svg">
-                    <D3Map width={1000} height={1000} singleRoute={singleRoute} singleTrainStops={singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+                    <D3Map id="D3Map" width={1000} height={1000} singleRoute={singleRoute} singleTrainStops={singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
                 </svg>
         </div>
     )

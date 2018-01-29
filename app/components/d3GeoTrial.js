@@ -8,34 +8,34 @@ export default class CongressionalDistricts extends Component {
       super(props)
     }
 
-    componentDidUpdate() {
-      this.renderMap()
-    }
+    // componentDidUpdate() {
+    //   this.renderMap()
+    // }
 
-    renderMap(props) {
+    componentDidUpdate() {
 
         const node = this.node
 
         const svg = d3.select(node)
-                      .attr('width', props.width)
-                      .attr('height', props.height)
+                      .attr('width', this.props.width)
+                      .attr('height', this.props.height)
                       .attr('fill', 'white')
 
         const projection = d3.geoMercator()
                               .center([-73.80, 40.75])//will change with input
-                              .scale(30000)//will change with input
-                              .translate([props.width / 2, props.height / 2])
+                              .scale(10000)//will change with input
+                              .translate([this.props.width / 2, this.props.height / 2])
 
         const path = d3.geoPath(projection)
 
         svg.selectAll('g').remove()
-        console.log(props.nycBoroughs)
+        console.log(this.props.nycBoroughs)
         const map = svg
         .append('g')
         .attr('id', 'nycBoroughs')
         .attr('transform', 'rotate(-27)')
         .selectAll('.borough')
-        .data(topojson.feature(props.nycBoroughs, props.nycBoroughs.objects['nyc-borough-boundaries-polygon']).features)
+        .data(topojson.feature(this.props.nycBoroughs, this.props.nycBoroughs.objects['nyc-borough-boundaries-polygon']).features)
 
         map
         .enter()
@@ -47,14 +47,14 @@ export default class CongressionalDistricts extends Component {
         .attr('id', 'routes')
         .attr('transform', 'rotate(-27)')
         .selectAll('.route')
-        .data(props.singleRoute)
+        .data(this.props.singleRoute)
 
         routes
         .enter()
         .append('path')
         .attr('class', (data) => data.properties.route_id)
         .attr('d', path)
-        .style('stroke', props.color)
+        .style('stroke', this.props.color)
 
         const stops = svg
         .append('g')
@@ -62,8 +62,8 @@ export default class CongressionalDistricts extends Component {
         .attr('transform', 'rotate(-27)')
         .selectAll('.stops')
         .attr('class', 'stops')
-        .data(props.singleTrainStops)
-        console.log(props.color)
+        .data(this.props.singleTrainStops)
+        console.log(this.props.color)
         stops
         .enter()
         .append('circle')
@@ -72,7 +72,7 @@ export default class CongressionalDistricts extends Component {
         .text('text', (data) => data.properties.STOP_NAME)
         .transition()
         .styleTween('r', () => d3.interpolate('0', '8'))//Async
-        .styleTween('stroke', () => d3.interpolate('none', props.color)) 
+        .styleTween('stroke', () => d3.interpolate('none', this.props.color)) 
         .styleTween('stroke-width', () => d3.interpolate('0px', '3px')) 
         .duration(750)
 
@@ -115,15 +115,15 @@ export default class CongressionalDistricts extends Component {
         // .attr('font-size', '12px')
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.singleRoute !== this.props.singleRoute) {
-          this.renderMap(nextProps)
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.singleRoute !== this.props.singleRoute) {
+    //       this.renderMap(nextProps)
+    //     }
+    // }
 
-    shouldComponentUpdate () {
-      return false
-    }
+    // shouldComponentUpdate () {
+    //   return false
+    // }
 
     render() {
       console.log(this.props.singleTrainStops)
