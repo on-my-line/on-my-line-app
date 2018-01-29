@@ -21,7 +21,6 @@ router.get('/:lat_long_rad', (req, res, next) => {
    })
   .then(results => {
     const yelpThings = results.map(elem => {
-      console.log(elem)
       return(
         {
           id: elem.id,
@@ -33,6 +32,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
           price: elem.price,
           location: elem.location.display_address[0],
           phone: elem.phone,
+          img: (elem.image_url) ? elem.image_url : null,
         }
       ) 
     }
