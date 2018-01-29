@@ -1,7 +1,7 @@
 {
 	"name": "On My Line",
 	"short_name": "MyLine",
-	"description": "",
+	"description": "on my line",
 	"start_url": "./",
 	"display": "standalone",
 	"orientation": "portrait",
@@ -33,10 +33,5 @@
 			"type": "image/png",
 			"sizes": "48x48"
 		}
-	],
-	"author": {
-		"name": "On-My-Line",
-		"github": "https://github.com/on-my-line/on-my-line-app",
-		"source-repo": "https://github.com/on-my-line/on-my-line-app"
-	}
+	]
 }
