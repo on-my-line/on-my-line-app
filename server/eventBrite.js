@@ -12,23 +12,39 @@ router.get('/:lat_long_rad', (req, res, next) => {
     const userInputSplit = userInput.split('_')
     const latitude = userInputSplit[0]
     const longitude = userInputSplit[1]
-    const radius = (userInputSplit[2])/1000 //follow by "mi" or "km"
-    const url = `https://www.eventbriteapi.com/v3/events/?expand=venue&location.latitude=${latitude}&location.longitude=${longitude}&location.within=${radius}km&token=${TOKEN}`
-    
+    const radius = ((userInputSplit[2])/1000) //follow by "mi" or "km"
+    const url = `https://www.eventbriteapi.com/v3/events/?expand=venue&location.latitude=${latitude}&location.longitude=${longitude}&location.within=${radius}&token=${TOKEN}`
+    console.log(latitude, longitude, radius)
     axios.get(url)
     .then(response => response.data.events)
     .then(data => {
-        const eventBriteThings = data.map(elem => {
+        const eventBriteThings = data.filter(elem => elem.venue)
+        .map(elem => {
+            const date = new Date(elem.start.local)
+            const endTime = new Date(elem.end.local)
+            let month = date.getMonth()
+            let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
+            month = months[month]
+            let day = date.getDay()
+            let days = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
+            day = days[day]
+            let min = date.getMinutes()
+            if(!min) min = '00'
+            else if(min.length<2) min = '0'+ min
+            let endMin = date.getMinutes()
+            if(!endMin) endMin = '00'
+            else if(endMin.length<2) endMin = '0' + endMin
             return (
                 {
-                    name: elem.name,
+                    name: elem.name.text,
                     url: elem.url,
                     lat: elem.venue.latitude,
                     lon: elem.venue.longitude,
                     price: elem.is_free, //bool
                     location: elem.venue.address.localized_multi_line_address_display,
-                    startTime: elem.start.local,
-                    endTime: elem.end.local
+                    date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(),
+                    startTime: date.getHours() + ':' + min,
+                    endTime: endTime.getHours() + ':' + endMin,
                 }
             )
         })
