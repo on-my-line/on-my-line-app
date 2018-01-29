@@ -18,7 +18,7 @@ export const fetchYelpThunk = (arrayOfStops, rad = 400) => // array of arrays lo
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
             const stopId = stopObj.stopId
-            const promise = delay(200*i).then(() => axios.get(`/yelp/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`))
+            const promise = delay(300*i).then(() => axios.get(`/yelp/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`))
                 .then(response => {
                     response.data.forEach(thing => {
                         thing.stopId = stopId
