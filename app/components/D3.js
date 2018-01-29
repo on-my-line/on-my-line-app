@@ -13,12 +13,12 @@ class D3Trial extends Component {
     this.state = {
       targetLine: ''
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
+   // this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(event) {
-    event.preventDefault()
-    this.setState({ targetLine: event.target.targetLine.value })
+  componentDidMount() {
+    //event.preventDefault()
+    //this.setState({ targetLine: event.target.targetLine.value })
     // this.props.fetchYelp(
     //   allStops.features.filter(stop => {
     //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))

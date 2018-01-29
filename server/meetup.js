@@ -30,6 +30,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
                 else if(min.length<2) min = '0'+ min
             return (
                 {
+                    id: elem.id,
                     name: elem.name,
                     url: elem.event_url,
                     lat: elem.venue.lat,

@@ -17,8 +17,14 @@ export const fetchYelpThunk = (arrayOfStops, rad = 400) => // array of arrays lo
     dispatch => {
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
+            const stopId = stopObj.stopId
             const promise = delay(200*i).then(() => axios.get(`/yelp/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`))
-                .then(response => response)
+                .then(response => {
+                    response.data.forEach(thing => {
+                        thing.stopId = stopId
+                    })
+                    return response
+                })
             fetchAllPromiseArray.push(promise)
         })
         Promise.all(fetchAllPromiseArray)
@@ -30,7 +36,7 @@ export const fetchYelpThunk = (arrayOfStops, rad = 400) => // array of arrays lo
                 let alreadyFound = {}
                 let uniqueThings = []
                 allYelpThings.forEach(obj => {
-                    let name = obj.name
+                    let name = obj.id
                     if (!alreadyFound[name]) {
                         alreadyFound[name] = true
                         uniqueThings.push(obj)
