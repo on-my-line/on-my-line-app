@@ -7,11 +7,11 @@ const defaultEventBrite = []
 
 const setEventBriteThings = eventBriteThings => ({type: SET_EVENTBRITE_THINGS, eventBriteThings})
 
-export const fetchEventBriteThunk = (arrayOfStops, rad=1000) =>
+export const fetchEventBriteThunk = (arrayOfStops) =>
   dispatch => {
       const fetchAllPromiseArray = []
       arrayOfStops.forEach(stop => {
-      const promise = axios.get(`/eventBrite/${stop[1]}_${stop[0]}_${rad}`)
+      const promise = axios.get(`/eventBrite/${stop[1]}_${stop[0]}`)
           .then(response => response)
       fetchAllPromiseArray.push(promise)
     })
