@@ -17,7 +17,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
     .then(response => response.data.results)
     .then(data => {
        const meetupThings = data.filter(elem => elem.venue)
-            .map(elem => {
+       .map(elem => {
                 const date = new Date(elem.time)
                 let month = date.getMonth()
                 let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
@@ -30,6 +30,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
                 else if(min.length<2) min = '0'+ min
             return (
                 {
+                    id: elem.id,
                     name: elem.name,
                     url: elem.event_url,
                     lat: elem.venue.lat,
@@ -37,7 +38,8 @@ router.get('/:lat_long_rad', (req, res, next) => {
                     price: (elem.fee) ? elem.fee.amount : 'free',
                     location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
                     date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(), //in datetime form
-                    start_time: date.getHours() + ':' + min
+                    start_time: date.getHours() + ':' + min,
+                    img: (elem.photo_url) ? elem.photo_url : null,
                 }
             )
         })
