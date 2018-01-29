@@ -24,25 +24,26 @@ class D3Trial extends Component {
   }
 
   render() {
-    console.log(this.state)
-    const lines = ['1', '2', '3', '4', '5', '6', '7', 'A', 'C', 'E', 'B', 'D', 'F', 'M', 'J', 'Z', 'N', 'Q', 'R', 'W', 'G', 'L', 'S']
-    const singleRoute = allRoutes.features.filter(route => route.properties.route_id === this.state.targetLine)
+    const lineParam = this.props.match.params.line
+    console.log(lineParam)
+    const singleRoute = allRoutes.features.filter(route => route.properties.route_id === lineParam)
     const singleTrainStops = allStops.features.filter(stop => {
       const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
-      return stopSet.has(this.state.targetLine)
+      return stopSet.has(lineParam)
     })
     return (
-        <div>
+        <div className="scaling-svg-container">
             <h1>hello nyc</h1>
-                <form onSubmit={this.handleSubmit}>
+                {/* <form onSubmit={this.handleSubmit}>
                     <select name="targetLine">
                     {
                         lines.map((line, i) => (<option key={line} value={line}>{line}</option>))
                     }
                     </select>
                         <button type="submit" value="Submit">Submit</button>
-                </form>
-                <svg width="800" height="800">
+                </form> */}
+                {/* tes tes tes t */}
+                <svg className="scaling-svg">
                     <CongressionalDistricts width={800} height={800} singleRoute={singleRoute} singleTrainStops={singleTrainStops}/>
                 </svg>
         </div>
@@ -66,4 +67,5 @@ const mapDispatch = (dispatch) => ({
   },
 })
 
-export default connect(mapState, mapDispatch)(D3Trial)
+const D3 =  connect(mapState, mapDispatch)(D3Trial)
+export default D3
