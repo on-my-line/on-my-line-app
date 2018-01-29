@@ -1,8 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
-import {default as WhatIsYourLine} from './WhatIsYourLine'
-import {default as WhatIsYourStop} from './WhatIsYourStop'
+import WhatIsYourLine from './WhatIsYourLine'
 
 const mapState = (state, ownProps) => ({
     line: state.line,
@@ -13,11 +12,6 @@ const mapState = (state, ownProps) => ({
 const Home = props => (
   <div className="center-screen">
     <WhatIsYourLine />
-    {/* {props.line ?
-    <WhatIsYourStop /> : null}
-    {props.line && props.stop ?
-    props.ownProps.history.push('/')
-    : null} */}
   </div>
 )
 
