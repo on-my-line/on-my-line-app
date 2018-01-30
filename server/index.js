@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/yelp', require('./yelp'))
 app.use('/eventBrite', require('./eventBrite'))
 app.use('/meetup', require('./meetup'))
+app.use('/stops', require('./stops'))
+app.use('/routes', require('./lines'))
 
 app.use(express.static(path.join(__dirname, '../public')))
 
