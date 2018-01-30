@@ -2,6 +2,10 @@ import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
+import { connect } from 'react-redux'
+
+const mapStateTopProps = state => ({ yelp: state.yelp })
+
 
 class CongressionalDistrict extends Component {
   constructor(props) {
@@ -149,30 +153,27 @@ class CongressionalDistrict extends Component {
       .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
       .duration(750)
 
-    // stops
-    // .enter()
 
-    // .attr('cx', function(data) {return projection(data.geometry.coordinates)[0]})
-    // .attr('cy', function(data) {return projection(data.geometry.coordinates)[1]})
+    const yelpData = this.props.yelp.map(yelp => [yelp.lon, yelp.lat])
 
-    // const dummy = svg
-    // .append('g')
-    // .attr('id', 'dummy')
-    // .attr('transform', 'rotate(-27)')
-    // .selectAll('.dummy')
-    // .attr('class', 'dummy')
-    // .data(props.dummy)
+    const yelp = svg
+    .append('g')
+    .attr('id', 'yelp')
+    .attr('transform', 'rotate(-27)')
+    .selectAll('.yelp')
+    .attr('class', 'yelp')
+    .data(yelpData)
 
-    // dummy
-    // .enter()
-    // .append('circle')
-    // .attr('r', 0)
-    // .attr("transform", function(data) { return "translate(" + projection(data)[0] + "," + projection(data)[1] + ")"})
-    // .transition()
-    // .delay(1200)
-    // .duration(750)
-    // .attr('r', 5)
-    // .attr('fill', '#DC7633')
+    yelp
+    .enter()
+    .append('circle')
+    .attr('r', 0)
+    .attr("transform", function(data) { return "translate(" + projection(data)[0] + "," + projection(data)[1] + ")"})
+    .transition()
+    .delay(1200)
+    .duration(750)
+    .attr('r', 2)
+    .attr('fill', '#DC7633')
 
     const labels = svg
       .append("g")
@@ -217,6 +218,6 @@ class CongressionalDistrict extends Component {
   }
 }
 
-const CongressionalDistricts = withRouter(CongressionalDistrict)
+const CongressionalDistricts = connect(mapStateTopProps)(withRouter(CongressionalDistrict))
 
 export default CongressionalDistricts
