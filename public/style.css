@@ -56,12 +56,12 @@
 	align-content: center;
 }
 
-/*#D3Map {
+#D3Map {
 	margin: auto;
 }
 
 .fade {
-	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 */
+	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 
 	-moz-animation: fadein 1s; /* Firefox < 16 */
 	-ms-animation: fadein 1s; /* Internet Explorer */
 	-o-animation: fadein 1s; /* Opera < 11.1 */
