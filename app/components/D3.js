@@ -19,19 +19,19 @@ class D3Trial extends Component {
 
   componentDidMount() {
     //event.preventDefault()
-   //this.setState({ targetLine: event.target.targetLine.value })
-    // this.props.fetchYelp(
-    //   allStops.features.filter(stop => {
-    //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
-    //     return stopSet.has('F') 
-    //   })
-    //   .map( stop => {
-    //     return {
-    //       coordinates: stop.geometry.coordinates,
-    //       stopId: stop.properties.STOP_ID
-    //     }
-    //   })
-    // )
+  //  this.setState({ targetLine: event.target.targetLine.value })
+    this.props.fetchYelp(
+      allStops.features.filter(stop => {
+        const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
+        return stopSet.has(this.props.match.params.line) 
+      })
+      .map( stop => {
+        return {
+          coordinates: stop.geometry.coordinates,
+          stopId: stop.properties.STOP_ID
+        }
+      })
+    )
     // this.props.fetchMeetup(
     //   allStops.features.filter(stop => {
     //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
@@ -44,7 +44,7 @@ class D3Trial extends Component {
     //     }
     //   })
     // )
-     this.props.fetchYelp(dummy)
+   // this.props.fetchYelp(dummy)
   // this.props.fetchMeetup(dummy)
     //this.props.fetchEventBrite(dummy)
   }
@@ -70,7 +70,8 @@ class D3Trial extends Component {
 
 const mapState = (state) => ({
   yelp: state.yelp,
-  line: state.line
+  line: state.line,
+  stop: state.stop
 })
 
 const mapDispatch = (dispatch) => ({

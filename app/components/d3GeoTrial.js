@@ -1,19 +1,25 @@
 import * as topojson from "topojson-client"
+import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
 
-export default class CongressionalDistricts extends Component {
+class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
-    // this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   // componentDidUpdate() {
   //   this.renderMap()
   // }
-  // handleClick() {
-  //   console.log('hello')
-  // }
+
+  handleClick(data) {
+    this.props.router.history.push(
+      `/${this.props.singleRoute[0].properties.route_id}/${
+        data.properties.STOP_ID
+      }`
+    )
+  }
 
   componentDidUpdate() {
     const node = this.node
@@ -33,11 +39,7 @@ export default class CongressionalDistricts extends Component {
       .geoMercator()
       .center(center) //will change with input
       .scale(400000) //will change with input
-      .translate([
-        this.props.width / 2 + center[1],
-        this.props.height / 2 + center[0]
-      ])
-      // .rotate([27, 0])
+      .translate([this.props.width / 2, this.props.height / 2])
 
     const path = d3.geoPath(projection)
 
@@ -99,6 +101,28 @@ export default class CongressionalDistricts extends Component {
         .style("r", "5")
         .style("stroke-width", "3px")
     }
+
+    stops
+      .enter()
+      .append("a")
+      //.attr('xlink:href', (data) => ( `/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}`))
+      .append("circle")
+      .attr("cx", function(data) {
+        return projection(data.geometry.coordinates)[0]
+      })
+      .attr("cy", function(data) {
+        return projection(data.geometry.coordinates)[1]
+      })
+      .on("mouseover", mouseover)
+      .on("mouseout", mouseout)
+      .on("click", function(data) {
+        return self.handleClick(data)
+      }) ///SIERRA SAITTA
+      .transition()
+      .styleTween("r", () => d3.interpolate("0", "8")) //Async
+      .styleTween("stroke", () => d3.interpolate("none", this.props.color))
+      .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
+      .duration(750)
 
     stops
       .enter()
@@ -192,3 +216,7 @@ export default class CongressionalDistricts extends Component {
     return <svg ref={node => (this.node = node)} />
   }
 }
+
+const CongressionalDistricts = withRouter(CongressionalDistrict)
+
+export default CongressionalDistricts
