@@ -16,20 +16,26 @@ export default class CongressionalDistricts extends Component {
 
         const node = this.node
 
+        const middleStop = Math.floor(this.props.singleTrainStops.length/2)
+        const center = this.props.singleTrainStops[middleStop].geometry.coordinates
+        console.log(center)
+
         const svg = d3.select(node)
                       .attr('width', this.props.width)
                       .attr('height', this.props.height)
                       .attr('fill', 'white')
 
         const projection = d3.geoMercator()
-                              .center([-73.80, 40.75])//will change with input
-                              .scale(10000)//will change with input
+                              .center(center)//will change with input
+                              .scale(400000)//will change with input
                               .translate([this.props.width / 2, this.props.height / 2])
 
         const path = d3.geoPath(projection)
 
         svg.selectAll('g').remove()
-        console.log(this.props.nycBoroughs)
+
+        console.log(d3.select('#mapcontainer').width())
+
         const map = svg
         .append('g')
         .attr('id', 'nycBoroughs')
@@ -63,7 +69,7 @@ export default class CongressionalDistricts extends Component {
         .selectAll('.stops')
         .attr('class', 'stops')
         .data(this.props.singleTrainStops)
-        console.log(this.props.color)
+        
         stops
         .enter()
         .append('circle')
@@ -71,9 +77,9 @@ export default class CongressionalDistricts extends Component {
         .attr('cy', function(data) {return projection(data.geometry.coordinates)[1]})
         .text('text', (data) => data.properties.STOP_NAME)
         .transition()
-        .styleTween('r', () => d3.interpolate('0', '8'))//Async
+        .styleTween('r', () => d3.interpolate('0', '5'))//Async
         .styleTween('stroke', () => d3.interpolate('none', this.props.color)) 
-        .styleTween('stroke-width', () => d3.interpolate('0px', '3px')) 
+        .styleTween('stroke-width', () => d3.interpolate('0px', '2px')) 
         .duration(750)
 
         // const dummy = svg
@@ -126,7 +132,7 @@ export default class CongressionalDistricts extends Component {
     // }
 
     render() {
-      console.log(this.props.singleTrainStops)
+      console.log('im on top of svg')
         return <svg ref={node => this.node = node} />;
     }
 }

@@ -43,21 +43,10 @@ class D3Trial extends Component {
 
     return (
         <div className="scaling-svg-container">
-            <h1>hello nyc</h1>
-            <ul>
-              {
-                singleTrainStops.map(stop => {
-                  return (
-                    <li key={stop.properties.STOP_ID}>
-                      <NavLink to={`/${lineParam}/${stop.properties.STOP_ID}`}>{stop.properties.STOP_NAME}</NavLink>
-                    </li>
-                  )
-                })
-              }
-            </ul>
-                <svg className="scaling-svg">
-                    <D3Map id="D3Map" width={1000} height={1000} singleRoute={singleRoute} singleTrainStops={singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
-                </svg>
+            <div id="mapcontainer" >
+              <D3Map id="D3Map" width={1000} height={1000} singleRoute={singleRoute} singleTrainStops={singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+            </div>
+
         </div>
     )
   }
@@ -80,6 +69,17 @@ const mapDispatch = (dispatch) => ({
 })
 
 // this.props.match.params.line
-
+//<h1>hello nyc</h1>
+           /*<ul>
+              {
+                singleTrainStops.map(stop => {
+                  return (
+                    <li key={stop.properties.STOP_ID}>
+                      <NavLink to={`/${lineParam}/${stop.properties.STOP_ID}`}>{stop.properties.STOP_NAME}</NavLink>
+                    </li>
+                  )
+                })
+              }
+            </ul>*/
 const D3 =  connect(mapState, mapDispatch)(D3Trial)
 export default D3
