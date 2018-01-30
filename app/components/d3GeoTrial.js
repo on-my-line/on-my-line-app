@@ -75,6 +75,7 @@ export default class CongressionalDistricts extends Component {
         .append('circle')
         .attr('cx', function(data) {return projection(data.geometry.coordinates)[0]})
         .attr('cy', function(data) {return projection(data.geometry.coordinates)[1]})
+        .attr('xlink:href', function(data) {return })
         .text('text', (data) => data.properties.STOP_NAME)
         .transition()
         .styleTween('r', () => d3.interpolate('0', '5'))//Async
