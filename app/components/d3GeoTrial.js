@@ -6,15 +6,25 @@ import * as d3 from 'd3'
 export default class CongressionalDistricts extends Component {
     constructor(props) {
       super(props)
+      // this.handleClick = this.handleClick.bind(this)
     }
 
     // componentDidUpdate() {
     //   this.renderMap()
     // }
+    // handleClick() {
+    //   console.log('hello')
+    // }
+
 
     componentDidUpdate() {
 
         const node = this.node
+
+        const middleStop = Math.floor(this.props.singleTrainStops.length/2)
+        const center = this.props.singleTrainStops[middleStop].geometry.coordinates
+
+        const self = this
 
         const svg = d3.select(node)
                       .attr('width', this.props.width)
@@ -22,14 +32,15 @@ export default class CongressionalDistricts extends Component {
                       .attr('fill', 'white')
 
         const projection = d3.geoMercator()
-                              .center([-73.80, 40.75])//will change with input
-                              .scale(10000)//will change with input
+                              .center(center)//will change with input
+                              .scale(400000)//will change with input
                               .translate([this.props.width / 2, this.props.height / 2])
 
         const path = d3.geoPath(projection)
 
         svg.selectAll('g').remove()
-        console.log(this.props.nycBoroughs)
+
+
         const map = svg
         .append('g')
         .attr('id', 'nycBoroughs')
@@ -49,6 +60,8 @@ export default class CongressionalDistricts extends Component {
         .selectAll('.route')
         .data(this.props.singleRoute)
 
+        console.log(d3.select('#mapcontainer').clientWidth)
+
         routes
         .enter()
         .append('path')
@@ -63,18 +76,47 @@ export default class CongressionalDistricts extends Component {
         .selectAll('.stops')
         .attr('class', 'stops')
         .data(this.props.singleTrainStops)
-        console.log(this.props.color)
+
+
+        const mouseover = function() {
+          d3.select(this)
+          .transition()
+          .style('r', '20')
+          .style('stroke-width', '5px')
+        }
+
+        const mouseout = function() {
+          d3.select(this)
+          .transition()
+          .style('r', '5')
+          .style('stroke-width', '3px')
+        }
+
+
         stops
         .enter()
+        .append('a')
+        .attr('xlink:href', (data) => ( `/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}`))
         .append('circle')
         .attr('cx', function(data) {return projection(data.geometry.coordinates)[0]})
         .attr('cy', function(data) {return projection(data.geometry.coordinates)[1]})
-        .text('text', (data) => data.properties.STOP_NAME)
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
         .transition()
         .styleTween('r', () => d3.interpolate('0', '8'))//Async
         .styleTween('stroke', () => d3.interpolate('none', this.props.color)) 
         .styleTween('stroke-width', () => d3.interpolate('0px', '3px')) 
         .duration(750)
+        
+
+
+        // stops
+        // .enter()
+        
+        // .attr('cx', function(data) {return projection(data.geometry.coordinates)[0]})
+        // .attr('cy', function(data) {return projection(data.geometry.coordinates)[1]})
+        
+
 
         // const dummy = svg
         // .append('g')
@@ -95,24 +137,25 @@ export default class CongressionalDistricts extends Component {
         // .attr('r', 5)
         // .attr('fill', '#DC7633')
 
-        // const labels = svg
-        // .append('g')
-        // .attr('transform', 'rotate(-27)')
-        // .attr('id', 'stopLabels')
-        // .selectAll('.stopLabels')
-        // .attr('class', 'stopLabels')
-        // .data(props.singleTrainStops)
+        const labels = svg
+        .append('g')
+        .attr('transform', 'rotate(-27)')
+        .attr('id', 'stopLabels')
+        .selectAll('.stopLabels')
+        .attr('class', 'stopLabels')
+        .data(this.props.singleTrainStops)
 
-        // labels
-        // .enter()
-        // .append('text')
-        // .attr('x', function(data) {return projection(data.geometry.coordinates)[0]})
-        // .attr('y', function(data) {return projection(data.geometry.coordinates)[1]})
-        // .attr("dx", "2em")
-        // .attr("dy", "2em")
-        // .text(function(data) { return data.properties.STOP_NAME })
-        // .attr('fill', props.color)
-        // .attr('font-size', '12px')
+        labels
+        .enter()
+        .append('text')
+        .attr('x', function(data) {return projection(data.geometry.coordinates)[0]})
+        .attr('y', function(data) {return projection(data.geometry.coordinates)[1]})
+        .attr("dx", "2em")
+        .attr("dy", "2em")
+        .text(function(data) { return data.properties.STOP_NAME })
+        .attr('fill', this.props.color)
+        .attr('font-size', '12px')
+        .attr('font-family', 'Didot')
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -126,7 +169,7 @@ export default class CongressionalDistricts extends Component {
     // }
 
     render() {
-      console.log(this.props.singleTrainStops)
+      console.log('im on top of svg')
         return <svg ref={node => this.node = node} />;
     }
 }

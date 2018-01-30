@@ -5,7 +5,7 @@
 	position:absolute;
 	top:0;
 	left:0;
-	z-index:100;
+	z-index:110;
 }
 
 #nycBoroughs {
@@ -16,6 +16,7 @@
 	position:absolute;
 	top:0;
 	left:0;
+	z-index: 100;
 }
 
 #stops{
@@ -36,21 +37,27 @@
 	min-height: 100vh;
 }
 
-.scaling-svg-container {
-	position: relative; 
-	height:0; 
-	width: 100%; 
-	padding: 0;
-	padding-bottom: 100%; 
-	/* over-ride this inline for aspect ratio other than square */
-  }
-
-.scaling-svg {
+/*.scaling-svg-container {
 	position: absolute; 
-	height: 100%; 
-	width: 100%; 
-	left: 0; 
+	height:800px; 
+	width: 800px; 
+	padding: 0;
+	/* over-ride this inline for aspect ratio other than square */
+
+
+#mapcontainer {
+	position: absolute; 
+	height: 100vw; 
+	width: 100vw; 
+	right: 0; 
 	top:0;
+	z-index: 100;
+	overflow: auto;
+	align-content: center;
+}
+
+/*#D3Map {
+	margin: auto;
 }
 
 .fade {

@@ -26,25 +26,25 @@ self.addEventListener('activate', (e) => {
     return self.clients.claim()
 })
 
-//WHY DO U DELETE EVERYTHING EVERY TIME YOU UPDATE
-// self.addEventListener('fetch', function(e) {
-//     console.log('[ServiceWorker] Fetch', e.request.url)
-//     var dataURL = new URL(e.request.url)
-//     if (e.request.url.indexOf(dataURL) > -1) {
-//         e.respondWith(
-//             caches.open(dataCacheName).then(function(cache) {
-//                 return fetch(e.request).then(function(response) {
-//                     cache.put(e.request.url, response.clone())
-//                     return response
-//                 })
-//             })
-//         )
-//     } else {
-//         e.respondWith(
-//             caches.match(e.request).then(function(response) {
-//                 return response || fetch(e.request)
-//             })
-//         )
-//     }
+WHY DO U DELETE EVERYTHING EVERY TIME YOU UPDATE
+self.addEventListener('fetch', function(e) {
+    console.log('[ServiceWorker] Fetch', e.request.url)
+    var dataURL = new URL(e.request.url)
+    if (e.request.url.indexOf(dataURL) > -1) {
+        e.respondWith(
+            caches.open(dataCacheName).then(function(cache) {
+                return fetch(e.request).then(function(response) {
+                    cache.put(e.request.url, response.clone())
+                    return response
+                })
+            })
+        )
+    } else {
+        e.respondWith(
+            caches.match(e.request).then(function(response) {
+                return response || fetch(e.request)
+            })
+        )
+    }
 
-// })
+})
