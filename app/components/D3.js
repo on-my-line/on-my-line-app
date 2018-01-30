@@ -57,7 +57,6 @@ class D3Trial extends Component {
       const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
       return stopSet.has(lineParam)
     })
-
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
