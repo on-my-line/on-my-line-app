@@ -1,20 +1,26 @@
 import * as topojson from 'topojson-client'
+import {withRouter} from 'react-router'
 import React, { Component } from 'react'
 import * as d3 from 'd3'
 
 
-export default class CongressionalDistricts extends Component {
-    constructor(props) {
+export default class CongressionalDistrict extends Component {
+    
+  
+  constructor(props) {
       super(props)
-      // this.handleClick = this.handleClick.bind(this)
+       //this.handleClick = this.handleClick.bind(this)
     }
 
     // componentDidUpdate() {
     //   this.renderMap()
     // }
-    // handleClick() {
-    //   console.log('hello')
-    // }
+
+  //  handleClick(data){
+  //     console.log("Hello")
+  //     //this.props.history.push(`/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}`)
+  //   }
+    
 
 
     componentDidUpdate() {
@@ -107,6 +113,8 @@ export default class CongressionalDistricts extends Component {
         .styleTween('stroke', () => d3.interpolate('none', this.props.color)) 
         .styleTween('stroke-width', () => d3.interpolate('0px', '3px')) 
         .duration(750)
+        //.on('click', self.handleClick(data)) ///SIERRA SAITTA
+      
         
 
 
@@ -173,3 +181,7 @@ export default class CongressionalDistricts extends Component {
         return <svg ref={node => this.node = node} />;
     }
 }
+
+const CongressionalDistricts = withRouter(CongressionalDistrict)
+
+//export default CongressionalDistricts

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { GridList, GridTile } from 'material-ui/GridList';
 import allStops from '../../allStops'
+import { setStop } from '../store'
 
 const mapState = (state) => {
     return{
         line: state.line,
-        stop: 'G24',
-        yelp: //this.props.yelp
+        stop: state.stop,
+        yelp: //state.yelp
         [{id:"jora-restaurant-and-bar-long-island-city",
         img :"https://s3-media3.fl.yelpcdn.com/bphoto/Fzckhw-nQGKVyBUKmsIfMA/o.jpg",
         lat :40.74381,
@@ -23,41 +24,61 @@ const mapState = (state) => {
     }
 }
 
-
-
-class SingleStopList extends Component {
-    render() {
-        const { stop } = this.props
-        const stopsArray = allStops.features
-        let singleTrainStop = stopsArray.filter(currentStop => {
-            return currentStop.properties.STOP_ID === stop})
-        console.log(singleTrainStop)
-        let yelpThings = this.props.yelp.filter( thing => {
-            return thing.stopId === stop
-        })
-        //console.log(yelpThings)
-        return (
-            <div>
-                <h1>Things to do near {singleTrainStop[0].properties.STOP_NAME}</h1>
-            <GridList
-                cols={1}
-            >
-            {yelpThings.map(thing => 
-                <GridTile 
-                key={thing.id}
-                // onClick={(e) => {
-                //   e.preventDefault
-                //  route to single page
-                // }}
-                title={thing.name}
-                subtitle={<span>Rating: {thing.rating}</span>}
-                >
-                {(thing.img) ? <img src={thing.img}/> : ""}
-                </GridTile>)}
-            </GridList>
-            </div>
-    )}
+const mapDispatch = (dispatch) => {
+    return{
+        setCurrentStop: stop => dispatch(setStop(stop))
+    }
 }
 
 
-export default connect(mapState)(SingleStopList)
+class SingleStopList extends Component {
+
+    componentWillMount(){
+        let currentStop = this.props.match.url.split('/')[2]
+        this.props.setCurrentStop(currentStop)
+    }
+
+    render() {
+        if(this.props.stop){
+            const { stop } = this.props
+            const stopsArray = allStops.features
+            let singleTrainStop = stopsArray.filter(currentStop => {
+                return currentStop.properties.STOP_ID === stop})
+            let yelpThings = this.props.yelp.filter( thing => {
+                return thing.stopId === stop
+            })
+            console.log("yelpThings: ",yelpThings)
+            return (
+                <div>
+                    <h1>Things to do near {singleTrainStop[0].properties.STOP_NAME}</h1>
+                <GridList
+                    cols={1}
+                    cellHeight={300}
+                >
+                {yelpThings.map(thing => 
+                    <GridTile 
+                    key={thing.id}
+                    // onClick={(e) => {
+                    //   e.preventDefault
+                    //  route to single page
+                    // }}
+                    title={thing.name}
+                    subtitle={<span>Rating: {thing.rating}</span>}
+                    >
+                    {(thing.img) ? <img src={thing.img}/> : ""}
+                    </GridTile>)}
+                </GridList>
+                </div>
+        )}
+        else{
+            return (
+                <div>
+                Loading
+                </div>
+            )
+        }
+        }
+}
+
+
+export default connect(mapState, mapDispatch)(SingleStopList)
