@@ -8,10 +8,7 @@
   },
   "scripts": {
     "dev": "node dev",
-    "validate": "check-node-version --node '>= 7.0.0'",
     "setup": "./bin/setup",
-    "prep": "npm run validate && npm run setup",
-    "postinstall": "npm run prep",
     "lint": "eslint ./ --ignore-path .gitignore",
     "build": "webpack -w",
     "build-watch": "npm run build -- -w",
@@ -51,6 +48,7 @@
     "concurrently": "^3.1.0",
     "cookie-session": "^2.0.0-alpha.1",
     "d3": "^4.12.2",
+    "d3-tip": "^0.7.1",
     "enzyme": "^2.5.1",
     "express": "^4.14.0",
     "finalhandler": "^1.0.0",
