@@ -46,18 +46,16 @@ class WhatIsYourLineAndStop extends React.Component {
         }
         this.setState({lines: lines})
       })
-      .then(x => console.log('LINES:', this.state.lines))
       .catch(console.error)
+    this.props.fetchSingleStops("2")
+    this.props.fetchSingleRoute("2")
   }
 
   handleLineChange(event) {
-    console.log("I SHOULD BE SETTING THE LINE")
     this.setState({selectLine: event})
   }
 
   handleClick(){
-    this.props.fetchSingleRoute(this.state.selectLine)
-    this.props.fetchSingleStops(this.state.selectLine)
     this.props.history.push(`/${this.state.selectLine}`)
   }
 

@@ -6,20 +6,18 @@ import allRoutes from '../../allRoutes'
 import allStops from '../../allStops'
 import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
-import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk } from '../store'
+import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 const dummy = [{coordinates: [-73.949724,40.744065], stopId: "G24"}, {coordinates: [-73.954449,40.731352], stopId:"G26"}]
 
 class D3Trial extends Component {
   constructor(props) {
     super(props)
-    // this.state = {
-    //   singleTrainStops: [],
-    //   singleRoute: []
-    // }
   }
 
   componentDidMount() {
+    // this.props.fetchSingleStops(this.props.match.params.line)
+    // this.props.fetchSingleRoute(this.props.match.params.line)
     // let newState,
     // singleTrainStops,
     // singleRoute
@@ -68,7 +66,7 @@ class D3Trial extends Component {
     //   const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
     //   return stopSet.has(lineParam)
     // })
-    if (!this.props.singleTrainStops) { <div /> }
+    if (this.props.singleTrainStops.length < 10 && this.props.singleRoute) { <div /> }
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
@@ -98,6 +96,12 @@ const mapDispatch = (dispatch) => ({
   fetchEventBrite(arrayOfStops){
     dispatch(fetchEventBriteThunk(arrayOfStops))
   },
+  // fetchSingleRoute: currentRoute => {
+  //   dispatch(fetchSingleRouteThunk(currentRoute))
+  // },
+  // fetchSingleStops: currentRoute => {
+  //   dispatch(fetchSingleStopsThunk(currentRoute))
+  // }
 })
 
 // this.props.match.params.line

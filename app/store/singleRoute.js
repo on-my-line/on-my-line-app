@@ -10,9 +10,7 @@ export const fetchSingleRouteThunk = (currentLine) =>
     dispatch => {
         axios.get(`/routes/${currentLine}`)
         .then(res =>  res.data)
-        .then(res => {
-            console.log('RES', res)
-            dispatch(setSingleRoute(res))})
+        .then(res => dispatch(setSingleRoute(res)))
         .catch(err => console.log(err))
     }
 

@@ -73,7 +73,7 @@ class CongressionalDistrict extends Component {
       .selectAll(".route")
       .data(this.props.singleRoute)
 
-    console.log(d3.select("#mapcontainer").clientWidth)
+    //console.log(d3.select("#mapcontainer").clientWidth)
 
     routes
       .enter()
@@ -213,7 +213,7 @@ class CongressionalDistrict extends Component {
   // }
 
   render() {
-    console.log("im on top of svg")
+    //console.log("im on top of svg")
     return <svg ref={node => (this.node = node)} />
   }
 }

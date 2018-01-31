@@ -4,11 +4,11 @@ const SET_SINGLE_STOPS = "SET_SINGLE_STOPS"
 
 const defaultStops = {}
 
-const setSingleStops = singleStops => {type: SET_SINGLE_STOPS, singleStops}
+const setSingleStops = singleStops => ({type: SET_SINGLE_STOPS, singleStops})
 
-export const fetchSingleStopsThunk = (currentLine) => 
+export const fetchSingleStopsThunk = currentLine => 
     dispatch => {
-        axios.get(`/routes/${currentLine}`)
+        axios.get(`/stops/${currentLine}`)
         .then(res =>  res.data)
         .then(res => dispatch(setSingleStops(res)))
         .catch(err => console.log(err))
