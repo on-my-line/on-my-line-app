@@ -18,43 +18,6 @@ class D3Trial extends Component {
   componentDidMount() {
     console.log('I AM MOUNTED I WILL MOUNT')
     this.props.fetchRouteAndStops(this.props.match.params.line)
-    console.log(this.props)
-    // let newState,
-    // singleTrainStops,
-    // singleRoute
-    // axios.get(`/stops/${this.props.match.params.line}`)
-    //   .then(res => singleTrainStops = res.data)
-    //   .then(res => console.log("SINGLE TRAIN STOPS", this.props.singleTrainStops ))
-    //   // .then(() => axios.get(`/routes/${this.props.match.params.line}`))
-    //   // .then(res => singleRoute = res.data)
-    //   .then(() => this.setState({singleTrainStops: singleTrainStops, singleRoute: singleRoute}))
-    //event.preventDefault()
-  //  this.setState({ targetLine: event.target.targetLine.value })
-    // this.props.fetchYelp(
-    //   allStops.features.filter(stop => {
-    //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
-    //     return stopSet.has(this.props.match.params.line) 
-    //   })
-    //   .map( stop => {
-    //     return {
-    //       coordinates: stop.geometry.coordinates,
-    //       stopId: stop.properties.STOP_ID
-    //     }
-    //   })
-    // )
-    // this.props.fetchMeetup(
-    //   allStops.features.filter(stop => {
-    //     const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
-    //     return stopSet.has('F') 
-    //   })
-    //   .map( stop => {
-    //     return {
-    //       coordinates: stop.geometry.coordinates,
-    //       stopId: stop.properties.STOP_ID
-    //     }
-    //   })
-    // )
-    this.props.fetchYelp(dummy)
   }
 
   render() {
