@@ -1,3 +1,4 @@
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/on-my-line/on-my-line-app.png?columns=all)](https://waffle.io/on-my-line/on-my-line-app?utm_source=badge)
 # Hi, I'm 🔥🔥firebones🔥🔥
 
 I'm a happy little skeleton who is totally on [fire(base)](https://firebase.google.com)!
