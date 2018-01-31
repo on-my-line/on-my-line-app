@@ -2,20 +2,16 @@ import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
-// import d3Tip from "d3-tip"
+import d3Tip from "d3-tip"
 import { connect } from "react-redux"
-import ReactFauxDom from "react-faux-dom"
 
-export default class CongressionalDistrict extends Component {
+class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
     this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
-  // componentDidUpdate() {
-  //   this.renderMap()
-  // }
   handleDoubleClick(data) {
         this.props.router.history.push(
           `/${this.props.singleRoute[0].properties.route_id}/${
@@ -24,13 +20,9 @@ export default class CongressionalDistrict extends Component {
         )
     }
 
-
-
-  render() {
-    console.log('d3GEOTRAIL PROPS', this.props)
-    //const node = this.node
+  componentWillMount() {
+    const node = this.node
     const mySelf = this
-    const someDiv = new ReactFauxDom.Element('div')
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
     let centered
@@ -40,15 +32,15 @@ export default class CongressionalDistrict extends Component {
     // const width = d3.select("#mapcontainer").node().clientWidth
     // const height = d3.select("#mapcontainer").node().clientHeight
 
-    // var tip = d3Tip()
-    //   .attr("class", "d3-tip")
-    //   .offset([-12, 0])
-    //   .html(function(d) {
-    //     return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
-    //   })
+    var tip = d3Tip()
+      .attr("class", "d3-tip")
+      .offset([-12, 0])
+      .html(function(d) {
+        return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
+      })
 
     const svg = d3 //canvas
-      .select(someDiv)
+      .select(node)
       .append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -67,13 +59,7 @@ export default class CongressionalDistrict extends Component {
 
     const combinedRoute = {
       type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: this.props.singleRoute.reduce(
-          (a, b) => [...a, ...b.geometry.coordinates],
-          []
-        )
-      },
+      geometry: { type: "LineString", coordinates: this.props.singleRoute.reduce((a, b) => [...a, ...b.geometry.coordinates],[])},
       properties: { Division: "IND", Line: "Crosstown", route_id: "G" }
     }
     // geo.path.bounds() output [[left, bottom], [right, top]]
@@ -237,16 +223,14 @@ export default class CongressionalDistrict extends Component {
     //   .attr("font-size", "12px")
     //   .attr("font-family", "Didot")
 
-  // componentWillReceiveProps(nextProps) {
-  //     if (nextProps.singleRoute !== this.props.singleRoute) {
-  //       this.renderMap(nextProps)
-  //     }
-  // }
+  }
 
-  // shouldComponentUpdate () {
-  //   return false
-  // }
-
-    return someDiv.toReact()
+  render() {
+    console.log('hello')
+    return <svg ref={node => (this.node = node)}/>
   }
 }
+
+const CongressionalDistricts = withRouter(connect()(CongressionalDistrict))
+
+export default CongressionalDistricts
