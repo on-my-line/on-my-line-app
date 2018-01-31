@@ -13,8 +13,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/yelp', require('./yelp'))
-app.use('/eventBrite', require('./eventBrite'))
 app.use('/meetup', require('./meetup'))
+app.use('/googlePlaces', require('./googlePlaces'))
 app.use('/stops', require('./stops'))
 app.use('/routes', require('./lines'))
 
