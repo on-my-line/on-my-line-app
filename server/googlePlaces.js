@@ -20,7 +20,7 @@ const rad = userInputSplit[2]
 const type = 'museum'
 console.log(rad)
 
-axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?types=${type}&location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
+axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
 //only one type can be searched at a time. 
 // amusement_park
 // aquarium
@@ -62,7 +62,7 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?types=${
                 }
             )
         })
-        res.json(placesThings)
+        res.json(data)
     })
 .catch(next)
 })

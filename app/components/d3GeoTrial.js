@@ -3,7 +3,11 @@ import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
+<<<<<<< HEAD
 import {connect } from 'react-redux'
+=======
+import { connect } from 'react-redux'
+>>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
 import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
 
 
@@ -33,6 +37,19 @@ class CongressionalDistrict extends Component {
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
+<<<<<<< HEAD
+=======
+
+  handleDoubleClick(data) {
+        this.props.router.history.push(
+          `/${this.props.singleRoute[0].properties.route_id}/${
+            data.properties.STOP_ID
+          }`
+        )
+    }
+
+
+>>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
   handleClick(data) {
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
@@ -67,10 +84,13 @@ class CongressionalDistrict extends Component {
       }`
     )
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
 
+  componentDidMount() {
 
-  componentDidUpdate() {
     const node = this.node
     const mySelf = this
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
@@ -82,12 +102,13 @@ class CongressionalDistrict extends Component {
     // const width = d3.select("#mapcontainer").node().clientWidth
     // const height = d3.select("#mapcontainer").node().clientHeight
 
-    // var tip = d3Tip()
-    //   .attr("class", "d3-tip")
-    //   .offset([-12, 0])
-    //   .html(function(d) {
-    //     return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
-    //   })
+    var tip = d3Tip()
+      .attr("class", "d3-tip")
+      .offset([-12, 0])
+      .html(function(d) {
+        return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
+      })
+
 
     const svg = d3
       .select(node)
@@ -95,7 +116,7 @@ class CongressionalDistrict extends Component {
       .attr("height", height)
       .attr("fill", "white")
 
-    //svg.call(tip)
+    svg.call(tip)
 
     const projection = d3
       .geoMercator()
@@ -108,13 +129,7 @@ class CongressionalDistrict extends Component {
 
     const combinedRoute = {
       type: "Feature",
-      geometry: {
-        type: "LineString",
-        coordinates: this.props.singleRoute.reduce(
-          (a, b) => [...a, ...b.geometry.coordinates],
-          []
-        )
-      },
+      geometry: { type: "LineString", coordinates: this.props.singleRoute.reduce((a, b) => [...a, ...b.geometry.coordinates],[])},
       properties: { Division: "IND", Line: "Crosstown", route_id: "G" }
     }
     // geo.path.bounds() output [[left, bottom], [right, top]]
@@ -193,6 +208,11 @@ class CongressionalDistrict extends Component {
               return d === centered
             }
         )
+      } else {
+        x = width / 2
+        y = height / 2
+        k=1
+      }
 
         g
           .transition()
@@ -233,7 +253,7 @@ class CongressionalDistrict extends Component {
         //   .duration(750)
         //   .attr("r", 2)
         //   .attr("fill", "#DC7633")
-      }
+      
     }
 
     stops
@@ -245,8 +265,9 @@ class CongressionalDistrict extends Component {
       .attr("cy", function(data) {
         return projection(data.geometry.coordinates)[1]
       })
-      // .on("mouseover", tip.show)
-      // .on("mouseout", tip.hide)
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
+      .on("dblclick", (data) => mySelf.handleClick(data))
       .on("click", function(data) {
         return clicked(data)
       })
