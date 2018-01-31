@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {setLine} from '../store'
 import firebase from '../../fire'
+import store, { fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store' 
 
 const mapState = state => ({
   line: state.line
@@ -13,6 +14,12 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   handleChange: value => {
     dispatch(setLine(value))
+  },
+  fetchSingleRoute: currentRoute => {
+    dispatch(fetchSingleRouteThunk(currentRoute))
+  },
+  fetchSingleStops: currentRoute => {
+    dispatch(fetchSingleStopsThunk(currentRoute))
   }
 })
 
@@ -24,6 +31,7 @@ class WhatIsYourLineAndStop extends React.Component {
       selectLine: ''
     }
     this.handleLineChange = this.handleLineChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -38,7 +46,6 @@ class WhatIsYourLineAndStop extends React.Component {
         }
         this.setState({lines: lines})
       })
-      .then(x => console.log('LINES:', this.state.lines))
       .catch(console.error)
   }
 
@@ -66,7 +73,8 @@ class WhatIsYourLineAndStop extends React.Component {
     />
     { this.state.selectLine !== '' ? 
      <FlatButton label="Let's go!" 
-     href={`/${this.state.selectLine}`} />
+     onClick={this.handleClick} 
+     />
      : null
     }
   </div>

@@ -4,7 +4,10 @@ import React, { Component } from "react"
 import * as d3 from "d3"
 import { connect } from 'react-redux'
 
-const mapStateTopProps = state => ({ yelp: state.yelp })
+const mapStateToProps = state => ({ 
+  yelp: state.yelp,
+  singleRoute: state.singleRoute,
+  singleTrainStops: state.singleTrainStops })
 
 
 class CongressionalDistrict extends Component {
@@ -12,10 +15,6 @@ class CongressionalDistrict extends Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
-
-  // componentDidUpdate() {
-  //   this.renderMap()
-  // }
 
   handleClick(data) {
     this.props.router.history.push(
@@ -25,9 +24,8 @@ class CongressionalDistrict extends Component {
     )
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     const node = this.node
-
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
 
@@ -73,7 +71,7 @@ class CongressionalDistrict extends Component {
       .selectAll(".route")
       .data(this.props.singleRoute)
 
-    console.log(d3.select("#mapcontainer").clientWidth)
+    //console.log(d3.select("#mapcontainer").clientWidth)
 
     routes
       .enter()
@@ -213,11 +211,11 @@ class CongressionalDistrict extends Component {
   // }
 
   render() {
-    console.log("im on top of svg")
+    //console.log("im on top of svg")
     return <svg ref={node => (this.node = node)} />
   }
 }
 
-const CongressionalDistricts = connect(mapStateTopProps)(withRouter(CongressionalDistrict))
+const CongressionalDistricts = withRouter(connect(mapStateToProps)(CongressionalDistrict))
 
 export default CongressionalDistricts
