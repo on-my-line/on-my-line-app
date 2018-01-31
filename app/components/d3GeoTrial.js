@@ -78,7 +78,7 @@ class CongressionalDistrict extends Component {
     )
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
 
     const node = this.node
     const mySelf = this
@@ -105,7 +105,7 @@ class CongressionalDistrict extends Component {
       .attr("height", height)
       .attr("fill", "white")
 
-    //svg.call(tip)
+    svg.call(tip)
 
     const projection = d3
       .geoMercator()
@@ -254,8 +254,9 @@ class CongressionalDistrict extends Component {
       .attr("cy", function(data) {
         return projection(data.geometry.coordinates)[1]
       })
-      // .on("mouseover", tip.show)
-      // .on("mouseout", tip.hide)
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
+      .on("dblclick", (data) => mySelf.handleClick(data))
       .on("click", function(data) {
         return clicked(data)
       })
