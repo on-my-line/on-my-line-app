@@ -2,14 +2,10 @@ import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
-<<<<<<< HEAD
 import d3Tip from "d3-tip"
-import { connect } from "react-redux"
-=======
-import { connect } from 'react-redux'
+import {connect } from 'react-redux'
 import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
 
->>>>>>> 8b441ad157ac0478101fe4a8ab6d5a4e174500c5
 
 const mapStateToProps = state => ({ 
   yelp: state.yelp,
@@ -37,18 +33,6 @@ class CongressionalDistrict extends Component {
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
-<<<<<<< HEAD
-  // componentDidUpdate() {
-  //   this.renderMap()
-  // }
-  handleDoubleClick(data) {
-        this.props.router.history.push(
-          `/${this.props.singleRoute[0].properties.route_id}/${
-            data.properties.STOP_ID
-          }`
-        )
-    }
-=======
   handleClick(data) {
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
@@ -83,7 +67,6 @@ class CongressionalDistrict extends Component {
       }`
     )
   }
->>>>>>> 8b441ad157ac0478101fe4a8ab6d5a4e174500c5
 
 
 
@@ -255,10 +238,6 @@ class CongressionalDistrict extends Component {
 
     stops
       .enter()
-<<<<<<< HEAD
-=======
-      .append("a")
->>>>>>> 8b441ad157ac0478101fe4a8ab6d5a4e174500c5
       .append("circle")
       .attr("cx", function(data) {
         return projection(data.geometry.coordinates)[0]
@@ -269,11 +248,7 @@ class CongressionalDistrict extends Component {
       // .on("mouseover", tip.show)
       // .on("mouseout", tip.hide)
       .on("click", function(data) {
-<<<<<<< HEAD
         return clicked(data)
-=======
-        return self.handleClick(data)
->>>>>>> 8b441ad157ac0478101fe4a8ab6d5a4e174500c5
       })
       .transition()
       .styleTween("r", () => d3.interpolate("0", "8")) //Async

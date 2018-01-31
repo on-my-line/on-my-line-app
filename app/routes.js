@@ -29,7 +29,7 @@ export default class Routes extends Component {
             <div>
                 <Router>
                     <div>
-                    <Route exact path='/' component={Home} />
+                    <Route exact path='/' component={WhatIsYourLine} />
                     <Route exact path='/:line/:stopID' component={SingleStopList} />
                     <Route exact path='/:line' component={D3} />
                     {/* <Route path='/*' component={NotFound}/> */}
