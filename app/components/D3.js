@@ -16,8 +16,9 @@ class D3Trial extends Component {
   }
 
   componentDidMount() {
-    // this.props.fetchSingleStops(this.props.match.params.line)
-    // this.props.fetchSingleRoute(this.props.match.params.line)
+    console.log('I AM MOUNTED I WILL MOUNT')
+    this.props.fetchRouteAndStops(this.props.match.params.line)
+    console.log(this.props)
     // let newState,
     // singleTrainStops,
     // singleRoute
@@ -54,25 +55,21 @@ class D3Trial extends Component {
     //   })
     // )
     this.props.fetchYelp(dummy)
-  // this.props.fetchMeetup(dummy)
-    //this.props.fetchEventBrite(dummy)
   }
 
   render() {
     const lineParam = this.props.match.params.line
     const color = {"1": "#EE352E", "2": "#EE352E", "3": "#EE352E", "4": "#00933C", "5": "#00933C", "6": "#00933C", "7": "#B933AD", "A": "#0039A6", "C": "#0039A6", "E": "#0039A6", "B": "#FF6319", "D": "#FF6319", "F": "#FF6319", "M": "#FF6319", "J": "#996633", "Z": "#996633", "N": "#FCCC0A", "Q": "#FCCC0A" , "R": "#FCCC0A", "W": "#FCCC0A", "G": "#6CBE45", "L": "#A7A9AC", "S": "#808183"}
-    //const singleRoute = allRoutes.features.filter(route => route.properties.route_id === lineParam)
-    // const singleTrainStops = allStops.features.filter(stop => {
-    //   const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
-    //   return stopSet.has(lineParam)
-    // })
-    if (this.props.singleTrainStops.length < 10 && this.props.singleRoute) { <div /> }
+
+    if(!this.props.singleTrainStops.length) {
+      console.log('SINGLE STOPS IS EMPTY', this.props.singleTrainStops)
+      return <div/>
+    }
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
-              <D3Map id="D3Map" width={1280} height={1280} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+              <D3Map id="D3Map" width={1280} height={1280} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
             </div>
-
         </div>
     )
   }
@@ -86,23 +83,27 @@ const mapState = (state) => ({
   singleTrainStops: state.singleTrainStops
 })
 
-const mapDispatch = (dispatch) => ({
-  fetchYelp(arrayOfStops) {
-    dispatch(fetchYelpThunk(arrayOfStops))
-  },
-  fetchMeetup(arrayOfStops){
-    dispatch(fetchMeetupThunk(arrayOfStops))
-  },
-  fetchEventBrite(arrayOfStops){
-    dispatch(fetchEventBriteThunk(arrayOfStops))
-  },
-  // fetchSingleRoute: currentRoute => {
-  //   dispatch(fetchSingleRouteThunk(currentRoute))
-  // },
-  // fetchSingleStops: currentRoute => {
-  //   dispatch(fetchSingleStopsThunk(currentRoute))
-  // }
-})
+const mapDispatch = (dispatch) => {
+
+  return {
+    fetchYelp(arrayOfStops) {
+      dispatch(fetchYelpThunk(arrayOfStops))
+    },
+    fetchMeetup(arrayOfStops){
+      dispatch(fetchMeetupThunk(arrayOfStops))
+    },
+    fetchEventBrite(arrayOfStops){
+      dispatch(fetchEventBriteThunk(arrayOfStops))
+    },
+    fetchRouteAndStops(currentRoute){
+      dispatch(fetchSingleRouteThunk(currentRoute))
+      .then(() => {
+        dispatch(fetchSingleStopsThunk(currentRoute))
+      })
+      .catch(console.error)
+    }
+  }
+}
 
 // this.props.match.params.line
 //<h1>hello nyc</h1>

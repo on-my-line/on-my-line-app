@@ -10,8 +10,6 @@ import WhatIsYourLine from './components/WhatIsYourLine'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {Provider} from 'react-redux'
 import store from './store'
-import {default as Home} from './components/Home'
-import {default as D3} from './components/D3.js'
 import Routes from './routes'
 
 // Get the auth API from Firebase.

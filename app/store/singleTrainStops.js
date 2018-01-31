@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const SET_SINGLE_STOPS = "SET_SINGLE_STOPS"
 
-const defaultStops = {}
+const defaultStops = []
 
 const setSingleStops = singleStops => ({type: SET_SINGLE_STOPS, singleStops})
 

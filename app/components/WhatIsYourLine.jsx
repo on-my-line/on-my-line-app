@@ -47,8 +47,6 @@ class WhatIsYourLineAndStop extends React.Component {
         this.setState({lines: lines})
       })
       .catch(console.error)
-    this.props.fetchSingleStops("2")
-    this.props.fetchSingleRoute("2")
   }
 
   handleLineChange(event) {
