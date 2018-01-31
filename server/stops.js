@@ -7,7 +7,6 @@ router.get('/:line', (req, res, next) => {
         const stopSet = new Set(stop.properties.Routes_ALL.split(', '))
         return stopSet.has(currentLine)
       })
-    console.log(singleTrainStops)
     res.send(singleTrainStops)
 })
 

@@ -18,7 +18,6 @@ class D3Trial extends Component {
   componentDidMount() {
     console.log('I AM MOUNTED I WILL MOUNT')
     this.props.fetchRouteAndStops(this.props.match.params.line)
-    console.log(this.props)
     // let newState,
     // singleTrainStops,
     // singleRoute
