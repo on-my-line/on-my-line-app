@@ -2,57 +2,93 @@ import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
-import { connect } from 'react-redux'
+import d3Tip from "d3-tip"
+import { connect } from "react-redux"
+import ReactFauxDom from "react-faux-dom"
 
 const mapStateTopProps = state => ({ yelp: state.yelp })
-
 
 class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleDoubleClick = this.handleDoubleClick.bind(this)
+    // this.handleZoom = this.handleZoom.bind(this)
   }
 
   // componentDidUpdate() {
   //   this.renderMap()
   // }
+  handleDoubleClick(data) {
+        this.props.router.history.push(
+          `/${this.props.singleRoute[0].properties.route_id}/${
+            data.properties.STOP_ID
+          }`
+        )
+    }
 
-  handleClick(data) {
-    this.props.router.history.push(
-      `/${this.props.singleRoute[0].properties.route_id}/${
-        data.properties.STOP_ID
-      }`
-    )
-  }
 
-  componentDidUpdate() {
-    const node = this.node
 
+  render() {
+    //const node = this.node
+    const mySelf = this
+    const node = new ReactFauxDom.Element('div')
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
+    let centered
+    const width = 1280
+    const height = 960
 
-    const self = this
+    // const width = d3.select("#mapcontainer").node().clientWidth
+    // const height = d3.select("#mapcontainer").node().clientHeight
+
+    var tip = d3Tip()
+      .attr("class", "d3-tip")
+      .offset([-12, 0])
+      .html(function(d) {
+        return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
+      })
 
     const svg = d3
       .select(node)
-      .attr("width", this.props.width)
-      .attr("height", this.props.height)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
       .attr("fill", "white")
+
+    svg.call(tip)
 
     const projection = d3
       .geoMercator()
-      .center(center) //will change with input
-      .scale(400000) //will change with input
-      .translate([this.props.width / 2, this.props.height / 2])
+      .scale(1) //will change with input
+      .translate([0, 0])
 
     const path = d3.geoPath(projection)
 
     svg.selectAll("g").remove()
 
-    const map = svg
+    const combinedRoute = {
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: this.props.singleRoute.reduce(
+          (a, b) => [...a, ...b.geometry.coordinates],
+          []
+        )
+      },
+      properties: { Division: "IND", Line: "Crosstown", route_id: "G" }
+    }
+    // geo.path.bounds() output [[left, bottom], [right, top]]
+    let b = path.bounds(combinedRoute)
+    let s = 0.9 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height)
+    let t = [ (width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 ]
+
+    projection.scale(s).translate(t)
+
+    const g = svg.append("g")
+
+    const map = g
       .append("g")
       .attr("id", "nycBoroughs")
-      .attr("transform", "rotate(-27)")
       .selectAll(".borough")
       .data(
         topojson.feature(
@@ -66,14 +102,11 @@ class CongressionalDistrict extends Component {
       .append("path")
       .attr("d", path)
 
-    const routes = svg
+    const routes = g
       .append("g")
       .attr("id", "routes")
-      .attr("transform", "rotate(-27)")
       .selectAll(".route")
       .data(this.props.singleRoute)
-
-    console.log(d3.select("#mapcontainer").clientWidth)
 
     routes
       .enter()
@@ -82,10 +115,9 @@ class CongressionalDistrict extends Component {
       .attr("d", path)
       .style("stroke", this.props.color)
 
-    const stops = svg
+    const stops = g
       .append("g")
       .attr("id", "stops")
-      .attr("transform", "rotate(-27)")
       .selectAll(".stops")
       .attr("class", "stops")
       .data(this.props.singleTrainStops)
@@ -102,14 +134,70 @@ class CongressionalDistrict extends Component {
       d3
         .select(this)
         .transition()
-        .style("r", "5")
+        .style("r", "8")
         .style("stroke-width", "3px")
+    }
+
+    const clicked = function(d) {
+      var x, y, k
+      if (d && centered !== d) {
+        var centroid = path.centroid(d)
+        x = projection(d.geometry.coordinates)[0]
+        y = projection(d.geometry.coordinates)[1]
+        k = 12
+        centered = d
+        g.selectAll("path").classed(
+          "active",
+          centered &&
+            function(d) {
+              return d === centered
+            }
+        )
+
+        g
+          .transition()
+          .duration(750)
+          .attr(
+            "transform",
+            "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+          .style("stroke-width", 0.6 / k + "px")
+
+        stops
+          .on("dbclick", (data) => mySelf.handleDoubleClick(data))
+
+
+        // const yelpData = mySelf.props.yelp.map(yelp => [yelp.lon, yelp.lat])
+
+        // const yelp = g
+        //   .append("g")
+        //   .attr("id", "yelp")
+        //   .selectAll(".yelp")
+        //   .data(yelpData)
+
+        // yelp
+        //   .enter()
+        //   .append("circle")
+        //   .attr("class", "yelp")
+        //   .attr("r", 0)
+        //   .transition()
+        //   .attr("transform", function(data) {
+        //     return (
+        //       "translate(" +
+        //       projection(data)[0] +
+        //       "," +
+        //       projection(data)[1] +
+        //       ")"
+        //     )
+        //   })
+        //   .delay(1200)
+        //   .duration(750)
+        //   .attr("r", 2)
+        //   .attr("fill", "#DC7633")
+      }
     }
 
     stops
       .enter()
-      .append("a")
-      //.attr('xlink:href', (data) => ( `/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}`))
       .append("circle")
       .attr("cx", function(data) {
         return projection(data.geometry.coordinates)[0]
@@ -117,89 +205,37 @@ class CongressionalDistrict extends Component {
       .attr("cy", function(data) {
         return projection(data.geometry.coordinates)[1]
       })
-      .on("mouseover", mouseover)
-      .on("mouseout", mouseout)
+      .on("mouseover", tip.show)
+      .on("mouseout", tip.hide)
       .on("click", function(data) {
-        return self.handleClick(data)
-      }) ///SIERRA SAITTA
+        return clicked(data)
+      })
       .transition()
       .styleTween("r", () => d3.interpolate("0", "8")) //Async
       .styleTween("stroke", () => d3.interpolate("none", this.props.color))
       .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
       .duration(750)
 
-    stops
-      .enter()
-      .append("a")
-      .attr(
-        "xlink:href",
-        data =>
-          `/${this.props.singleRoute[0].properties.route_id}/${
-            data.properties.STOP_ID
-          }`
-      )
-      .append("circle")
-      .attr("cx", function(data) {
-        return projection(data.geometry.coordinates)[0]
-      })
-      .attr("cy", function(data) {
-        return projection(data.geometry.coordinates)[1]
-      })
-      .on("mouseover", mouseover)
-      .on("mouseout", mouseout)
-      .transition()
-      .styleTween("r", () => d3.interpolate("0", "8")) //Async
-      .styleTween("stroke", () => d3.interpolate("none", this.props.color))
-      .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
-      .duration(750)
+    // const labels = g
+    //   .append("g")
+    //   .attr("id", "stopLabels")
+    //   .selectAll(".stopLabels")
+    //   .attr("class", "stopLabels")
+    //   .data(this.props.singleTrainStops)
 
-
-    const yelpData = this.props.yelp.map(yelp => [yelp.lon, yelp.lat])
-
-    const yelp = svg
-    .append('g')
-    .attr('id', 'yelp')
-    .attr('transform', 'rotate(-27)')
-    .selectAll('.yelp')
-    .attr('class', 'yelp')
-    .data(yelpData)
-
-    yelp
-    .enter()
-    .append('circle')
-    .attr('r', 0)
-    .attr("transform", function(data) { return "translate(" + projection(data)[0] + "," + projection(data)[1] + ")"})
-    .transition()
-    .delay(1200)
-    .duration(750)
-    .attr('r', 2)
-    .attr('fill', '#DC7633')
-
-    const labels = svg
-      .append("g")
-      .attr("transform", "rotate(-27)")
-      .attr("id", "stopLabels")
-      .selectAll(".stopLabels")
-      .attr("class", "stopLabels")
-      .data(this.props.singleTrainStops)
-
-    labels
-      .enter()
-      .append("text")
-      .attr("x", function(data) {
-        return projection(data.geometry.coordinates)[0]
-      })
-      .attr("y", function(data) {
-        return projection(data.geometry.coordinates)[1]
-      })
-      .attr("dx", "2em")
-      .attr("dy", "2em")
-      .text(function(data) {
-        return data.properties.STOP_NAME
-      })
-      .attr("fill", this.props.color)
-      .attr("font-size", "12px")
-      .attr("font-family", "Didot")
+    // labels
+    //   .enter()
+    //   .append("text")
+    //   .attr("x", function(data) { return projection(data.geometry.coordinates)[0] })
+    //   .attr("y", function(data) { return projection(data.geometry.coordinates)[1] })
+    //   .attr("dx", "2em")
+    //   .attr("dy", "2em")
+    //   .text(function(data) {
+    //     return data.properties.STOP_NAME
+    //   })
+    //   .attr("fill", this.props.color)
+    //   .attr("font-size", "12px")
+    //   .attr("font-family", "Didot")
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -212,12 +248,12 @@ class CongressionalDistrict extends Component {
   //   return false
   // }
 
-  render() {
-    console.log("im on top of svg")
-    return <svg ref={node => (this.node = node)} />
+    return node.toReact()
   }
 }
 
-const CongressionalDistricts = connect(mapStateTopProps)(withRouter(CongressionalDistrict))
+const CongressionalDistricts = withRouter(
+  connect(mapStateTopProps)(CongressionalDistrict)
+)
 
 export default CongressionalDistricts
