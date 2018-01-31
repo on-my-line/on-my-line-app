@@ -3,11 +3,27 @@ import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
 import { connect } from 'react-redux'
+import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
+
 
 const mapStateToProps = state => ({ 
   yelp: state.yelp,
   singleRoute: state.singleRoute,
-  singleTrainStops: state.singleTrainStops })
+  singleTrainStops: state.singleTrainStops, 
+  stop: state.stop
+})
+
+const mapDistpatchToProps = dispatch => {
+  return{
+    setCurrentStop: stop => dispatch(setStop(stop)),
+    fetchYelp(arrayOfStops) {
+      dispatch(fetchYelpThunk(arrayOfStops))
+    },
+    fetchMeetup(arrayOfStops){
+      dispatch(fetchMeetupThunk(arrayOfStops))
+    }
+  }
+}
 
 
 class CongressionalDistrict extends Component {
@@ -17,7 +33,33 @@ class CongressionalDistrict extends Component {
   }
 
   handleClick(data) {
-    console.log("data: ", data)
+    let currentStop = data.properties.STOP_ID
+    this.props.setCurrentStop(currentStop)
+
+    this.props.fetchYelp(
+      this.props.singleTrainStops.filter(stop => {
+        return stop.properties.STOP_ID === this.props.stop
+      })
+      .map( stop => {
+        return {
+          coordinates: stop.geometry.coordinates,
+          stopId: stop.properties.STOP_ID
+        }
+      })
+    )
+
+    this.props.fetchMeetup(
+      this.props.singleTrainStops.filter(stop => {
+        return stop.properties.STOP_ID === this.props.stop
+      })
+      .map( stop => {
+        return {
+          coordinates: stop.geometry.coordinates,
+          stopId: stop.properties.STOP_ID
+        }
+      })
+    )
+
     this.props.history.push(
       `/${this.props.singleRoute[0].properties.route_id}/${
         data.properties.STOP_ID
@@ -108,13 +150,6 @@ class CongressionalDistrict extends Component {
     stops
       .enter()
       .append("a")
-      // .attr(
-      //   "xlink:href",
-      //   data =>
-      //     `/${this.props.singleRoute[0].properties.route_id}/${
-      //       data.properties.STOP_ID
-      //     }`
-      // )
       .append("circle")
       .attr("cx", function(data) {
         return projection(data.geometry.coordinates)[0]
@@ -198,6 +233,6 @@ class CongressionalDistrict extends Component {
   }
 }
 
-const CongressionalDistricts = withRouter(connect(mapStateToProps)(CongressionalDistrict))
+const CongressionalDistricts = withRouter(connect(mapStateToProps,mapDistpatchToProps)(CongressionalDistrict))
 
 export default CongressionalDistricts
