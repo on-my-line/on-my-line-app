@@ -5,6 +5,11 @@ import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from "react-redux"
 
+const mapStateToProps = state => ({ 
+  yelp: state.yelp,
+  singleRoute: state.singleRoute,
+  singleTrainStops: state.singleTrainStops })
+
 class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
@@ -20,7 +25,9 @@ class CongressionalDistrict extends Component {
         )
     }
 
-  componentWillMount() {
+
+  componentDidUpdate() {
+
     const node = this.node
     const mySelf = this
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
@@ -39,14 +46,14 @@ class CongressionalDistrict extends Component {
         return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
       })
 
-    const svg = d3 //canvas
+
+    const svg = d3
       .select(node)
-      .append("svg")
       .attr("width", width)
       .attr("height", height)
       .attr("fill", "white")
 
-    // svg.call(tip)
+    //svg.call(tip)
 
     const projection = d3
       .geoMercator()
@@ -102,8 +109,9 @@ class CongressionalDistrict extends Component {
 
     const stops = g
       .append("g")
-      .attr("class", "stops")
+      .attr("id", "stops")
       .selectAll(".stops")
+      .attr("class", "stops")
       .data(this.props.singleTrainStops)
 
     const mouseover = function() {
@@ -137,6 +145,11 @@ class CongressionalDistrict extends Component {
               return d === centered
             }
         )
+      } else {
+        x = width / 2
+        y = height / 2
+        k=1
+      }
 
         g
           .transition()
@@ -146,8 +159,8 @@ class CongressionalDistrict extends Component {
             "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
           .style("stroke-width", 0.6 / k + "px")
 
-        // stops
-        //   .on("dbclick", (data) => mySelf.handleDoubleClick(data))
+        stops
+          .on("dbclick", (data) => mySelf.handleDoubleClick(data))
 
 
         // const yelpData = mySelf.props.yelp.map(yelp => [yelp.lon, yelp.lat])
@@ -177,7 +190,7 @@ class CongressionalDistrict extends Component {
         //   .duration(750)
         //   .attr("r", 2)
         //   .attr("fill", "#DC7633")
-      }
+      
     }
 
     stops
@@ -189,11 +202,9 @@ class CongressionalDistrict extends Component {
       .attr("cy", function(data) {
         return projection(data.geometry.coordinates)[1]
       })
-      .attr("r", "8")
       // .on("mouseover", tip.show)
       // .on("mouseout", tip.hide)
       .on("click", function(data) {
-        console.log("click me")
         return clicked(data)
       })
       .transition()
@@ -222,15 +233,24 @@ class CongressionalDistrict extends Component {
     //   .attr("fill", this.props.color)
     //   .attr("font-size", "12px")
     //   .attr("font-family", "Didot")
-
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //     if (nextProps.singleRoute !== this.props.singleRoute) {
+  //       this.renderMap(nextProps)
+  //     }
+  // }
+
+  // shouldComponentUpdate () {
+  //   return false
+  // }
   render() {
-    console.log('hello')
-    return <svg ref={node => (this.node = node)}/>
+    console.log("im on top of svg")
+    return <svg ref={node => (this.node = node)} />
+
   }
 }
 
-const CongressionalDistricts = withRouter(connect()(CongressionalDistrict))
+const CongressionalDistricts = withRouter(connect(mapStateToProps)(CongressionalDistrict))
 
 export default CongressionalDistricts
