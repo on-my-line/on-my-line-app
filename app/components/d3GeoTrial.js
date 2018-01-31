@@ -3,12 +3,28 @@ import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
-import { connect } from "react-redux"
+import { connect } from 'react-redux'
+import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
+
 
 const mapStateToProps = state => ({ 
   yelp: state.yelp,
   singleRoute: state.singleRoute,
-  singleTrainStops: state.singleTrainStops })
+  singleTrainStops: state.singleTrainStops, 
+  stop: state.stop
+})
+
+const mapDistpatchToProps = dispatch => {
+  return{
+    setCurrentStop: stop => dispatch(setStop(stop)),
+    fetchYelp(arrayOfStops) {
+      dispatch(fetchYelpThunk(arrayOfStops))
+    },
+    fetchMeetup(arrayOfStops){
+      dispatch(fetchMeetupThunk(arrayOfStops))
+    }
+  }
+}
 
 class CongressionalDistrict extends Component {
   constructor(props) {
@@ -16,6 +32,7 @@ class CongressionalDistrict extends Component {
     this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
+
 
   handleDoubleClick(data) {
         this.props.router.history.push(
@@ -25,6 +42,41 @@ class CongressionalDistrict extends Component {
         )
     }
 
+
+  handleClick(data) {
+    let currentStop = data.properties.STOP_ID
+    this.props.setCurrentStop(currentStop)
+
+    this.props.fetchYelp(
+      this.props.singleTrainStops.filter(stop => {
+        return stop.properties.STOP_ID === this.props.stop
+      })
+      .map( stop => {
+        return {
+          coordinates: stop.geometry.coordinates,
+          stopId: stop.properties.STOP_ID
+        }
+      })
+    )
+
+    this.props.fetchMeetup(
+      this.props.singleTrainStops.filter(stop => {
+        return stop.properties.STOP_ID === this.props.stop
+      })
+      .map( stop => {
+        return {
+          coordinates: stop.geometry.coordinates,
+          stopId: stop.properties.STOP_ID
+        }
+      })
+    )
+
+    this.props.history.push(
+      `/${this.props.singleRoute[0].properties.route_id}/${
+        data.properties.STOP_ID
+      }`
+    )
+  }
 
   componentDidUpdate() {
 
@@ -251,6 +303,6 @@ class CongressionalDistrict extends Component {
   }
 }
 
-const CongressionalDistricts = withRouter(connect(mapStateToProps)(CongressionalDistrict))
+const CongressionalDistricts = withRouter(connect(mapStateToProps,mapDistpatchToProps)(CongressionalDistrict))
 
 export default CongressionalDistricts
