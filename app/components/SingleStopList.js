@@ -8,7 +8,7 @@ const mapState = (state) => {
     return{
         line: state.line,
         stop: state.stop,
-        yelp: state.yelp
+        yelp: state.yelp,
         // [{id:"jora-restaurant-and-bar-long-island-city",
         // img :"https://s3-media3.fl.yelpcdn.com/bphoto/Fzckhw-nQGKVyBUKmsIfMA/o.jpg",
         // lat :40.74381,
@@ -36,6 +36,7 @@ class SingleStopList extends Component {
     componentWillMount(){
         let currentStop = this.props.match.url.split('/')[2]
         this.props.setCurrentStop(currentStop)
+        console.log(this.props)
     }
 
     render() {
