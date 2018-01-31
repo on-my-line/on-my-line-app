@@ -19,7 +19,7 @@
 	z-index: 100;
 }
 
-#stops{
+.stops{
 	position:absolute;
 	top:0;
 	left:0;
