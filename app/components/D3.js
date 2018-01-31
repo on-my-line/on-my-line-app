@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import D3Map from './d3GeoTrial'
+import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import allRoutes from '../../allRoutes'
 import allStops from '../../allStops'
@@ -31,7 +31,7 @@ class D3Trial extends Component {
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
-              <D3Map id="D3Map" width={1280} height={1280} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+              <CongressionalDistricts id="D3Map" width={1280} height={960} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
             </div>
         </div>
     )

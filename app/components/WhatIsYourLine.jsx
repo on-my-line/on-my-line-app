@@ -3,9 +3,8 @@ import AutoComplete from 'material-ui/AutoComplete'
 import FlatButton from 'material-ui/FlatButton'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {setLine} from '../store'
 import firebase from '../../fire'
-import store, { fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store' 
+import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine } from '../store' 
 
 const mapState = state => ({
   line: state.line
@@ -27,14 +26,14 @@ class WhatIsYourLineAndStop extends React.Component {
   constructor() {
     super()
     this.state = {
-      lines: [],
-      selectLine: ''
+      lines: []
     }
     this.handleLineChange = this.handleLineChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
+    console.log(this.props)
     let lines = []
     firebase
       .database()
@@ -50,11 +49,12 @@ class WhatIsYourLineAndStop extends React.Component {
   }
 
   handleLineChange(event) {
-    this.setState({selectLine: event})
+    console.log('hello I changed')
+    this.props.handleChange(event)
   }
 
   handleClick(){
-    this.props.history.push(`/${this.state.selectLine}`)
+    this.props.history.push(`/${this.props.line}`)
   }
 
 
