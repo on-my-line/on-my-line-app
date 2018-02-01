@@ -24,50 +24,52 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener("activate", function(event) {
-	console.log("[serviceWorker] Activate");
-	
+	console.log("[serviceWorker] Activate")
 	//service worker updates cache whenever any app shell files change (ie user preferences, not the data)
 	//when app is complete, this fixes corner case (where app isnt returning latest data) - not necessary, just lets you activate service worker faster
 });
 
-// self.addEventListener("fetch", function(event) {
-// 	let currentLine = event.request.referrer[event.request.referrer.length - 1];
-// 	event.respondWith(
+self.addEventListener("fetch", function(event) {
+	// later: lets add some logic to put all initial fetches in the same place (if undefined or / put it in the index)
+	let currentLine = event.request.referrer.slice(event.request.referrer.lastIndexOf("/") + 1) || "Index";
+	console.log("currentLine", currentLine)
+	var fetchRequest = event.request.clone()
+	// it will still always fetch the bundle, css, and index b/c in the index html they are fetched?
+	event.respondWith(
 		
-// 		caches.match(event.request).then(function(response) {
-//             // Cache hit - return response
-//             console.log("[ServiceWorker] Fetch", event.request.url);
-// 			if (response) {
-//                 console.log("RESPONSE", response)
-// 				return response;
-// 			}
-// 		)
-		
-// 			var fetchRequest = event.request.clone();
+		caches.match(event.request).then(function(response) {
+            // Cache hit - return response
+            console.log("[ServiceWorker] Fetch START", event.request.url)
+			if (response) {
+                console.log("response FROM the cache", response)
+				return response
+			}
 
-// 			return fetch(fetchRequest).then(function(response) {
-                
-// 				if (!response || response.status !== 200 || response.type !== "basic") {
-//                     console.log("fetched response", response);
-// 					return response;
-// 				}
-// 				var responseToCache = response.clone();
+			
+			//if the cache falls through, fetch the request from the network
+			return fetch(fetchRequest).then(function(response) {
+             //if the response is janky, dont add it to the cache  
+			if (!response || response.status !== 200 || response.type !== "basic") {
+                console.log("fetched response is janky?", response);
+				return response
+			}
+			let responseToCache = response.clone()
 
-// 				caches.open(currentLine).then(function(cache) {
-// 					cache.put(event.request, responseToCache);
-// 				})
-// 				caches.keys().then(cachenames => cachenames.forEach(cachename => {
-// 						if (cachename !== currentLine) {
-// 							caches.delete(cachename)
-// 						}	//console.log("cachenames", cachename)
-// 						})
-// 				)
+			caches.open(currentLine).then(function(cache) {
+				console.log(`response to ${event.request} fetched and SAVED TO cache`)
+				cache.put(event.request, responseToCache)
+				})
 
-// 				return response;
-// 			});
-// 	)
-// 	}
-// );
+			})
+			//no matter what return the response - if its from either the cache OR the fetch (doesnt matter) return it
+			return response
+		})
+	)
+});
+/*what is getting stored in the cache: 
+index, / , current routes, current stops, things @ stop by stop id?
+*/
+
 
 
 
@@ -123,49 +125,49 @@ self.addEventListener("activate", function(event) {
 // 	}
 // 	))
 	
-	// event.respondWith(
+// 	event.respondWith(
 		
-	// 	caches.match(event.request).then(function(response) {
-	// 		// Cache hit - return response
-	// 		if (response) {
-	// 			console.log("RESPONSE", response);
-	// 			return response;
-	// 		} 
-	// 		// IMPORTANT: Clone the request. A request is a stream and
-	// 		// can only be consumed once. Since we are consuming this
-	// 		// once by cache and once by the browser for fetch, we need
-	// 		// to clone the response.
-	// 		var fetchRequest = event.request.clone();
+// 		caches.match(event.request).then(function(response) {
+// 			// Cache hit - return response
+// 			if (response) {
+// 				console.log("RESPONSE", response);
+// 				return response;
+// 			} 
+// 			// IMPORTANT: Clone the request. A request is a stream and
+// 			// can only be consumed once. Since we are consuming this
+// 			// once by cache and once by the browser for fetch, we need
+// 			// to clone the response.
+// 			var fetchRequest = event.request.clone();
 
-	// 		return fetch(fetchRequest).then(function(response) {
-	// 			// Check if we received a valid response
+// 			return fetch(fetchRequest).then(function(response) {
+// 				// Check if we received a valid response
 
-	// 			if (!response || response.status !== 200 || response.type !== "basic") {
-	// 				console.log("fetched response", response);
-	// 				return response;
-	// 			}
+// 				if (!response || response.status !== 200 || response.type !== "basic") {
+// 					console.log("fetched response", response);
+// 					return response;
+// 				}
 
-	// 			// IMPORTANT: Clone the response. A response is a stream
-	// 			// and because we want the browser to consume the response
-	// 			// as well as the cache consuming the response, we need
-	// 			// to clone it so we have two streams.
-	// 			var responseToCache = response.clone();
+// 				// IMPORTANT: Clone the response. A response is a stream
+// 				// and because we want the browser to consume the response
+// 				// as well as the cache consuming the response, we need
+// 				// to clone it so we have two streams.
+// 				var responseToCache = response.clone();
 
-	// 			caches
-	// 				.open(
-	// 					event.request.referrer[event.request.referrer.length - 1]
-	// 				)
-	// 				.then(function(cache) {
-	// 					console.log(`putting fetched ${event.request.url} in the cache`)
-	// 					console.log("WHERE ARE WEEE", currentLine);
-	// 					cache.put(event.request.url, responseToCache);
-	// 				});
+// 				caches
+// 					.open(
+// 						event.request.referrer[event.request.referrer.length - 1]
+// 					)
+// 					.then(function(cache) {
+// 						console.log(`putting fetched ${event.request.url} in the cache`)
+// 						console.log("WHERE ARE WEEE", currentLine);
+// 						cache.put(event.request.url, responseToCache);
+// 					});
 
-	// 			return response;
+// 				return response;
 				
-	// 		});
-	// 	})
-	// );
+// 			});
+// 		})
+// 	);
 
 // })
 // });
