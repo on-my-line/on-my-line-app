@@ -6,6 +6,7 @@ import D3 from './components/D3'
 import WhatIsYourLine from './components/WhatIsYourLine'
 import NotFound from './components/NotFound'
 import SingleStopList from './components/SingleStopList'
+import OneItemPage from './components/OneItemPage'
 
 const auth = firebase.auth()
 ///test
@@ -18,6 +19,7 @@ export default class Routes extends Component {
                     <Route exact path='/' component={WhatIsYourLine} />
                     <Route exact path='/:line/:stopID' component={SingleStopList} />
                     <Route exact path='/:line' component={D3} />
+                    <Route exact path='/:line/:stopID/mapG' component={OneItemPage} />
                     {/* <Route path='/*' component={NotFound}/> */}
                     </div>
                 </Router>
