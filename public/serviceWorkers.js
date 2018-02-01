@@ -3,7 +3,7 @@ let dataCacheName = "secondLine"
 let Lines = ["1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "F", "G", "M", "N", "Q", "R", "J", "Z", "L", "S"]
 
 self.addEventListener("install", function(event) {
-	console.log("[serviceWorker] Install");
+	//console.log("[serviceWorker] Install");
 	//only in production to we want to Install base cache
 	// event.waitUntil(
 	// 	//opens up the cache and passes all cachename files to cache (urls)
@@ -24,7 +24,7 @@ self.addEventListener("install", function(event) {
 });
 
 self.addEventListener("activate", function(event) {
-	console.log("[serviceWorker] Activate")
+	//console.log("[serviceWorker] Activate")
 	//service worker updates cache whenever any app shell files change (ie user preferences, not the data)
 	//when app is complete, this fixes corner case (where app isnt returning latest data) - not necessary, just lets you activate service worker faster
 });
@@ -32,16 +32,20 @@ self.addEventListener("activate", function(event) {
 self.addEventListener("fetch", function(event) {
 	// later: lets add some logic to put all initial fetches in the same place (if undefined or / put it in the index)
 	let currentLine = event.request.referrer.slice(event.request.referrer.lastIndexOf("/") + 1) || "Index";
-	console.log("currentLine", currentLine)
+	
 	var fetchRequest = event.request.clone()
+	//event.request.headers.set("Cache-Control", "no-store")
+	//fetchRequest.headers.set("Cache-Control", "no-store")
+	//console.log("Event object:", event);
 	// it will still always fetch the bundle, css, and index b/c in the index html they are fetched?
 	event.respondWith(
 		
 		caches.match(event.request).then(function(response) {
-            // Cache hit - return response
-            console.log("[ServiceWorker] Fetch START", event.request.url)
+			// Cache hit - return response
+			//console.log("[ServiceWorker] Fetch START", event.request.url)
+			
 			if (response) {
-                console.log("response FROM the cache", response)
+                //console.log("response FROM the cache", response)
 				return response
 			}
 
@@ -50,13 +54,15 @@ self.addEventListener("fetch", function(event) {
 			return fetch(fetchRequest).then(function(response) {
              //if the response is janky, dont add it to the cache  
 			if (!response || response.status !== 200 || response.type !== "basic") {
-                console.log("fetched response is janky?", response);
+                //console.log("fetched response is janky?", response);
 				return response
 			}
 			let responseToCache = response.clone()
-
+			//console.log("Response to cache clone", responseToCache )
+			//serviceWorkers.js:62 Uncaught (in promise) TypeError: Failed to execute 'set' on 'Headers': Headers are immutable
+			//responseToCache.headers.set('Cache-Control', 'no-store')
 			caches.open(currentLine).then(function(cache) {
-				console.log(`response to ${event.request} fetched and SAVED TO cache`)
+				//console.log(`response to ${event.request} fetched and SAVED TO cache`)
 				cache.put(event.request, responseToCache)
 				})
 
@@ -67,12 +73,11 @@ self.addEventListener("fetch", function(event) {
 	)
 });
 /*what is getting stored in the cache: 
-index, / , current routes, current stops, things @ stop by stop id?
+index, current line(current routes/current stops), things @ stop by stop id
 */
 
 
-
-
+//ALL BAD THINGS BELOW: DO NOT UNCOMMENT EVER (but also do not delete for now)
 // self.addEventListener("fetch", function(event) {
 // 	let currentLine = event.request.referrer[event.request.referrer.length - 1];
 // 	console.log("currentLine", currentLine)
