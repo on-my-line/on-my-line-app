@@ -13,7 +13,7 @@ const defaultMeetup = []
 
 const setMeetupThings = meetupThings => ({ type: SET_MEETUP_THINGS, meetupThings })
 
-export const fetchMeetupThunk = (arrayOfStops, rad = 400) =>
+export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
     dispatch => {
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
@@ -46,6 +46,10 @@ export const fetchMeetupThunk = (arrayOfStops, rad = 400) =>
                 })
                 .then(uniqueMeetupThings =>
                     dispatch(setMeetupThings(uniqueMeetupThings)))
+                .then(() => {
+                    console.log('im callback')
+                    callback(null)
+                })
                 .catch(err => console.log(err))
         }
 
