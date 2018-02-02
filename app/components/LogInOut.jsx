@@ -6,26 +6,37 @@ import LoginFireBones from './LoginFireBones';
 import SignUp from './SignUp'
 import WhoAmI from './WhoAmI'
 import UserLineContainer from './UserLine'
+import Login from './Login'
 const auth = firebase.auth()
 
 
 export default class LogInOut extends React.Component {
     constructor(props) {
     super(props)
-    this.state= {
-        user: ''
+        this.state= {}
     }
-    }
+
     componentDidMount() {
-        this.unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
-      }
+        this.unsubscribe = auth.onAuthStateChanged(user => {
+            if(user) {
+                if(user.isAnonymous) {
+                    this.setState(user)
+                }
+                if(!user.isAnonymous) {
+                    this.setState(user)
+                }
+            }
+        })
+    }
 
     render() {
-        console.log("this state user in LOGINOUT", this.state)
         return(
             <div>
-            {this.state.user.isAnonymous ? 
-            <SignUp />
+            {this.state.isAnonymous ? 
+            <div>
+                <SignUp />
+                <Login />
+            </div>
             :
             <FlatButton className='logout' onClick={() => auth.signOut()} label="Log Out" />
         }
