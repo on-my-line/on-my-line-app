@@ -39,11 +39,10 @@ h1 {
 #restaurant {
 	z-index: 400;
 }
-/*
+
 .yelp {
-	opacity: 0.5;
 	z-index: 105;
-}*/
+}
 
 
 
@@ -111,6 +110,12 @@ h1 {
 	margin: auto;
 }
 
+#stopName {
+	background-color: white;
+	z-index: 800;
+	font-family: sans-serif;
+}
+
 .stopsTip {
   line-height: 1;
   font-weight: bold;
@@ -128,16 +133,30 @@ h1 {
   color: white;
   border-radius: 70px;
   z-index: 300;
+  text-align: center;
 }
+
+/*.yelpTip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(231, 76, 60, 0.9);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}*/
 
 .meetupTip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
-  background: rgba(214, 219, 223, 0.7);
-  color: #fff;
+  background: rgba(214, 219, 223, 0.9);
+  color: #797D7F;
   border-radius: 10px;
   z-index: 300;
+  text-align: center;
 }
 
 
