@@ -17,12 +17,6 @@ h1 h2 h3 {
 }
 
 #routes{
-	stroke: green;
-	stroke-width:8;
-	fill:none;
-	position:absolute;
-	top:0;
-	left:0;
 	z-index:110;
 }
 
@@ -38,18 +32,17 @@ h1 h2 h3 {
 }
 
 #stops{
-	position:absolute;
-	top:0;
-	left:0;
 	z-index:150;
-	fill: white;
-	stroke: black;
 }
 
+#restaurant {
+	z-index: 400;
+}
+/*
 .yelp {
 	opacity: 0.5;
 	z-index: 105;
-}
+}*/
 
 .center-screen {
 	display: flex;
@@ -91,11 +84,10 @@ h1 h2 h3 {
 
 
 #mapcontainer {
-	position: absolute; 
+	font-family: Didot;
+	margin: auto;
 	height: 960px; 
 	width: 1280px; 
-	left: 0; 
-	top:0;
 	z-index: 100;
 	overflow: auto;
 	align-content: center;
@@ -105,7 +97,7 @@ h1 h2 h3 {
 	margin: auto;
 }
 
-.d3-tip {
+.stopsTip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
@@ -113,7 +105,25 @@ h1 h2 h3 {
   color: #fff;
   border-radius: 6px;
   z-index: 300;
+}
 
+.yelpTip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border-radius: 70px;
+  z-index: 300;
+}
+
+.meetupTip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(214, 219, 223, 0.7);
+  color: #fff;
+  border-radius: 10px;
+  z-index: 300;
 }
 
 

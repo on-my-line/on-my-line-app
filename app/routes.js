@@ -9,6 +9,7 @@ import SingleStopList from './components/SingleStopList'
 import WhoAmI from './components/WhoAmI'
 import Home from './components/Home'
 import SignUp from './components/SignUp'
+import OneItemPage from './components/OneItemPage'
 
 
 // Get the auth API from Firebase.
@@ -62,6 +63,7 @@ export default class Routes extends Component {
                     <Route exact path='/' component={Home} />
                     <Route exact path='/:line/:stopID' component={SingleStopList} />
                     <Route exact path='/:line' component={D3} />
+                    <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />
                     {/* <Route path='/*' component={NotFound}/> */}
                     </div>
                 </Router>

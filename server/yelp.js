@@ -31,6 +31,7 @@ router.get('/:lat_long_rad', (req, res, next) => {
           rating: elem.rating,
           price: elem.price,
           location: elem.location.display_address[0],
+          category: elem.categories.map(elem => elem.title),
           phone: elem.phone,
           img: (elem.image_url) ? elem.image_url : null,
         }

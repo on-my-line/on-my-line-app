@@ -26,6 +26,7 @@ const mapDispatch = dispatch => ({
   addUserLine: line => {
     dispatch(setUserLine(line))
   }
+
 })
 
 class WhatIsYourLineAndStop extends React.Component {

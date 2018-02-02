@@ -1,6 +1,7 @@
 import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
+import { NavLink } from 'react-router-dom'
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
@@ -8,6 +9,7 @@ import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
 
 
 const mapStateToProps = state => ({ 
+  meetup: state.meetup,
   yelp: state.yelp,
   singleRoute: state.singleRoute,
   singleTrainStops: state.singleTrainStops, 
@@ -16,15 +18,17 @@ const mapStateToProps = state => ({
 
 const mapDistpatchToProps = dispatch => {
   return{
-    setCurrentStop: stop => dispatch(setStop(stop)),
-    fetchYelp(arrayOfStops) {
-      dispatch(fetchYelpThunk(arrayOfStops))
+    setCurrentStop: stop => dispatch(setStop(stop))
+    ,
+    fetchYelp(arrayOfStops, callback) {
+      return dispatch(fetchYelpThunk(arrayOfStops, 400, callback))
     },
-    fetchMeetup(arrayOfStops){
-      dispatch(fetchMeetupThunk(arrayOfStops))
+    fetchMeetup(arrayOfStops, callback){
+      dispatch(fetchMeetupThunk(arrayOfStops, 400, callback))
     }
   }
 }
+
 
 class CongressionalDistrict extends Component {
   constructor(props) {
@@ -44,32 +48,9 @@ class CongressionalDistrict extends Component {
 
 
   handleClick(data) {
+
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
-
-    this.props.fetchYelp(
-      this.props.singleTrainStops.filter(stop => {
-        return stop.properties.STOP_ID === this.props.stop
-      })
-      .map( stop => {
-        return {
-          coordinates: stop.geometry.coordinates,
-          stopId: stop.properties.STOP_ID
-        }
-      })
-    )
-
-    this.props.fetchMeetup(
-      this.props.singleTrainStops.filter(stop => {
-        return stop.properties.STOP_ID === this.props.stop
-      })
-      .map( stop => {
-        return {
-          coordinates: stop.geometry.coordinates,
-          stopId: stop.properties.STOP_ID
-        }
-      })
-    )
 
     this.props.history.push(
       `/${this.props.singleRoute[0].properties.route_id}/${
@@ -77,6 +58,7 @@ class CongressionalDistrict extends Component {
       }`
     )
   }
+
 
   componentDidMount() {
 
@@ -91,11 +73,27 @@ class CongressionalDistrict extends Component {
     // const width = d3.select("#mapcontainer").node().clientWidth
     // const height = d3.select("#mapcontainer").node().clientHeight
 
-    var tip = d3Tip()
-      .attr("class", "d3-tip")
+    let stopsTip = d3Tip()
+      .attr("class", "stopsTip")
       .offset([-12, 0])
       .html(function(d) {
         return "<span style='color:black'>" + d.properties.STOP_NAME + "</span>"
+      })
+
+    let yelpTip = d3Tip()
+      .attr("class", "yelpTip")
+      .offset([-12, 0])
+      .html(function(d) {
+        console.log(d)
+        return "<span><strong>" + d.name + "</strong><br/>" + d.price + "&nbsp;&nbsp;&nbsp;" + d.rating + "<span>&nbsp;&#9733;</span></span>"
+      })
+
+    let meetupTip = d3Tip()
+      .attr("class", "meetupTip")
+      .offset([-12, 0])
+      .html(function(d) {
+        console.log(d)
+        return "<span style='color:black'>" + d.name + "&nbsp;&nbsp;" + d.date + "&nbsp;&nbsp;" + d.price + "</span>"
       })
 
 
@@ -105,7 +103,9 @@ class CongressionalDistrict extends Component {
       .attr("height", height)
       .attr("fill", "white")
 
-    svg.call(tip)
+    svg.call(stopsTip)
+    .call(yelpTip)
+    .call(meetupTip)
 
     const projection = d3
       .geoMercator()
@@ -129,6 +129,20 @@ class CongressionalDistrict extends Component {
     projection.scale(s).translate(t)
 
     const g = svg.append("g")
+
+    let defs = g.append('g:defs')
+
+    defs.append("svg:pattern")
+    .attr("id", "restaurant")
+    .attr("width", "2px")
+    .attr("height", "2px")
+    // .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href","images/place.svg")
+    .attr("width", "2px")
+    .attr("height", "2px")
+    .attr("x", 0)
+    .attr("y", 0);
 
     const map = g
       .append("g")
@@ -158,6 +172,8 @@ class CongressionalDistrict extends Component {
       .attr("class", data => data.properties.route_id)
       .attr("d", path)
       .style("stroke", this.props.color)
+      .style("stroke-width", "6px")
+      .style("fill", "none")
 
     const stops = g
       .append("g")
@@ -182,83 +198,137 @@ class CongressionalDistrict extends Component {
         .style("stroke-width", "3px")
     }
 
-    const clicked = function(d) {
-      var x, y, k
+    const clicked = function(d, thisStop) {
+      stopsTip.hide()
+      var x, y, k, o, w, r
       if (d && centered !== d) {
+        // d3.select(thisStop)
+        // .transition()
+        // .duration(1250)
+        // .attr("fill", "url(#smile)")
         var centroid = path.centroid(d)
         x = projection(d.geometry.coordinates)[0]
         y = projection(d.geometry.coordinates)[1]
-        k = 12
+        k = 16
+        o = 0.6
+        w = 3
+        r = 5
         centered = d
-        g.selectAll("path").classed(
-          "active",
-          centered &&
-            function(d) {
-              return d === centered
-            }
-        )
+
+        d3.queue(2)
+        .defer( (callback) => {
+          mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
+        })
+        .defer( (callback) => {
+          mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
+        })
+        .awaitAll(function(error) {
+          if (error) throw error
+
+        const yelp = d3.select("g")
+        .append("g")
+        .attr("id", "yelp")
+        .selectAll(".yelp")
+        .data(mySelf.props.yelp)
+
+        yelp
+        .enter()
+        .append("circle")
+        .attr("class", "yelp")
+        .attr("r", 0)
+        .on("mouseover", yelpTip.show)
+        .on("mouseout", yelpTip.hide)
+        .attr("fill", "url(#restaurant)")
+        .transition()
+        .attr("transform", function(data) {
+          return (
+            "translate(" +
+            projection([data.lon, data.lat])[0] +
+            "," +
+            projection([data.lon, data.lat])[1] +
+            ")"
+          )
+        })
+        .duration(750)
+        .attr("r", 1.1)
+        
+
+        const meetup = d3.select("g")
+        .append("g")
+        .attr("id", "meetup")
+        .selectAll(".meetup")
+        .data(mySelf.props.meetup)
+
+        meetup
+        .enter()
+        .append("circle")
+        .attr("class", "meetup")
+        .on("mouseover", meetupTip.show)
+        .on("mouseout", meetupTip.hide)
+        .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
+        .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
+        .attr("fill", "#5DADE2")
+        .transition()
+        .styleTween("r", () => d3.interpolate("0", "2"))
+        .duration(750)
+
+        
+
+        })
       } else {
         x = width / 2
         y = height / 2
-        k=1
+        k = 1
+        o = 1
+        w = 8
+        r = 8
+
+        d3.select(thisStop)
+        .transition()
+        .duration(1250)
+        .attr("fill", "white")
       }
 
-        g
-          .transition()
-          .duration(750)
-          .attr(
-            "transform",
-            "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-          .style("stroke-width", 0.6 / k + "px")
+      g.selectAll("path").classed(
+        "active",
+        centered &&
+          function(d) {
+            return d === centered
+          }
+      )
 
-        stops
-          .on("dbclick", (data) => mySelf.handleDoubleClick(data))
+      g.transition()
+        .duration(750)
+        .attr( "transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+          // .style("stroke-width", 0.02 / k + "px") 
 
+      d3.selectAll("g#routes path")
+        .transition()
+        .duration(750)
+        .style("stroke-opacity", o)
+        .style("stroke-width", w  + "px")
 
-        // const yelpData = mySelf.props.yelp.map(yelp => [yelp.lon, yelp.lat])
+      d3.selectAll("g#stops circle")
+        .transition()
+        .duration(750)
+        .style("r", r)
+        // .style("stroke-opacity", o)
+        .style("stroke-width", w / 3  + "px")
 
-        // const yelp = g
-        //   .append("g")
-        //   .attr("id", "yelp")
-        //   .selectAll(".yelp")
-        //   .data(yelpData)
-
-        // yelp
-        //   .enter()
-        //   .append("circle")
-        //   .attr("class", "yelp")
-        //   .attr("r", 0)
-        //   .transition()
-        //   .attr("transform", function(data) {
-        //     return (
-        //       "translate(" +
-        //       projection(data)[0] +
-        //       "," +
-        //       projection(data)[1] +
-        //       ")"
-        //     )
-        //   })
-        //   .delay(1200)
-        //   .duration(750)
-        //   .attr("r", 2)
-        //   .attr("fill", "#DC7633")
-      
     }
 
     stops
       .enter()
       .append("circle")
-      .attr("cx", function(data) {
-        return projection(data.geometry.coordinates)[0]
-      })
-      .attr("cy", function(data) {
-        return projection(data.geometry.coordinates)[1]
-      })
-      .on("mouseover", tip.show)
-      .on("mouseout", tip.hide)
+      .attr("cx", function(data) { return projection(data.geometry.coordinates)[0] })
+      .attr("cy", function(data) { return projection(data.geometry.coordinates)[1] })
+      .attr("fill", "rgba(255, 255, 255)")
+      .on("mouseover", stopsTip.show)
+      .on("mouseout", stopsTip.hide)
       .on("dblclick", (data) => mySelf.handleClick(data))
       .on("click", function(data) {
-        return clicked(data)
+        let thisStop = this
+        return clicked(data, thisStop)
       })
       .transition()
       .styleTween("r", () => d3.interpolate("0", "8")) //Async
@@ -288,6 +358,8 @@ class CongressionalDistrict extends Component {
     //   .attr("font-family", "Didot")
   }
 
+
+
   // componentWillReceiveProps(nextProps) {
   //     if (nextProps.singleRoute !== this.props.singleRoute) {
   //       this.renderMap(nextProps)
@@ -299,8 +371,12 @@ class CongressionalDistrict extends Component {
   // }
   render() {
     console.log("im on top of svg")
-    return <svg ref={node => (this.node = node)} />
-
+    return (
+      <div>
+        <NavLink to={'/'}><button>Choose Other Lines</button></NavLink>
+        <svg ref={node => (this.node = node)} />
+      </div>
+    )
   }
 }
 
