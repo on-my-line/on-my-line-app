@@ -56,7 +56,17 @@ export const fetchYelpThunk = (arrayOfStops, rad = 400, callback) => // array of
 export default function (state = defaultYelp, action) {
     switch (action.type) {
         case SET_YELP_THINGS:
-            return action.yelpThings
+            let allthings = [...state, ...action.yelpThings]
+            let alreadyFound = {}
+            let uniqueThings = []
+            allthings.forEach(obj => {
+                let id = obj.id
+                if (!alreadyFound[id]) {
+                    alreadyFound[id] = true
+                    uniqueThings.push(obj)
+                }
+            })
+            return uniqueThings
         default:
             return state
     }

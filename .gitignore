@@ -16,3 +16,4 @@ firebase-debug.log
 
 # secrets
 secrets.js
+app/FrontEndSecrets.js

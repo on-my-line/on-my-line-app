@@ -56,7 +56,17 @@ export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
 export default function (state = defaultMeetup, action) {
             switch (action.type) {
                 case SET_MEETUP_THINGS:
-                    return action.meetupThings
+                let allthings = [...state, ...action.meetupThings]
+                let alreadyFound = {}
+                let uniqueThings = []
+                allthings.forEach(obj => {
+                    let id = obj.id
+                    if (!alreadyFound[id]) {
+                        alreadyFound[id] = true
+                        uniqueThings.push(obj)
+                    }
+                })
+                return uniqueThings
                 default:
                     return state
             }

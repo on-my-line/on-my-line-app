@@ -3,13 +3,12 @@ const secrets = require('../secrets')
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 const axios = require('axios')
 
-// const googleMapsClient = require('@google/maps').createClient({
-//     key: GOOGLE_PLACES_API_KEY
-//     })
+
 
 // const googleMapsClient.createClient({
 //     key: secrets.GOOGLE_PLACES_API_KEY
 //   })
+
 
 router.get('/:lat_long_rad', (req, res, next) => {
 const userInput = req.params.lat_long_rad
@@ -20,7 +19,7 @@ const rad = userInputSplit[2]
 const type = 'museum'
 console.log(rad)
 
-axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?types=${type}&location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
+axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
 //only one type can be searched at a time. 
 // amusement_park
 // aquarium
@@ -62,7 +61,7 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?types=${
                 }
             )
         })
-        res.json(placesThings)
+        res.json(data)
     })
 .catch(next)
 })
