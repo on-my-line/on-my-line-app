@@ -65,11 +65,11 @@ class CongressionalDistrict extends Component {
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
     let centered, k
-    const width = 1280
-    const height = 960
+    // const width = 1280
+    // const height = 960
 
-    // const width = d3.select("#mapcontainer").node().clientWidth
-    // const height = d3.select("#mapcontainer").node().clientHeight
+    const width = d3.select("#mapcontainer").node().clientWidth
+    const height = d3.select("#mapcontainer").node().clientHeight
 
     let stopsTip = d3Tip()
       .attr("class", "stopsTip")

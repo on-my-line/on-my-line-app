@@ -99,6 +99,7 @@ h1 h2 h3 {
 #stopName {
 	background-color: white;
 	z-index: 800;
+	font-family: sans-serif;
 }
 
 .stopsTip {
