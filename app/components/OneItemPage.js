@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { GoogleApiWrapper } from 'google-maps-react'
 import axios from 'axios'
 import OneItemMap from './OneItemMap'
+import SingleYelpPage from './SingleYelpPage'
+import SingleMeetupPage from './SingleMeetupPage'
 import Marker from './Marker'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
@@ -34,8 +36,16 @@ export class OneItemPage extends Component {
                 return elem.id === thingId
             })
         } 
+        //console.log(currentThing)
         return (
             <div>
+            {(type === 'yelp')? 
+            <SingleYelpPage currentThing={currentThing}/>: ''
+            }
+            {(type === 'meetup')?
+            <SingleMeetupPage currentThing={currentThing}/>:''
+            }
+            {/* --------------- MAP ---------------- */}
                 <OneItemMap google={this.props.google} currentStop={currentStop}>
                     <Marker currentThing={currentThing} />
                 </OneItemMap>
