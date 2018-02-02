@@ -8,7 +8,7 @@ import SvgIcon from "material-ui/SvgIcon";
 import IconButton from "material-ui/IconButton";
 import Subheader from "material-ui/Subheader";
 import StarBorder from "material-ui/svg-icons/toggle/star-border";
-import { setStop, fetchYelpThunk, fetchMeetupThunk, fetchSingleStopsThunk, fetchSingleRouteThunk } from "../store";
+
 
 
 const styles = {
@@ -31,8 +31,8 @@ const HomeIcon = props => (
 
 const mapState = (state) => {
     return{
-        line: this.props.match.params.line,
-        stop: this.props.match.params.StopID,
+        line: state.line,
+        stop: state.stop,
         yelp: state.yelp,
         meetup: state.meetup,
         singleRoute: state.singleRoute,
@@ -40,38 +40,11 @@ const mapState = (state) => {
     }
 }
 
-const mapDispatch = (dispatch) => {
-    return {
-        fetchRouteAndStops(currentRoute){
-          dispatch(fetchSingleRouteThunk(currentRoute))
-          .then(() => {
-            dispatch(fetchSingleStopsThunk(currentRoute))
-            })
-        },
-        fetchMeetup(meetup, callback) {
-            return dispatch(fetchMeetupThunk(meetup, 400, callback))
-        },
-        fetchYelp(yelp, callback) {
-            return dispatch(fetchYelpThunk(yelp, 400, callback))
-        }
-    }
-}
 
 
 
 
 class SingleStopList extends Component {
-    constructor(props) {
-        super(props)
-    }
-    componentDidMount() {
-        this.props.fetchRouteAndStops(this.props.match.params.line)
-        const myStop = this.props.singleTrainStops.filter(stop => stop.properties.STOP_ID === this.props.match.params.StopID)
-        console.log("mystop??", myStop)
-        // this.props.fetchMeetup([{coordinates: myStop.geometry.coordinates, stopId: myStop.properties.STOP_ID}],callback)
-        // this.props.fetchYelp([{ coordinates: myStop.geometry.coordinates, stopId: myStop.properties.STOP_ID }], callback);
-        
-    }
 
     render() {
         if(this.props.singleTrainStops){
@@ -84,13 +57,12 @@ class SingleStopList extends Component {
             let meetupThings = this.props.meetup.filter( thing => {
                 return thing.stopId === stop
             })
-            console.log(singleStop)
    
             return <div style={styles.root}>
 								<GridList cellHeight={180} style={styles.gridList}>
 									<Subheader>
 										{`Things to do near: ${singleStop[0].properties.STOP_NAME}`}
-										<Link to="/G">
+                                        <Link to={`/${line}`}>
 											<HomeIcon color={red500} hoverColor={greenA200} />
 										</Link>
 									</Subheader>
@@ -147,4 +119,4 @@ class SingleStopList extends Component {
 
 
 
-export default connect(mapState, mapDispatch)(SingleStopList)
+export default connect(mapState)(SingleStopList)
