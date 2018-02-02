@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import { GridList, GridTile } from 'material-ui/GridList';
 //import { setStop } from '../store'
 import IconButton from "material-ui/IconButton";
@@ -34,12 +35,17 @@ const mapState = (state) => {
 //     }
 // }
 
+// handleClick(event){
+//     event.preventDefault
+//     console.log("YOU CLICKED ME")
+// }
+
 
 class SingleStopList extends Component {
 
     render() {
         if(this.props.singleTrainStops){
-            const { stop, singleTrainStops } = this.props
+            const { stop, singleTrainStops, line } = this.props
             let singleStop = singleTrainStops.filter(currentStop => {
                 return currentStop.properties.STOP_ID === stop})
             let yelpThings = this.props.yelp.filter( thing => {

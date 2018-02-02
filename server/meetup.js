@@ -36,6 +36,8 @@ router.get('/:lat_long_rad', (req, res, next) => {
                     lat: elem.venue.lat,
                     lon: elem.venue.lon,
                     price: (elem.fee) ? elem.fee.amount : 'free',
+                    group: (elem.group) ? elem.group.name : null,
+                    description: (elem.description) ?  elem.description : null,
                     location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
                     date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(), //in datetime form
                     start_time: date.getHours() + ':' + min,
