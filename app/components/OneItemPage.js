@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { GoogleApiWrapper } from 'google-maps-react'
 import axios from 'axios'
-import { OneItemMap } from './OneItemMap'
+import OneItemMap from './OneItemMap'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
 
@@ -19,10 +19,12 @@ export class OneItemPage extends Component {
         let currentStop = this.props.singleTrainStops.find(elem =>{
             return elem.properties.STOP_ID === this.props.stop
         })
+        console.log("About to load the map ")
         return (
             <div>
                 this is one item
-                <OneItemMap google={this.props.google} stop={this.props.stop} yelp={this.props.yelp} meetup={this.props.meetup} currentStop={currentStop}/>
+                <OneItemMap google={this.props.google} currentStop={currentStop}/>
+                
             </div>
         )
     }   
