@@ -8,8 +8,9 @@ export default function SingleYelpPage(props){
             <h1>{currentThing.name}</h1>
             <h2>Rating: {currentThing.rating}</h2>
             <h2>Price: {currentThing.price}</h2>
-            {currentThing.category.map(category => {
-                <h3>{category}</h3>
+            {currentThing.category.map(type => {
+                console.log("CATEGORY ", type)
+                return <h3>{type}</h3>
             })
             }    
             <img src={currentThing.img}/>
