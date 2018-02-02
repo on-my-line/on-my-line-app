@@ -10,6 +10,7 @@ import meetup from './meetup'
 import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
+import userLine from './userLine'
 
 const reducer = combineReducers(
   {
@@ -19,7 +20,8 @@ const reducer = combineReducers(
     meetup,
     eventBrite,
     singleTrainStops,
-    singleRoute
+    singleRoute,
+    userLine
   })
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -38,3 +40,4 @@ export * from './meetup'
 export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
+export * from './userLine'
