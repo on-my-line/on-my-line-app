@@ -1,19 +1,20 @@
 @font-face {
 	font-family: "Roboto";
-	src: url("./fonts/Roboto-Regular.ttf");
+	src: url("./fonts/Roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-Thin";
-	src: url("./fonts/Roboto-Thin.ttf");
+	src: url("./fonts/Roboto/Roboto-Thin.ttf");
 }
 
 * {
-	font-family: 'Roboto'
+	font-family: 'Helvetica';
 }
 
-h1 h2 h3 {
-	font-family: 'Roboto-Thin' !important
+
+h1 {
+	font-family: 'Helvetica-Bold'
 }
 
 #routes{
@@ -44,13 +45,26 @@ h1 h2 h3 {
 	z-index: 105;
 }*/
 
+
+
+/* body { padding: 0; 
+	margin: 0;
+	overflow-x: hidden;
+ } */
+
+.navBar {
+	width: 100vw;
+	height: 5vh;
+	z-index: 500;
+	background-color: black;
+}
+
 .center-screen {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	min-height: 70vh;
 }
 
 .line-circle {

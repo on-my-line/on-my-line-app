@@ -7,6 +7,7 @@ import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
 import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
+import NavBar from './NavBar'
 
 const dummy = [{coordinates: [-73.949724,40.744065], stopId: "G24"}, {coordinates: [-73.954449,40.731352], stopId:"G26"}]
 

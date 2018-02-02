@@ -55,19 +55,6 @@ class WhatIsYourLineAndStop extends React.Component {
         this.setState({lines: lines})
       })
       .catch(console.error)
-
-      auth.onAuthStateChanged(user => {
-        if(!user.isAnonymous) {
-            console.log(user)
-            firebase.database().ref(`Users/${user.uid}`)
-            .once('value')
-            .then(snapshot => {
-              console.log('USER LINE', snapshot.val())
-              this.props.addUserLine(snapshot.val().line)
-            })
-            .catch(console.error)
-        }
-      })
       
   }
 
@@ -80,6 +67,12 @@ class WhatIsYourLineAndStop extends React.Component {
       if(user) {
           firebase.database().ref(`Users/${user.uid}`)
           .set({line:` ${this.props.line}`})
+          .then(() => {
+            firebase.database()
+            .ref(`Users/${user.uid}/line`)
+            .once('value')
+            .then(lineVal => this.props.addUserLine(lineVal.val()))
+          })
       }
     })
     this.props.history.push(`/${this.props.line}`)

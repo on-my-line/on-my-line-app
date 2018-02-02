@@ -57,12 +57,12 @@ export default class SignUp extends React.Component {
                         name="disName"
                         value={this.state.disName}
                         floatingLabelText="Name"
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} /><br />
                     <TextField
                         name="email"
                         value={this.state.email}
                         floatingLabelText="Email"
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange} /><br />
                     <TextField
                         name="password"
                         value={this.state.password}

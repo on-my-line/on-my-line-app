@@ -6,12 +6,10 @@ const auth = firebase.auth()
 export default class Hello extends React.Component {
     constructor(){
     super()
-    this.state = {
-        user: ''
-    }
+    this.state = {}
     }
     componentDidMount() {
-        this.unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
+        this.unsubscribe = auth.onAuthStateChanged(user => this.setState(user))
     }
 
     componentWillUnmount() {
@@ -21,9 +19,10 @@ export default class Hello extends React.Component {
     render() {
     return (
         <div>
+            {console.log('HELLO COMPONENT STATE', this.state)}
             <h1> Hello 
-            {this.state.user.displayName ? 
-           " " + this.state.user.displayName :
+            {this.state.displayName ? 
+           this.state.displayName :
             null}
             </h1>
         </div>

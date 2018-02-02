@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { GridList, GridTile } from 'material-ui/GridList';
 import OneItemPage from './OneItemPage'
 
@@ -52,9 +52,9 @@ class SingleStopList extends Component {
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
-                    <Link to={`/${line}/${stop}/yelp/${thing.id}`}>
+                    <NavLink to={`/${line}/${stop}/yelp/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </Link>
+                    </NavLink>
                     </GridTile>
                 )}
                 {meetupThings.map(thing => 
@@ -63,9 +63,9 @@ class SingleStopList extends Component {
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
-                    <Link to={`/${line}/${stop}/meetup/${thing.id}`}>
+                    <NavLink to={`/${line}/${stop}/meetup/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </Link>
+                    </NavLink>
                     </GridTile>
                 )}
                 </GridList>
