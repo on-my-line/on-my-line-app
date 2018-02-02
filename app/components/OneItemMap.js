@@ -13,6 +13,19 @@ export class OneItemMap extends Component {
         this.loadMap()
     }
 
+    renderChildren(){
+        const { children } = this.props
+
+        if(!children) return
+        return React.Children.map(children, c => {
+            return React.cloneElement(c, {
+                    map: this.map,
+                    google: this.props.google,
+                    mapCenter: {lat: this.props.currentStop.geometry.coordinates[1], lng:this.props.currentStop.geometry.coordinates[0]}
+            })
+        })
+    }
+
     loadMap(){
         if(this.props && this.props.google && this.props.currentStop){
             const { google, currentStop } = this.props
@@ -39,6 +52,7 @@ export class OneItemMap extends Component {
        return (
             <div ref='map' style={style}>
                 Loading map...
+                {this.renderChildren()}
             </div>
        )
     }

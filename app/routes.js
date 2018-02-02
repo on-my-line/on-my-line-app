@@ -19,7 +19,7 @@ export default class Routes extends Component {
                     <Route exact path='/' component={WhatIsYourLine} />
                     <Route exact path='/:line/:stopID' component={SingleStopList} />
                     <Route exact path='/:line' component={D3} />
-                    <Route exact path='/:line/:stopID/mapG' component={OneItemPage} />
+                    <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />
                     {/* <Route path='/*' component={NotFound}/> */}
                     </div>
                 </Router>

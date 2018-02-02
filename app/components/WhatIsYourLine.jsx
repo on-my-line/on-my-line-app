@@ -20,6 +20,7 @@ const mapDispatch = dispatch => ({
   fetchSingleStops: currentRoute => {
     dispatch(fetchSingleStopsThunk(currentRoute))
   }
+
 })
 
 class WhatIsYourLineAndStop extends React.Component {

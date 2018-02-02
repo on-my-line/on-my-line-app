@@ -74,7 +74,7 @@ class CongressionalDistrict extends Component {
     this.props.history.push(
       `/${this.props.singleRoute[0].properties.route_id}/${
         data.properties.STOP_ID
-      }/mapG`
+      }`
     )
   }
 
