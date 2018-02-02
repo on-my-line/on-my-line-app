@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import { GridList, GridTile } from 'material-ui/GridList';
-//import { setStop } from '../store'
+import OneItemPage from './OneItemPage'
 
 const mapState = (state) => {
     return{
@@ -19,12 +20,17 @@ const mapState = (state) => {
 //     }
 // }
 
+// handleClick(event){
+//     event.preventDefault
+//     console.log("YOU CLICKED ME")
+// }
+
 
 class SingleStopList extends Component {
 
     render() {
         if(this.props.singleTrainStops){
-            const { stop, singleTrainStops } = this.props
+            const { stop, singleTrainStops, line } = this.props
             let singleStop = singleTrainStops.filter(currentStop => {
                 return currentStop.properties.STOP_ID === stop})
             let yelpThings = this.props.yelp.filter( thing => {
@@ -43,27 +49,25 @@ class SingleStopList extends Component {
                 {yelpThings.map(thing => 
                     <GridTile 
                     key={thing.id}
-                    // onClick={(e) => {
-                    //   e.preventDefault
-                    //  route to single page
-                    // }}
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
+                    <Link to={`/${line}/${stop}/yelp/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </GridTile>)}
+                    </Link>
+                    </GridTile>
+                )}
                 {meetupThings.map(thing => 
                     <GridTile 
                     key={thing.id}
-                    // onClick={(e) => {
-                    //   e.preventDefault
-                    //  route to single page
-                    // }}
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
+                    <Link to={`/${line}/${stop}/meetup/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </GridTile>)}
+                    </Link>
+                    </GridTile>
+                )}
                 </GridList>
                 </div>
         )}

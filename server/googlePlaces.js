@@ -3,13 +3,12 @@ const secrets = require('../secrets')
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 const axios = require('axios')
 
-// const googleMapsClient = require('@google/maps').createClient({
-//     key: GOOGLE_PLACES_API_KEY
-//     })
+
 
 // const googleMapsClient.createClient({
 //     key: secrets.GOOGLE_PLACES_API_KEY
 //   })
+
 
 router.get('/:lat_long_rad', (req, res, next) => {
 const userInput = req.params.lat_long_rad
