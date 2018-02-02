@@ -2,17 +2,19 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router'
 import WhatIsYourLine from './WhatIsYourLine'
-import WhoAmI from './WhoAmI'
-import firebase from '../../firebase'
-// Get the auth API from Firebase.
-// Ensure that we have (almost) always have a user ID, by creating
-// an anonymous user if nobody is signed in.
-//auth.onAuthStateChanged(user => user || auth.signInAnonymously())
+import firebase from '../../fire'
+import Hello from './Hello'
+import UserLineContainer from './UserLine'
+import LogInOut from './LogInOut'
+const auth = firebase.auth()
+
 
 const Home = props => (
   <div className="center-screen">
+    <Hello auth={auth} />
+    <UserLineContainer />
     <WhatIsYourLine />
-    {/* <WhoAmI auth={auth} /> */}
+    <LogInOut />
   </div>
 )
 

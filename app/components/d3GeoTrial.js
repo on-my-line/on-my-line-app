@@ -3,11 +3,7 @@ import { withRouter } from "react-router"
 import React, { Component } from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
-<<<<<<< HEAD
-import {connect } from 'react-redux'
-=======
 import { connect } from 'react-redux'
->>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
 import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
 
 
@@ -37,8 +33,6 @@ class CongressionalDistrict extends Component {
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
-<<<<<<< HEAD
-=======
 
   handleDoubleClick(data) {
         this.props.router.history.push(
@@ -49,7 +43,6 @@ class CongressionalDistrict extends Component {
     }
 
 
->>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
   handleClick(data) {
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
@@ -84,10 +77,6 @@ class CongressionalDistrict extends Component {
       }`
     )
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> 607ff9c3ea5214bd3f607a3a8962d8325a38e535
 
   componentDidMount() {
 
