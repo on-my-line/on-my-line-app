@@ -18,6 +18,6 @@ const config = {
 //   initialize the app again, which causes Firebase to throw.
 //
 //   This is why global state makes a sad panda.)
-firebase.__bonesApp || (firebase.__bonesApp = firebase.initializeApp(config))
-
+firebase.initializeApp(config)
+const db = firebase.database()
 module.exports = firebase

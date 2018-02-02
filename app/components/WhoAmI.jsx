@@ -1,8 +1,9 @@
 import React from 'react'
 import firebase from '../../fire'
 const auth = firebase.auth()
+import FlatButton from 'material-ui/FlatButton'
 
-import Login from './Login'
+import Login from './LoginFireBones'
 
 export const name = user => {
   if (!user) return 'Nobody'
@@ -18,7 +19,7 @@ export const WhoAmI = ({user, auth}) =>
       // ...then show signin links...
       <Login auth={auth}/>
       /// ...otherwise, show a logout button.
-      : <button className='logout' onClick={() => auth.signOut()}>logout</button> }
+      : <FlatButton className='logout' onClick={() => auth.signOut()} label="Log Out" /> }
   </div>
 
 export default class extends React.Component {
@@ -33,6 +34,8 @@ export default class extends React.Component {
 
   render() {
     const {user} = this.state || {}
-    return <WhoAmI user={user} auth={auth}/>
+    return (
+    <WhoAmI user={user} auth={auth}/>
+    )
   }
 }
