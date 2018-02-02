@@ -1,8 +1,33 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { GridList, GridTile } from 'material-ui/GridList';
-import OneItemPage from './OneItemPage'
+//import { setStop } from '../store'
+import { blue500, red500, greenA200 } from "material-ui/styles/colors";
+import SvgIcon from "material-ui/SvgIcon";
+import IconButton from "material-ui/IconButton";
+import Subheader from "material-ui/Subheader";
+import StarBorder from "material-ui/svg-icons/toggle/star-border";
+
+
+
+const styles = {
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "space-around"
+	},
+	gridList: {
+		width: 500,
+		height: 450,
+		overflowY: "auto"
+	}
+};
+const HomeIcon = props => (
+	<SvgIcon {...props}>
+		<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+	</SvgIcon>
+);
 
 const mapState = (state) => {
     return{
@@ -10,20 +35,13 @@ const mapState = (state) => {
         stop: state.stop,
         yelp: state.yelp,
         meetup: state.meetup,
+        singleRoute: state.singleRoute,
         singleTrainStops: state.singleTrainStops,
     }
 }
 
-// const mapDispatch = (dispatch) => {
-//     return{
-//         setCurrentStop: stop => dispatch(setStop(stop))
-//     }
-// }
 
-// handleClick(event){
-//     event.preventDefault
-//     console.log("YOU CLICKED ME")
-// }
+
 
 
 class SingleStopList extends Component {
@@ -52,9 +70,9 @@ class SingleStopList extends Component {
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
-                    <Link to={`/${line}/${stop}/yelp/${thing.id}`}>
+                    <NavLink to={`/${line}/${stop}/yelp/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </Link>
+                    </NavLink>
                     </GridTile>
                 )}
                 {meetupThings.map(thing => 
@@ -63,9 +81,9 @@ class SingleStopList extends Component {
                     title={thing.name}
                     subtitle={<span>Rating: {thing.rating}</span>}
                     >
-                    <Link to={`/${line}/${stop}/meetup/${thing.id}`}>
+                    <NavLink to={`/${line}/${stop}/meetup/${thing.id}`}>
                     {(thing.img) ? <img src={thing.img}/> : ""}
-                    </Link>
+                    </NavLink>
                     </GridTile>
                 )}
                 </GridList>
@@ -78,8 +96,9 @@ class SingleStopList extends Component {
                 </div>
             )
         }
-        }
+    }
 }
+
 
 
 export default connect(mapState)(SingleStopList)
