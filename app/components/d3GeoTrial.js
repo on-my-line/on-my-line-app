@@ -33,18 +33,18 @@ const mapDistpatchToProps = dispatch => {
 class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
-    this.handleDoubleClick = this.handleDoubleClick.bind(this)
+    this.handleEventClick = this.handleEventClick.bind(this)
+    // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
-
-  handleDoubleClick(data) {
-        this.props.router.history.push(
-          `/${this.props.singleRoute[0].properties.route_id}/${
-            data.properties.STOP_ID
-          }`
-        )
-    }
+  handleEventClick(data, event) {
+    let currentStop = data.stopId
+    this.props.setCurrentStop(currentStop)
+    this.props.history.push(
+      `/${this.props.singleRoute[0].properties.route_id}/${data.stopId}/${event}/${data.id}`
+    )
+  }
 
 
   handleClick(data) {
@@ -53,9 +53,7 @@ class CongressionalDistrict extends Component {
     this.props.setCurrentStop(currentStop)
 
     this.props.history.push(
-      `/${this.props.singleRoute[0].properties.route_id}/${
-        data.properties.STOP_ID
-      }`
+      `/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}/`
     )
   }
 
@@ -66,7 +64,7 @@ class CongressionalDistrict extends Component {
     const mySelf = this
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
-    let centered
+    let centered, k
     const width = 1280
     const height = 960
 
@@ -84,16 +82,15 @@ class CongressionalDistrict extends Component {
       .attr("class", "yelpTip")
       .offset([-12, 0])
       .html(function(d) {
-        console.log(d)
-        return "<span><strong>" + d.name + "</strong><br/>" + d.price + "&nbsp;&nbsp;&nbsp;" + d.rating + "<span>&nbsp;&#9733;</span></span>"
+        let price = d.price || "<span/>"
+        return `<span>${d.name}<br/><span style='color:rgba(253, 254, 254, 0.8)'>${d.category.slice(0, 2).join('/')}</span><br/>${d.price}&nbsp;&nbsp;&nbsp;<span style='color:#F7DC6F'>${d.rating}&nbsp;&nbsp;&#9733;</span></span>`
       })
 
     let meetupTip = d3Tip()
       .attr("class", "meetupTip")
       .offset([-12, 0])
       .html(function(d) {
-        console.log(d)
-        return "<span style='color:black'>" + d.name + "&nbsp;&nbsp;" + d.date + "&nbsp;&nbsp;" + d.price + "</span>"
+        return `<span style='color:black'>${d.name}</span><br><span>${d.date}</span><br/><span>${d.price}</span>`
       })
 
 
@@ -142,7 +139,7 @@ class CongressionalDistrict extends Component {
     .attr("width", "2px")
     .attr("height", "2px")
     .attr("x", 0)
-    .attr("y", 0);
+    .attr("y", 0)
 
     const map = g
       .append("g")
@@ -200,8 +197,8 @@ class CongressionalDistrict extends Component {
 
     const clicked = function(d, thisStop) {
       stopsTip.hide()
-      var x, y, k, o, w, r
-      if (d && centered !== d) {
+      var x, y, o, w, r
+      if (d && centered !== d || centered === d && k === 1) {
         // d3.select(thisStop)
         // .transition()
         // .duration(1250)
@@ -225,6 +222,45 @@ class CongressionalDistrict extends Component {
         .awaitAll(function(error) {
           if (error) throw error
 
+        // const labels = g
+    //   .append("g")
+    //   .attr("id", "stopLabels")
+    //   .selectAll(".stopLabels")
+    //   .attr("class", "stopLabels")
+    //   .data(this.props.singleTrainStops)
+
+    // labels
+    //   .enter()
+    //   .append("text")
+    //   .attr("x", function(data) { return projection(data.geometry.coordinates)[0] })
+    //   .attr("y", function(data) { return projection(data.geometry.coordinates)[1] })
+    //   .attr("dx", "2em")
+    //   .attr("dy", "2em")
+    //   .text(function(data) {
+    //     return data.properties.STOP_NAME
+    //   })
+    //   .attr("fill", this.props.color)
+    //   .attr("font-size", "12px")
+    //   .attr("font-family", "Didot")
+
+        const stopName = d3.select("g")
+        .append("g")
+        .attr("id", "stopName")
+        .selectAll(".yelp")
+        .data([d])
+
+        stopName
+        .enter()
+        .append("text")
+        .attr("x", function(d) { return projection(d.geometry.coordinates)[0] })
+        .attr("y", function(d) { return projection(d.geometry.coordinates)[1] })
+        .attr("dx", "4px")
+        .attr("dy", "-25px")
+        .text( function (data) { return data.properties.STOP_NAME })
+        .attr("font-family", "Helvetica")
+        .attr("font-size", "3px")
+        .attr("fill", "#909497");
+
         const yelp = d3.select("g")
         .append("g")
         .attr("id", "yelp")
@@ -236,9 +272,14 @@ class CongressionalDistrict extends Component {
         .append("circle")
         .attr("class", "yelp")
         .attr("r", 0)
-        .on("mouseover", yelpTip.show)
-        .on("mouseout", yelpTip.hide)
         .attr("fill", "url(#restaurant)")
+        .on("mouseover", (data) => {
+          yelpTip.show(data)
+        })
+        .on("mouseout", yelpTip.hide)
+        .on("click", (data) => {
+          yelpTip.hide()
+          mySelf.handleEventClick(data, 'yelp')})
         .transition()
         .attr("transform", function(data) {
           return (
@@ -265,11 +306,16 @@ class CongressionalDistrict extends Component {
         .attr("class", "meetup")
         .on("mouseover", meetupTip.show)
         .on("mouseout", meetupTip.hide)
+        .on("click", (data) => {
+          meetupTip.hide()
+          mySelf.handleEventClick(data, 'meetup')})
         .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
         .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
         .attr("fill", "#5DADE2")
+        .attr("stroke", "rgba(255,255,255,0.6)")
         .transition()
-        .styleTween("r", () => d3.interpolate("0", "2"))
+        .styleTween("r", () => d3.interpolate("0", "1.5"))
+        .styleTween("stroke-width", () => d3.interpolate("0", "1"))
         .duration(750)
 
         
@@ -287,6 +333,10 @@ class CongressionalDistrict extends Component {
         .transition()
         .duration(1250)
         .attr("fill", "white")
+
+        d3.selectAll("g#yelp circle").remove()
+        d3.selectAll("g#meetup circle").remove()
+        d3.selectAll("g#stopName text").remove()
       }
 
       g.selectAll("path").classed(
