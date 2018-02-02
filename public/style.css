@@ -1,3 +1,21 @@
+@font-face {
+	font-family: "Roboto";
+	src: url("./fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-Thin";
+	src: url("./fonts/Roboto-Thin.ttf");
+}
+
+* {
+	font-family: 'Roboto'
+}
+
+h1 h2 h3 {
+	font-family: 'Roboto-Thin' !important
+}
+
 #routes{
 	z-index:110;
 }
@@ -31,8 +49,30 @@
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	min-height: 100vh;
+	min-height: 70vh;
 }
+
+.line-circle {
+	background: #f00;
+    width: 200px;
+    height: 200px;
+	border-radius: 50%;
+	display: flex;
+    align-items: center;
+	justify-content: center;
+	font-size: 500%;
+	color: white;
+}
+
+/* .line-circle-text {
+	font-size: 150%;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+} */
 
 /*.scaling-svg-container {
 	position: absolute; 

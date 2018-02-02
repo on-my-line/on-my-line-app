@@ -4,10 +4,13 @@ import FlatButton from 'material-ui/FlatButton'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import firebase from '../../fire'
-import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine } from '../store' 
+import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
+import UserLineContainer from './UserLine'
+const auth = firebase.auth()
 
 const mapState = state => ({
-  line: state.line
+  line: state.line,
+  userLine: state.userLine
 })
 
 const mapDispatch = dispatch => ({
@@ -19,6 +22,9 @@ const mapDispatch = dispatch => ({
   },
   fetchSingleStops: currentRoute => {
     dispatch(fetchSingleStopsThunk(currentRoute))
+  },
+  addUserLine: line => {
+    dispatch(setUserLine(line))
   }
 
 })
@@ -27,14 +33,16 @@ class WhatIsYourLineAndStop extends React.Component {
   constructor() {
     super()
     this.state = {
-      lines: []
+      lines: [],
+      userLine: ''
     }
     this.handleLineChange = this.handleLineChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    console.log(this.props)
+//TODO PLACE FIREBASE LOGIC IN REFS FILE 
+
+  componentWillMount() {
     let lines = []
     firebase
       .database()
@@ -47,23 +55,43 @@ class WhatIsYourLineAndStop extends React.Component {
         this.setState({lines: lines})
       })
       .catch(console.error)
+
+      auth.onAuthStateChanged(user => {
+        if(!user.isAnonymous) {
+            console.log(user)
+            firebase.database().ref(`Users/${user.uid}`)
+            .once('value')
+            .then(snapshot => {
+              console.log('USER LINE', snapshot.val())
+              this.props.addUserLine(snapshot.val().line)
+            })
+            .catch(console.error)
+        }
+      })
+      
   }
 
   handleLineChange(event) {
-    console.log('hello I changed')
     this.props.handleChange(event)
   }
 
   handleClick(){
+    auth.onAuthStateChanged(user => {
+      if(user) {
+          firebase.database().ref(`Users/${user.uid}`)
+          .set({line:` ${this.props.line}`})
+      }
+    })
     this.props.history.push(`/${this.props.line}`)
   }
 
 
   render() {
     return (
-  <div className='center-screen'>
+  <div className='center-screen fade'>
+     { this.props.userLine ? "Or go elsewhere ..." : null }
     <AutoComplete
-      className="centered-screen fade"
+      className="fade"
       floatingLabelText="What is your line?"
       filter={AutoComplete.fuzzyFilter}
       dataSource={this.state.lines}

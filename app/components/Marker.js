@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 
 export class Marker extends Component {
-    
+
     componentDidUpdate(prevProps){
-        if((this.props.map !== prevProps.map) || (this.props.currentThing !== prevProps.currentThing)){
             this.renderMarker()
-        }
     }
 
     renderMarker(){
-        let { map, google, currentThing, mapCenter } = this.props
-
-        let position = new google.maps.LatLng(currentThing.lat, currentThing.lon)
+        let { map, google, currentThing } = this.props
+        if(!google) return null 
+        let position = new google.maps.LatLng(currentThing.lat,currentThing.lon)
         const config = { 
             map: map,
             position: position
