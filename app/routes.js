@@ -56,10 +56,12 @@ export default class Routes extends Component {
     render() {
         return (
             <div>
+                <div>
+                <NavBar />
+                </div>
                 <Router>
                     <div>
                         <Route exact path='/' component={Home} />
-                        <NavBar />
                         <Route exact path='/:line/:stopID' component={SingleStopList} />
                         <Route exact path='/:line' component={D3} />
                         <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />

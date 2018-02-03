@@ -35,7 +35,7 @@ class WhatIsYourLineAndStop extends React.Component {
   constructor() {
     super()
     this.state = {
-      lines: [],
+      lines: ["1", "2", "3", "4", "5", "6", "7", "A", "B", "C", "D", "E", "F", "G", "J", "L", "M", "N", "Q", "R", "S", "W", "Z"],
       userLine: ''
     }
     this.handleLineChange = this.handleLineChange.bind(this)
@@ -45,23 +45,24 @@ class WhatIsYourLineAndStop extends React.Component {
 //TODO PLACE FIREBASE LOGIC IN REFS FILE 
 
   componentWillMount() {
-    let lines = []
-    firebase
-      .database()
-      .ref('Lines')
-      .once('value')
-      .then(snapshot => {
-        for (let keys in snapshot.val()) {
-          lines.push(keys)
-        }
-        this.setState({lines: lines})
-      })
-      .catch(console.error)
+    // let lines = []
+    // firebase
+    //   .database()
+    //   .ref('Lines')
+    //   .once('value')
+    //   .then(snapshot => {
+    //     for (let keys in snapshot.val()) {
+    //       lines.push(keys)
+    //     }
+    //     this.setState({lines: lines})
+    //   })
+    //   .catch(console.error)
       
   }
 
-  handleLineChange(event) {
-    this.props.handleChange(event)
+  handleLineChange(event, index, value) {
+    console.log(value)
+    this.props.handleChange(value)
   }
 
   handleClick(){
@@ -85,11 +86,6 @@ class WhatIsYourLineAndStop extends React.Component {
 
 
   render() {
-    const items = [];
-    for (let i = 0; i < this.state.lines.length; i++ ) {
-      items.push(<MenuItem value={i} key={i} primaryText={this.state.lines[i]} />);
-    }
-
     return (
       
   <div className='center-screen fade'>
@@ -101,7 +97,7 @@ class WhatIsYourLineAndStop extends React.Component {
         onChange={this.handleLineChange}
         maxHeight={200}
       >
-        {items}
+        {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
     </SelectField>
     <FlatButton label="Let's go!" 
       onClick={this.handleClick} 
