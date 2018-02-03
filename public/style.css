@@ -8,10 +8,12 @@
 	src: url("./fonts/Roboto/Roboto-Thin.ttf");
 }
 
-* {
-	font-family: 'Helvetica';
+body {
+	background-color: #212121;
+	color: white;
+	font-family: 'Roboto', sans-serif;
+	margin-bottom: 60px
 }
-
 
 h1 {
 	font-family: 'Helvetica-Bold'
