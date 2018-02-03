@@ -1,12 +1,14 @@
 import React from 'react'
-import AutoComplete from 'material-ui/AutoComplete'
+import SelectField from 'material-ui/SelectField'
 import FlatButton from 'material-ui/FlatButton'
+import MenuItem from 'material-ui/MenuItem'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import firebase from '../../fire'
 import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
 import UserLineContainer from './UserLine'
 const auth = firebase.auth()
+
 
 const mapState = state => ({
   line: state.line,
@@ -63,8 +65,9 @@ class WhatIsYourLineAndStop extends React.Component {
   }
 
   handleClick(){
+    if(this.props.line) {
     auth.onAuthStateChanged(user => {
-      if(user) {
+      if(user && !user.isAnonymous) {
           firebase.database().ref(`Users/${user.uid}`)
           .set({line:` ${this.props.line}`})
           .then(() => {
@@ -75,30 +78,34 @@ class WhatIsYourLineAndStop extends React.Component {
           })
       }
     })
+    }
     this.props.history.push(`/${this.props.line}`)
   }
 
 
+
   render() {
+    const items = [];
+    for (let i = 0; i < this.state.lines.length; i++ ) {
+      items.push(<MenuItem value={i} key={i} primaryText={this.state.lines[i]} />);
+    }
+
     return (
+      
   <div className='center-screen fade'>
      { this.props.userLine ? "Or go elsewhere ..." : null }
-    <AutoComplete
-      className="fade"
-      floatingLabelText="What is your line?"
-      filter={AutoComplete.fuzzyFilter}
-      dataSource={this.state.lines}
-      maxSearchResults={5}
-      name="line"
-      value={this.state.selectLine}
-      onNewRequest={this.handleLineChange}
+    <SelectField
+        className="fade"
+        name="line"
+        value={this.state.selectLine}
+        onChange={this.handleLineChange}
+        maxHeight={200}
+      >
+        {items}
+    </SelectField>
+    <FlatButton label="Let's go!" 
+      onClick={this.handleClick} 
     />
-    { this.state.selectLine !== '' ? 
-     <FlatButton label="Let's go!" 
-     onClick={this.handleClick} 
-     />
-     : null
-    }
   </div>
     )
   }
