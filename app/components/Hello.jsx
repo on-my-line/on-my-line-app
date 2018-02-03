@@ -1,31 +1,33 @@
 import React from 'react'
 import firebase from '../../fire'
-const auth = firebase.auth()
+import { getCurrentUser } from '../store'
+import { connect } from 'react-redux'
 
-
-export default class Hello extends React.Component {
-    constructor(){
-    super()
-    this.state = {}
+const mapState = state => ({user: state.user})
+const mapDispatch = dispatch => ({
+    getUser() {
+        dispatch(getCurrentUser())
     }
+})
+
+class HelloClass extends React.Component {
+
     componentDidMount() {
-        this.unsubscribe = auth.onAuthStateChanged(user => this.setState(user))
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe()
+        this.props.getUser()
     }
 
     render() {
     return (
         <div>
-            {console.log('HELLO COMPONENT STATE', this.state)}
             <h1> Hello 
-            {this.state.displayName ? 
-           this.state.displayName :
+            {this.props.user.displayName ? 
+           " " + this.props.user.displayName :
             null}
             </h1>
         </div>
     )
     }
 }
+
+const Hello = connect(mapState, mapDispatch)(HelloClass)
+export default Hello

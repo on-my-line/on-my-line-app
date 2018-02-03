@@ -2,13 +2,14 @@ import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
+import { withRouter } from 'react-router-dom'
 const auth = firebase.auth()
 
 //const allUsers = db.ref('users')
 const emailProvider = new firebase.auth.EmailAuthProvider()
 
 
-export default class LogIn extends React.Component {
+class LogInClass extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -33,6 +34,7 @@ export default class LogIn extends React.Component {
         const password = event.target.password.value
 
         auth.signInWithEmailAndPassword(email, password)
+        .then(() => this.props.history.push(`/`))
         .catch(console.error)
     }
         // .then((user) => {
@@ -42,7 +44,7 @@ export default class LogIn extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="center-screen fade">
                 <h1> Log In </h1>
                 <form name="sign-up-form" onSubmit={this.handleClick}>
                     <TextField
@@ -57,10 +59,14 @@ export default class LogIn extends React.Component {
                         type="password"
                         onChange={this.handleChange} />
                     <div>
-                        <FlatButton type="submit" label="Submit" />
+                        <FlatButton type="submit" label="Log In" />
                     </div>
                 </form>
             </div>
         )
     }
 }
+
+const Login = withRouter(LogInClass)
+
+export default Login

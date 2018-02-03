@@ -13,7 +13,6 @@ const Home = props => (
     <Hello />
     <UserLineContainer />
     <WhatIsYourLine />
-    <LogInOut />
   </div>
 )
 
