@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { setLoading } from './index'
 
 const SET_SINGLE_STOPS = "SET_SINGLE_STOPS"
 
@@ -11,6 +12,7 @@ export const fetchSingleStopsThunk = currentLine =>
         axios.get(`/stops/${currentLine}`)
         .then(res =>  res.data)
         .then(res => dispatch(setSingleStops(res)))
+        .then(() => dispatch(setLoading(false)))
         .catch(err => console.log(err))
     
 

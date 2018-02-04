@@ -4,8 +4,9 @@ import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
-import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
+import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
 import NavBar from './NavBar'
+import { ClimbingBoxLoader } from 'react-spinners';
 
 const dummy = [{coordinates: [-73.949724,40.744065], stopId: "G24"}, {coordinates: [-73.954449,40.731352], stopId:"G26"}]
 
@@ -19,6 +20,7 @@ class D3Trial extends Component {
     this.props.fetchRouteAndStops(this.props.match.params.line)
   }
 
+
   render() {
     const lineParam = this.props.match.params.line
     const color = {"1": "#EE352E", "2": "#EE352E", "3": "#EE352E", "4": "#00933C", "5": "#00933C", "6": "#00933C", "7": "#B933AD", "A": "#0039A6", "C": "#0039A6", "E": "#0039A6", "B": "#FF6319", "D": "#FF6319", "F": "#FF6319", "M": "#FF6319", "J": "#996633", "Z": "#996633", "N": "#FCCC0A", "Q": "#FCCC0A" , "R": "#FCCC0A", "W": "#FCCC0A", "G": "#6CBE45", "L": "#A7A9AC", "S": "#808183"}
@@ -30,7 +32,11 @@ class D3Trial extends Component {
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
-              <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+              <ClimbingBoxLoader
+                color={'#36D7B7'} 
+                loading={this.props.loading} 
+              />
+              { !this.props.loading && <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]} /> }
             </div>
         </div>
     )
@@ -42,7 +48,8 @@ const mapState = (state) => ({
   line: state.line,
   stop: state.stop,
   singleRoute: state.singleRoute,
-  singleTrainStops: state.singleTrainStops
+  singleTrainStops: state.singleTrainStops,
+  loading: state.loading
 })
 
 const mapDispatch = (dispatch) => {
@@ -58,10 +65,9 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchEventBriteThunk(arrayOfStops))
     },
     fetchRouteAndStops(currentRoute){
+      dispatch(setLoading(true))
       dispatch(fetchSingleRouteThunk(currentRoute))
-      .then(() => {
-        dispatch(fetchSingleStopsThunk(currentRoute))
-      })
+      .then(() => dispatch(fetchSingleStopsThunk(currentRoute)))
       .catch(console.error)
     }
   }

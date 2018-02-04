@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
 
 
+
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
   yelp: state.yelp,
@@ -452,31 +453,7 @@ class CongressionalDistrict extends Component {
         .style("r", r)
         // .style("stroke-opacity", o)
         .style("stroke-width", w / 3  + "px")
-
     }
-
-    
-
-    // const labels = g
-    //   .append("g")
-    //   .attr("id", "stopLabels")
-    //   .selectAll(".stopLabels")
-    //   .attr("class", "stopLabels")
-    //   .data(this.props.singleTrainStops)
-
-    // labels
-    //   .enter()
-    //   .append("text")
-    //   .attr("x", function(data) { return projection(data.geometry.coordinates)[0] })
-    //   .attr("y", function(data) { return projection(data.geometry.coordinates)[1] })
-    //   .attr("dx", "2em")
-    //   .attr("dy", "2em")
-    //   .text(function(data) {
-    //     return data.properties.STOP_NAME
-    //   })
-    //   .attr("fill", this.props.color)
-    //   .attr("font-size", "12px")
-    //   .attr("font-family", "Didot")
   }
 
 
@@ -490,6 +467,7 @@ class CongressionalDistrict extends Component {
   // shouldComponentUpdate () {
   //   return false
   // }
+
   render() {
     console.log("im on top of svg")
     return (

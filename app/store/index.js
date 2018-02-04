@@ -11,6 +11,7 @@ import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
+import loading from './loading'
 
 const reducer = combineReducers(
   {
@@ -21,7 +22,8 @@ const reducer = combineReducers(
     eventBrite,
     singleTrainStops,
     singleRoute,
-    userLine
+    userLine,
+    loading
   })
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -41,3 +43,4 @@ export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'
+export * from './loading'
