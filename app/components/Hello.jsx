@@ -12,10 +12,6 @@ const mapDispatch = dispatch => ({
 
 class HelloClass extends React.Component {
 
-    componentDidMount() {
-        this.props.getUser()
-    }
-
     render() {
     return (
         <div>

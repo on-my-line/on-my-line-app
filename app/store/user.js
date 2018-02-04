@@ -8,7 +8,7 @@ const getUser = user => ({ type: GET_CURRENT_USER, user })
 export const getCurrentUser = () => {
     return dispatch => {
         return auth.onAuthStateChanged(cU => {
-            if(!cU) dispatch(getUser({}))
+            if(!cU) dispatch(getUser("none"))
             else dispatch(getUser(cU))
         })
     }

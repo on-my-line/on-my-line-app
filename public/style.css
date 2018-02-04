@@ -48,14 +48,17 @@ h1 {
 
 
 
-/* body { padding: 0; 
-	margin: 0;
+body { 
+	margin: 2%;
 	overflow-x: hidden;
- } */
+}
 
- .navBar {
+.navBar {
 	display: flex;
+	margin-left: -4%;
 	flex-direction: row;
+	align-items: baseline;
+	justify-content: flex-end;
 	width: 100vw;
 	height: 5vh;
 }
@@ -65,11 +68,11 @@ h1 {
 }
 
 .center-screen {
+	margin-top: 15%;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
-	text-align: center;
 }
 
 .line-circle {

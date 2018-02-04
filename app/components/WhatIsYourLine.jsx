@@ -11,13 +11,12 @@ const auth = firebase.auth()
 
 
 const mapState = state => ({
-  line: state.line,
   userLine: state.userLine
 })
 
 const mapDispatch = dispatch => ({
   handleChange: value => {
-    dispatch(setLine(value))
+    dispatch(setUserLine(value))
   },
   fetchSingleRoute: currentRoute => {
     dispatch(fetchSingleRouteThunk(currentRoute))
@@ -36,7 +35,7 @@ class WhatIsYourLineAndStop extends React.Component {
     super()
     this.state = {
       lines: ["1", "2", "3", "4", "5", "6", "7", "A", "B", "C", "D", "E", "F", "G", "J", "L", "M", "N", "Q", "R", "S", "W", "Z"],
-      userLine: ''
+      userLine: 0
     }
     this.handleLineChange = this.handleLineChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -61,8 +60,7 @@ class WhatIsYourLineAndStop extends React.Component {
   }
 
   handleLineChange(event, index, value) {
-    console.log(value)
-    this.props.handleChange(value)
+    this.setState({userLine: value})
   }
 
   handleClick(){
@@ -70,7 +68,7 @@ class WhatIsYourLineAndStop extends React.Component {
     auth.onAuthStateChanged(user => {
       if(user && !user.isAnonymous) {
           firebase.database().ref(`Users/${user.uid}`)
-          .set({line:` ${this.props.line}`})
+          .update({Line:` ${this.state.userLine}`})
           .then(() => {
             firebase.database()
             .ref(`Users/${user.uid}/line`)
@@ -80,7 +78,7 @@ class WhatIsYourLineAndStop extends React.Component {
       }
     })
     }
-    this.props.history.push(`/${this.props.line}`)
+    this.props.history.push(`/${this.state.userLine}`)
   }
 
 
@@ -93,15 +91,19 @@ class WhatIsYourLineAndStop extends React.Component {
     <SelectField
         className="fade"
         name="line"
-        value={this.state.selectLine}
+        floatingLabelText="Where to go..."
+        value={this.state.userLine}
         onChange={this.handleLineChange}
         maxHeight={200}
       >
         {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
     </SelectField>
+    {this.state.userLine ?
     <FlatButton label="Let's go!" 
       onClick={this.handleClick} 
     />
+    :
+    null }
   </div>
     )
   }

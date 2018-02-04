@@ -9,7 +9,7 @@ import LogInOut from './LogInOut'
 
 
 const Home = props => (
-  <div className="center-screen">
+  <div className="center-screen fade">
     <Hello />
     <UserLineContainer />
     <WhatIsYourLine />
