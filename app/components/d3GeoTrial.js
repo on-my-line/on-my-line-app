@@ -88,7 +88,8 @@ class CongressionalDistrict extends Component {
       .attr("class", "meetupTip")
       .offset([-12, 0])
       .html(function(d) {
-        return `<span style='color:black'>${d.name}</span><br><span>${d.date}</span><br/><span>${d.price}</span>`
+        let price = d.price || "<span/>"
+        return `<span style='color:black'>${d.name}</span><br><span>${d.date}</span><br/><span>${price}</span>`
       })
 
 
@@ -135,13 +136,25 @@ class CongressionalDistrict extends Component {
 
     defs.append("svg:pattern")
     .attr("id", "restaurant")
-    .attr("width", "2px")
-    .attr("height", "2px")
+    .attr("width", "2.2px")
+    .attr("height", "2.2px")
     // .attr("patternUnits", "userSpaceOnUse")
     .append("svg:image")
     .attr("xlink:href","images/place.svg")
-    .attr("width", "2px")
-    .attr("height", "2px")
+    .attr("width", "2.2px")
+    .attr("height", "2.2px")
+    .attr("x", 0)
+    .attr("y", 0)
+
+    defs.append("svg:pattern")
+    .attr("id", "yelpYellow")
+    .attr("width", "2.2px")
+    .attr("height", "2.2px")
+    // .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href","images/place-yellow.svg")
+    .attr("width", "2.2px")
+    .attr("height", "2.2px")
     .attr("x", 0)
     .attr("y", 0)
 
@@ -159,13 +172,25 @@ class CongressionalDistrict extends Component {
 
     defs.append("svg:pattern")
     .attr("id", "event")
-    .attr("width", "3px")
-    .attr("height", "3px")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
     // .attr("patternUnits", "userSpaceOnUse")
     .append("svg:image")
     .attr("xlink:href","images/event.svg")
-    .attr("width", "3px")
-    .attr("height", "3px")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
+    .attr("x", 0)
+    .attr("y", 0)
+
+    defs.append("svg:pattern")
+    .attr("id", "eventHover")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
+    // .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href","images/event-hover.svg")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
     .attr("x", 0)
     .attr("y", 0)
 
@@ -270,10 +295,6 @@ class CongressionalDistrict extends Component {
       stopsTip.hide()
       var x, y, o, w, r
       if (d && centered !== d || centered === d && k === 1) {
-        // d3.select(thisStop)
-        // .transition()
-        // .duration(1250)
-        // .attr("fill", "url(#smile)")
         var centroid = path.centroid(d)
         x = projection(d.geometry.coordinates)[0]
         y = projection(d.geometry.coordinates)[1]
@@ -318,7 +339,7 @@ class CongressionalDistrict extends Component {
           .attr("dx", "4px")
           .attr("dy", "-10px")
           .text( function (data) { return data.properties.STOP_NAME })
-          .attr("font-size", "3px")
+          .attr("font-size", "2px")
           .attr("fill", "#424949")
 
           const yelp = d3.select("g")
@@ -334,10 +355,18 @@ class CongressionalDistrict extends Component {
           .attr("r", 0)
           .attr("fill", "url(#restaurant)")
           .attr("data-legend","Yelp")
-          .on("mouseover", (data) => {
+          .on("mouseover", function(data) {
             yelpTip.show(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#yelpYellow)")
           })
-          .on("mouseout", yelpTip.hide)
+          .on("mouseout", function(data) {
+            yelpTip.hide(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#restaurant)")
+          })
           .on("click", (data) => {
             yelpTip.hide()
             mySelf.handleEventClick(data, 'yelp')
@@ -348,7 +377,7 @@ class CongressionalDistrict extends Component {
           })
           .duration(750)
           .attr("r", 1.1)
-          
+
           const meetup = d3.select("g")
           .append("g")
           .attr("id", "meetup")
@@ -359,18 +388,26 @@ class CongressionalDistrict extends Component {
           .enter()
           .append("circle")
           .attr("class", "meetup")
-          .on("mouseover", meetupTip.show)
-          .on("mouseout", meetupTip.hide)
+          .on("mouseover", function(data) {
+            meetupTip.show(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#eventHover)")
+          })
+          .on("mouseout", function(data) {
+            meetupTip.hide(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#event)")
+          })
           .on("click", (data) => {
             meetupTip.hide()
             mySelf.handleEventClick(data, 'meetup')})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#event)")
-          // .attr("stroke", "rgba(255,255,255,0.6)")
           .transition()
-          .styleTween("r", () => d3.interpolate("0", "1.5"))
-          // .styleTween("stroke-width", () => d3.interpolate("0", "1"))
+          .styleTween("r", () => d3.interpolate("0", "1.25"))
           .duration(750)
         })
       } else {
