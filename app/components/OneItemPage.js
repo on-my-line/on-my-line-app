@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from "react-router";
 import { GoogleApiWrapper } from 'google-maps-react'
 import axios from 'axios'
 import OneItemMap from './OneItemMap'
@@ -34,6 +35,9 @@ const styles = {
 };
 
 export class OneItemPage extends Component {
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
     render(){
         let type = this.props.match.params.type
         let thingId = this.props.match.params.thingId
@@ -71,4 +75,4 @@ export class OneItemPage extends Component {
 
 const connected = connect(mapState)(OneItemPage)
 
-export default GoogleApiWrapper({ apiKey: GOOGLE_MAPS_API_KEY})(connected)
+export default withRouter(GoogleApiWrapper({ apiKey: GOOGLE_MAPS_API_KEY})(connected))
