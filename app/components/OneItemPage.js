@@ -8,6 +8,7 @@ import Marker from './Marker'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
 
+
 const mapState = (state) => {
     return {
         line: state.line,
@@ -17,6 +18,20 @@ const mapState = (state) => {
         singleTrainStops: state.singleTrainStops,
     }
 }
+
+const styles = {
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "space-around",
+		textAlign: "center"
+	},
+	gridList: {
+		width: 500,
+		height: "auto",
+		overflowY: "auto"
+	}
+};
 
 export class OneItemPage extends Component {
     render(){
@@ -38,15 +53,15 @@ export class OneItemPage extends Component {
         } 
         //console.log(currentThing)
         return (
-            <div>
+            <div style={styles.root}>
             {(type === 'yelp')? 
-            <SingleYelpPage currentThing={currentThing}/>: ''
+            <SingleYelpPage currentThing={currentThing} style={styles.gridList}/>: ''
             }
             {(type === 'meetup')?
-            <SingleMeetupPage currentThing={currentThing}/>:''
+            <SingleMeetupPage currentThing={currentThing} style={styles.gridList}/>:''
             }
             {/* --------------- MAP ---------------- */}
-                <OneItemMap google={this.props.google} currentStop={currentStop}>
+                <OneItemMap google={this.props.google} currentStop={currentStop} style={styles.gridList} >
                     <Marker currentThing={currentThing} />
                 </OneItemMap>
             </div>
