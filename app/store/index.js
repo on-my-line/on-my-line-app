@@ -12,6 +12,8 @@ import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
 import loading from './loading'
+import user from './user'
+
 
 const reducer = combineReducers(
   {
@@ -24,6 +26,7 @@ const reducer = combineReducers(
     singleRoute,
     userLine,
     loading
+    user
   })
 
 const middleware = composeWithDevTools(applyMiddleware(
@@ -44,3 +47,5 @@ export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'
 export * from './loading'
+export * from './user'
+
