@@ -3,28 +3,34 @@ let dataCacheName = "secondLine"
 let Lines = ["1", "2", "3", "4", "5", "6", "7", "A", "C", "E", "F", "G", "M", "N", "Q", "R", "J", "Z", "L", "S"]
 
 self.addEventListener("install", function(event) {
-	//console.log("[serviceWorker] Install");
+	console.log("[serviceWorker] Install");
 	//only in production to we want to Install base cache
-	// event.waitUntil(
-	// 	//opens up the cache and passes all cachename files to cache (urls)
-	// 	caches.open(cacheName).then(function(cache) {
-	// 		console.log("[serviceWorker] Caching app shell");
-	// 		//.addAll is all or nothing (if one file fails, they all fail)
-	// 		return cache.addAll([
-	// 			'/index.html',
-	// 			'/images/icon-48.png',
-	// 			'/images/icon-128.png',
-	// 			'/images/icon-144.png',
-	// 			'/images/icon-152.png',
-	// 			'/images/icon-192.png',
-	// 			'/style.css'
-	// 		]);
-	// 	})
-	// );
+	event.waitUntil(
+		//opens up the cache and passes all cachename files to cache (urls)
+		caches.open(cacheName).then(function(cache) {
+			console.log("[serviceWorker] Caching app shell");
+			//.addAll is all or nothing (if one file fails, they all fail)
+			return cache.addAll([
+				'/index.html',
+				'/images/event-hover.svg',
+				'/images/event.svg',
+				'/images/happy.svg',
+				'/images/happy2.jpg',
+				'/images/location.svg',
+				'/images/place-yellow.svg',
+				'/images/place.svg',
+				'/images/restaurant_white.svg',
+				'/images/restaurant_white.png',
+				'/nyc-streets.json',
+				'/style.css',
+				'/bundle.js'
+			]);
+		})
+	);
 });
 
 self.addEventListener("activate", function(event) {
-	//console.log("[serviceWorker] Activate")
+	console.log("[serviceWorker] Activate")
 	//service worker updates cache whenever any app shell files change (ie user preferences, not the data)
 	//when app is complete, this fixes corner case (where app isnt returning latest data) - not necessary, just lets you activate service worker faster
 });
@@ -38,37 +44,38 @@ self.addEventListener("fetch", function(event) {
 	//fetchRequest.headers.set("Cache-Control", "no-store")
 	//console.log("Event object:", event);
 	// it will still always fetch the bundle, css, and index b/c in the index html they are fetched?
+	console.log("WTF is the event???", event.request)
 	event.respondWith(
-		
 		caches.match(event.request).then(function(response) {
 			// Cache hit - return response
-			//console.log("[ServiceWorker] Fetch START", event.request.url)
+			console.log("[ServiceWorker] Fetch START", event.request.url)
 			
 			if (response) {
-                //console.log("response FROM the cache", response)
+                console.log("response FROM the cache", response)
 				return response
 			}
 
 			
 			//if the cache falls through, fetch the request from the network
-			return fetch(fetchRequest).then(function(response) {
+			return fetch(fetchRequest).then(function(res) {
              //if the response is janky, dont add it to the cache  
-			if (!response || response.status !== 200 || response.type !== "basic") {
-                //console.log("fetched response is janky?", response);
-				return response
+			if (!res || res.status !== 200 || res.type !== "basic") {
+                console.log("fetched response is janky?", res);
+				return res
 			}
-			let responseToCache = response.clone()
-			//console.log("Response to cache clone", responseToCache )
+			let responseToCache = res.clone()
+			console.log("Response to cache clone", responseToCache )
 			//serviceWorkers.js:62 Uncaught (in promise) TypeError: Failed to execute 'set' on 'Headers': Headers are immutable
 			//responseToCache.headers.set('Cache-Control', 'no-store')
-			caches.open(currentLine).then(function(cache) {
-				//console.log(`response to ${event.request} fetched and SAVED TO cache`)
-				cache.put(event.request, responseToCache)
+			return caches.open(currentLine).then(function(cache) {
+				console.log("response to fetched and SAVED TO cache", event.request)
+				return cache.put(event.request, responseToCache);
 				})
 
 			})
+			.catch(err => console.error(err))
 			//no matter what return the response - if its from either the cache OR the fetch (doesnt matter) return it
-			return response
+			// return response
 		})
 	)
 });

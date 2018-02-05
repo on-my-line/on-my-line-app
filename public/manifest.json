@@ -2,11 +2,7 @@
 	"name": "On My Line",
 	"short_name": "MyLine",
 	"description": "on my line",
-<<<<<<< HEAD
-	"start_url": "index.html",
-=======
 	"start_url": "/",
->>>>>>> RESPONSIVE
 	"display": "standalone",
 	"orientation": "portrait",
 	"background_color": "#2196F3",
@@ -36,15 +32,11 @@
 			"src": "./images/icon-48.png",
 			"type": "image/png",
 			"sizes": "48x48"
-<<<<<<< HEAD
-		}
-=======
         },
         {
 			"src": "./images/icon-120.png",
 			"type": "image/png",
 			"sizes": "120x120"
         }
->>>>>>> RESPONSIVE
 	]
 }
