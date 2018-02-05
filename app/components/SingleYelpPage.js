@@ -4,6 +4,7 @@ import { getCurrentUser } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUserExtras } from '../../fire/refs'
+import Paper from 'material-ui/Paper'
 
 const mapState = state => ({
     user: state.user
@@ -58,6 +59,9 @@ class SingleYelpPageClass extends React.Component {
         return(
             <div>
                 <h1>{currentThing.name}</h1>
+                <Paper zDepth={1} circle={true}>
+                <img src={currentThing.img}/>
+                </Paper>
                 <h2>Rating: {currentThing.rating}</h2>
                 <h2>Price: {currentThing.price}</h2>
                 {currentThing.category.map(type => {
@@ -65,7 +69,6 @@ class SingleYelpPageClass extends React.Component {
                     return <h3>{type}</h3>
                 })
                 }    
-                <img src={currentThing.img}/>
                 {this.props.user !== "none" ?
                 <button onClick={this.handleAddEvent}> Add to my things! </button>
                 :

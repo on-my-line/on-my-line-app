@@ -8,15 +8,15 @@
 	src: url("./fonts/Roboto/Roboto-Thin.ttf");
 }
 
+html {
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
 body {
 	background-color: #212121;
 	color: white;
 	font-family: 'Roboto', sans-serif;
-	margin-bottom: 60px
-}
-
-* {
-	font-family: 'Roboto';
 }
 
 h1 {
@@ -25,6 +25,7 @@ h1 {
 
 
 #mapcontainer {
+	bottom: 0;
 	font-family: Didot;
 	margin: auto;
 	height: 100vh; 
@@ -119,18 +120,11 @@ h1 {
   text-align: center;
 }
 
-
-
-body { 
-	margin: 2%;
-	overflow-x: hidden;
-}
-
 .navBar {
 	display: flex;
+	background-color: #212121;
 	margin-left: -4%;
 	flex-direction: row;
-	align-items: baseline;
 	justify-content: flex-end;
 	width: 100vw;
 	height: 5vh;
@@ -183,7 +177,7 @@ body {
 
 
 .fade {
-	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 
+	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 */
 	-moz-animation: fadein 1s; /* Firefox < 16 */
 	-ms-animation: fadein 1s; /* Internet Explorer */
 	-o-animation: fadein 1s; /* Opera < 11.1 */
