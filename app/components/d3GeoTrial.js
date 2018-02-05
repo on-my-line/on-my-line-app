@@ -1,7 +1,7 @@
 import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
 import React, { Component } from "react"
-import { NavLink } from 'react-router-dom'
+//import { NavLink } from 'react-router-dom'
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'

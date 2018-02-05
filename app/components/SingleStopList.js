@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { GridList, GridTile } from "material-ui/GridList";
 //import { setStop } from '../store'
@@ -17,7 +18,7 @@ const styles = {
 	},
 	gridList: {
 		width: 500,
-		height: 450,
+		height: "auto",
 		overflowY: "auto"
 	}
 };
@@ -55,9 +56,8 @@ class SingleStopList extends Component {
 			let googleThings = this.props.google.filter(thing => {
 				return thing.stopId === stop
 			})
-
-			return (
-				<div style={styles.root}>
+			console.log("STOP: ", stop)
+			return <div style={styles.root}>
 					<GridList cellHeight={180} style={styles.gridList}>
 						<Subheader>
 							{`Things to do near: ${singleStop[0].properties.STOP_NAME}`}
@@ -89,7 +89,13 @@ class SingleStopList extends Component {
 							<GridTile
 								key={thing.id}
 								title={thing.name}
-								//subtitle={<span>Rating: {thing.rating}</span>}
+								subtitle={<span>When: {thing.date}</span>}
+								actionIcon={
+									<IconButton>
+										<StarBorder color="white" />
+									</IconButton>
+								}
+
 							>
 								<Link to={`/${line}/${stop}/meetup/${thing.id}`}>
 									{thing.img ? (
@@ -122,11 +128,10 @@ class SingleStopList extends Component {
 						))}
 					</GridList>
 				</div>
-			);
 		} else {
 			return <div>Loading</div>;
 		}
 	}
 }
 
-export default connect(mapState)(SingleStopList);
+export default withRouter(connect(mapState)(SingleStopList))

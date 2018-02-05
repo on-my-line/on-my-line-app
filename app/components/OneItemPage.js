@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from "react-router";
 import { GoogleApiWrapper } from 'google-maps-react'
 import axios from 'axios'
 import OneItemMap from './OneItemMap'
@@ -8,6 +9,7 @@ import SingleGooglePage from './SingleGooglePage'
 import Marker from './Marker'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
+
 
 const mapState = (state) => {
     return {
@@ -20,7 +22,24 @@ const mapState = (state) => {
     }
 }
 
+const styles = {
+	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "space-around",
+		textAlign: "center"
+	},
+	gridList: {
+		width: 500,
+		height: "auto",
+		overflowY: "auto"
+	}
+};
+
 export class OneItemPage extends Component {
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
     render(){
         let type = this.props.match.params.type
         let thingId = this.props.match.params.thingId
@@ -45,18 +64,21 @@ export class OneItemPage extends Component {
         } 
         //console.log(currentThing)
         return (
-            <div>
+            <div style={styles.root} id="container">
             {(type === 'yelp')? 
-            <SingleYelpPage currentThing={currentThing}/>: ''
+            <SingleYelpPage currentThing={currentThing} style={styles.gridList}/>: ''
             }
             {(type === 'meetup')?
-            <SingleMeetupPage currentThing={currentThing}/>:''
+            <SingleMeetupPage currentThing={currentThing} style={styles.gridList}/>:''
+            }
+            {(type === 'google')?
+            <SingleGooglePage currentThing={currentThing}/>:''
             }
             {(type === 'google')?
             <SingleGooglePage currentThing={currentThing}/>:''
             }
             {/* --------------- MAP ---------------- */}
-                <OneItemMap google={this.props.google} currentStop={currentStop}>
+                <OneItemMap google={this.props.google} currentStop={currentStop} style={styles.gridList} >
                     <Marker currentThing={currentThing} />
                 </OneItemMap>
             </div>
@@ -66,4 +88,4 @@ export class OneItemPage extends Component {
 
 const connected = connect(mapState)(OneItemPage)
 
-export default GoogleApiWrapper({ apiKey: GOOGLE_MAPS_API_KEY})(connected)
+export default withRouter(GoogleApiWrapper({ apiKey: GOOGLE_MAPS_API_KEY})(connected))

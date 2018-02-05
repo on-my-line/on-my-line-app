@@ -54,27 +54,20 @@ class SingleYelpPageClass extends React.Component {
     render() {
         const { currentThing } =  this.props
         return(
-            <div>
-                <h1>{currentThing.name}</h1>
-                <Paper zDepth={1} circle={true}>
-                <img src={currentThing.img}/>
-                </Paper>
-                <h2>Rating: {currentThing.rating}</h2>
-                <h2>Price: {currentThing.price}</h2>
-                {currentThing.category.map(type => {
-                    console.log("CATEGORY ", type)
-                    return <h3>{type}</h3>
-                })
-                }    
-                {this.props.user !== "none" ?
-                <button onClick={this.handleAddEvent}> Add to my things! </button>
-                :
-                null}
-                <h3>Address: {currentThing.location}</h3>
-                <h3>Phone: {currentThing.phone}</h3>
-                <h4><a href={currentThing.url} target="_blank">Site</a></h4>
-            </div>
-        )
+
+        <div>
+            <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+            {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
+            {currentThing.price? <h2>Price: {currentThing.price}</h2> : "" }
+            {currentThing.category.map(type => {
+                return <p key={type}>#{type}</p>
+            })}
+            {currentThing.img? <img src={currentThing.img}/> : <img src=""/>}
+            <h3>Address: {currentThing.location}</h3>
+            <h3>Phone: {currentThing.phone}</h3>
+        </div>
+    )
+
     }
 }
 

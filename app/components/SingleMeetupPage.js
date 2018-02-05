@@ -1,25 +1,23 @@
 import React, { Component } from 'react'
 
+
 export default function SingleMeetupPage(props){
     const { currentThing } =  props
-    return(
+    return (
         <div>
-            <h1>{currentThing.name}</h1>
-            {(currentThing.description)?
-                <div><h2>Description: </h2><div dangerouslySetInnerHTML={{__html: currentThing.description}}/></div> : ""
-            }
-            <h2>When: {currentThing.date}</h2>
-            <h2>Start Time: {currentThing.start_time}</h2>
-            {(currentThing.price)?
-                <h3>Price: {currentThing.price}</h3>: ""
-            }
-            <img src={currentThing.img}/>
-            {(currentThing.group)?
-                <h2>Host: {currentThing.group}</h2> : ""
-            }
-            <h3>Address: {currentThing.location}</h3>
-            <h3>Phone: {currentThing.phone}</h3>
-            <h4><a href={currentThing.url} target="_blank">Site</a></h4>
+
+		    <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+			{currentThing.group ? <h2>Host: {currentThing.group}</h2> : ""}
+			<img src={currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"} />
+            {currentThing.price ? <h3>$: {currentThing.price}</h3> : ""}
+            {<h2>where: {currentThing.location}</h2>}
+			{<h2>When: {currentThing.date}</h2>}
+            {<h2>Start Time: {currentThing.start_time}</h2>}
+            {currentThing.phone? <h2>phone: {currentThing.phone}</h2> : ""}
+			{currentThing.description ? <div><h2>Description: </h2>
+			<div dangerouslySetInnerHTML={{ __html: currentThing.description }} />
+			</div> : ""}
+
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 export default function SingleGooglePage(props){
+    console.log("CurrentThingL ", props.currentThing)
     const { currentThing } =  props
     return(
         <div>
