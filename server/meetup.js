@@ -16,40 +16,43 @@ router.get('/:lat_long_rad', (req, res, next) => {
     axios.get(url)
     .then(response => response.data.results)
     .then(data => {
-       const meetupThings = data.filter(elem => elem.venue)
-       .map(elem => {
-                const date = new Date(elem.time)
-                let month = date.getMonth()
-                let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
-                month = months[month]
-                let day = date.getDay()
-                let days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat']
-                day = days[day]
-                let min = date.getMinutes()
-                if(!min) min = '00'
-                else if(min.length<2) min = '0'+ min
-                let hours = date.getHours()
-                let timeOfDay = ' PM'
-                if((hours-12)<0){timeOfDay = ' AM'}
-                if(hours%12 === 0){hours = 12}
-                else{hours = hours%12}
-            return (
-                {
-                    id: elem.id,
-                    name: elem.name,
-                    url: elem.event_url,
-                    lat: elem.venue.lat,
-                    lon: elem.venue.lon,
-                    price: (elem.fee) ? elem.fee.amount : null,
-                    group: (elem.group) ? elem.group.name : null,
-                    description: (elem.description) ?  elem.description : null,
-                    location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
-                    date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(), //in datetime form
-                    start_time: hours + ':' + min + timeOfDay,
-                    img: (elem.photo_url) ? elem.photo_url : null,
-                }
-            )
-        })
+        let meetupThings
+        if(data){
+            meetupThings = data.filter(elem => elem.venue)
+            .map(elem => {
+                     const date = new Date(elem.time)
+                     let month = date.getMonth()
+                     let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
+                     month = months[month]
+                     let day = date.getDay()
+                     let days = ['Sun','Mon','Tue','Wed','Thur','Fri','Sat']
+                     day = days[day]
+                     let min = date.getMinutes()
+                     if(!min) min = '00'
+                     else if(min.length<2) min = '0'+ min
+                     let hours = date.getHours()
+                     let timeOfDay = ' PM'
+                     if((hours-12)<0){timeOfDay = ' AM'}
+                     if(hours%12 === 0){hours = 12}
+                     else{hours = hours%12}
+                 return (
+                     {
+                         id: elem.id,
+                         name: elem.name,
+                         url: elem.event_url,
+                         lat: elem.venue.lat,
+                         lon: elem.venue.lon,
+                         price: (elem.fee) ? elem.fee.amount : null,
+                         group: (elem.group) ? elem.group.name : null,
+                         description: (elem.description) ?  elem.description : null,
+                         location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
+                         date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(), //in datetime form
+                         start_time: hours + ':' + min + timeOfDay,
+                         img: (elem.photo_url) ? elem.photo_url : null,
+                     }
+                 )
+             })
+        }
         res.json(meetupThings)
     })
     .catch(next)

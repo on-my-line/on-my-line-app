@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+//import { NavLink } from 'react-router-dom'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
