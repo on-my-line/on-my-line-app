@@ -15,7 +15,6 @@ import { getCurrentUser } from '../store'
 import { connect } from 'react-redux'
 import { getUserEvents, getUserExtras } from '../../fire/refs'
 
-
 const mapState = state => ({user: state.user})
 const mapDispatch = dispatch => ({
     getUser() {
@@ -24,73 +23,62 @@ const mapDispatch = dispatch => ({
 })
 
 class NavBarContainer extends React.Component {
-    constructor() {
-    super()
-
-    }
-
     componentDidMount() {
         this.props.getUser()
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
-    }
-
     render() {
-    let eventsLength = 0
-    if(this.props.user.uid) {
-            console.log("UID: ", this.props.user.uid)
-            getUserExtras(this.props.user.uid)
-            .then(Extras => {
-                return Object.keys(Extras.Events).length
-            })
-            .then(length => eventsLength = length)
-            .catch(err=> console.log(err))
-        }
-    return (
-        <div className="navBar">
-            <IconButton
-            containerElement={<Link to="/" />}
-            ><ActionHome /></IconButton>
-            <IconMenu
-                iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
-                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            >
-            {this.props.user === "none" ? 
-                <div>
-                <MenuItem 
-                primaryText="Log In"
-                containerElement={<Link to="/login" />} />
-                <MenuItem primaryText="Sign Up"
-                containerElement={<Link to="/signup" />} />
-                </div>
-            :
-                <div>
-                <MenuItem primaryText="Log Out"
-                onClick={() => auth.signOut()} />
-                </div>
+        if(this.props.user.uid) {
+                console.log("UID: ", this.props.user.uid)
+                getUserExtras(this.props.user.uid)
+                .then(Extras => {
+                    return Object.keys(Extras.Events).length
+                })
+                .then(length => eventsLength = length)
+                .catch(err=> console.log(err))
             }
-            </IconMenu>
-            {this.props.user !== "none" ?
-            <Badge
-            badgeContent={Object.keys(this.props.user.Extras.Events).length || 0}
-            secondary={true}
-            badgeStyle={{top: 12, right: 12}}
-            >
+        return (
+            <div className="navBar">
                 <IconButton
-                containerElement={<Link to="/login" />}>
-                    <MapsNearMe />
-                </IconButton>
-            </Badge>
-
-            :
-            null
-        }
-        </div>
-    )
-}
+                containerElement={<Link to="/" />}
+                ><ActionHome /></IconButton>
+                <IconMenu
+                    iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
+                    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                >
+                {this.props.user === "none" ? 
+                    <div>
+                    <MenuItem 
+                    primaryText="Log In"
+                    containerElement={<Link to="/login" />} />
+                    <MenuItem primaryText="Sign Up"
+                    containerElement={<Link to="/signup" />} />
+                    </div>
+                :
+                    <div>
+                    <MenuItem primaryText="Log Out"
+                    onClick={() => auth.signOut()} />
+                    </div>
+                }
+                </IconMenu>
+                {this.props.user !== "none" ?
+                <Badge
+                badgeContent={Object.keys(this.props.user.Extras.Events).length || 0}
+                secondary={true}
+                badgeStyle={{top: 12, right: 12}}
+                >
+                    <IconButton
+                    containerElement={<Link to="/login" />}>
+                        <MapsNearMe />
+                    </IconButton>
+                </Badge>
+                :
+                null
+            }
+            </div>
+        )
+    }
 }
 
 const NavBar = connect(mapState, mapDispatch)(NavBarContainer)

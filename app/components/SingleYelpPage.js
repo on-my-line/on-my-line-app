@@ -56,7 +56,7 @@ class SingleYelpPageClass extends React.Component {
         return(
 
         <div>
-            <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+            <a target="_blank" href={currentThing.url}><h1>{currentThing.name}</h1></a>
             {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
             {currentThing.price? <h2>Price: {currentThing.price}</h2> : "" }
             {currentThing.category.map(type => {

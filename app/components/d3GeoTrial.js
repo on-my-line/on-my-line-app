@@ -7,7 +7,6 @@ import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
 import { setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk } from '../store'
 
-
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
   yelp: state.yelp,
@@ -32,7 +31,6 @@ const mapDistpatchToProps = dispatch => {
     }
   }
 }
-
 
 class CongressionalDistrict extends Component {
   constructor(props) {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//import { NavLink } from 'react-router-dom'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
@@ -15,7 +14,6 @@ class D3Trial extends Component {
   }
 
   componentDidMount() {
-    console.log('I AM MOUNTED I WILL MOUNT')
     this.props.fetchRouteAndStops(this.props.match.params.line)
   }
 
@@ -24,7 +22,6 @@ class D3Trial extends Component {
     const color = {"1": "#EE352E", "2": "#EE352E", "3": "#EE352E", "4": "#00933C", "5": "#00933C", "6": "#00933C", "7": "#B933AD", "A": "#0039A6", "C": "#0039A6", "E": "#0039A6", "B": "#FF6319", "D": "#FF6319", "F": "#FF6319", "M": "#FF6319", "J": "#996633", "Z": "#996633", "N": "#FCCC0A", "Q": "#FCCC0A" , "R": "#FCCC0A", "W": "#FCCC0A", "G": "#6CBE45", "L": "#A7A9AC", "S": "#808183"}
 
     if(!this.props.singleTrainStops.length || !this.props.singleRoute.length) {
-      console.log('SINGLE STOPS IS EMPTY', this.props.singleTrainStops)
       return <div/>
     }
     return (
@@ -65,18 +62,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-// this.props.match.params.line
-//<h1>hello nyc</h1>
-           /*<ul>
-              {
-                singleTrainStops.map(stop => {
-                  return (
-                    <li key={stop.properties.STOP_ID}>
-                      <NavLink to={`/${lineParam}/${stop.properties.STOP_ID}`}>{stop.properties.STOP_NAME}</NavLink>
-                    </li>
-                  )
-                })
-              }
-            </ul>*/
-const D3 =  connect(mapState, mapDispatch)(D3Trial)
+const D3 = connect(mapState, mapDispatch)(D3Trial)
 export default D3

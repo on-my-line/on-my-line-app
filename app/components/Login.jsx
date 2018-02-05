@@ -4,7 +4,6 @@ import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
 import { withRouter } from 'react-router-dom'
 const auth = firebase.auth()
-const emailProvider = new firebase.auth.EmailAuthProvider()
 
 class LogInClass extends React.Component {
     constructor(props) {

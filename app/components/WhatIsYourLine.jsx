@@ -8,10 +8,7 @@ import firebase from '../../fire'
 import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
 const auth = firebase.auth()
 
-
-const mapState = state => ({
-  userLine: state.userLine
-})
+const mapState = state => ({ userLine: state.userLine})
 
 const mapDispatch = dispatch => ({
   handleChange: value => {
@@ -29,7 +26,6 @@ const mapDispatch = dispatch => ({
   setCurrentLine: line => {
     dispatch(setLine(line))
   }
-
 })
 
 class WhatIsYourLineAndStop extends React.Component {
@@ -44,22 +40,6 @@ class WhatIsYourLineAndStop extends React.Component {
   }
 
 //TODO PLACE FIREBASE LOGIC IN REFS FILE 
-
-  componentWillMount() {
-    // let lines = []
-    // firebase
-    //   .database()
-    //   .ref('Lines')
-    //   .once('value')
-    //   .then(snapshot => {
-    //     for (let keys in snapshot.val()) {
-    //       lines.push(keys)
-    //     }
-    //     this.setState({lines: lines})
-    //   })
-    //   .catch(console.error)
-      
-  }
 
   handleLineChange(event, index, value) {
     this.setState({userLine: value})
@@ -89,26 +69,25 @@ class WhatIsYourLineAndStop extends React.Component {
 
   render() {
     return (
-      
-  <div className='center-screen fade'>
-     { this.props.userLine ? "Or go elsewhere ..." : null }
-    <SelectField
-        className="fade"
-        name="line"
-        floatingLabelText="Where to go..."
-        value={this.state.userLine}
-        onChange={this.handleLineChange}
-        maxHeight={200}
-      >
-        {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
-    </SelectField>
-    {this.state.userLine ?
-    <FlatButton label="Let's go!" 
-      onClick={this.handleClick()} 
-    />
-    :
-    null }
-  </div>
+      <div className='center-screen fade'>
+        { this.props.userLine ? "Or go elsewhere ..." : null }
+        <SelectField
+            className="fade"
+            name="line"
+            floatingLabelText="Where to go..."
+            value={this.state.userLine}
+            onChange={this.handleLineChange}
+            maxHeight={200}
+          >
+            {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
+        </SelectField>
+        {this.state.userLine ?
+        <FlatButton label="Let's go!" 
+          onClick={this.handleClick()} 
+        />
+        :
+        null }
+      </div>
     )
   }
 }

@@ -13,13 +13,16 @@ html {
 	padding: 0 !important;
 }
 
-body {
-	background-color: #212121;
-	color: white;
+* {
 	font-family: 'Roboto', sans-serif;
 }
 
-h1 {
+body {
+	background-color: #212121;
+	color: white;
+}
+
+h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
