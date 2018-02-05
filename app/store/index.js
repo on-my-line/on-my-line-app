@@ -1,4 +1,3 @@
-
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
@@ -11,11 +10,8 @@ import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
-<<<<<<< HEAD
 import loading from './loading'
-=======
 import google from './googlePlaces'
->>>>>>> 0fbddb9689cf060dde5a2699afd025e68b17f05e
 import user from './user'
 
 
@@ -54,5 +50,4 @@ export * from './userLine'
 export * from './loading'
 export * from './user'
 export * from './googlePlaces'
-export * from './user'
 

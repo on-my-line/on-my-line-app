@@ -310,15 +310,9 @@ class CongressionalDistrict extends Component {
         centered = d
 
         d3.queue(2)
-        .defer( (callback) => {
-          mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
-        })
-        .defer( (callback) => {
-          mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
-        })
-        .defer( (callback) => {
-          mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
-        })
+        .defer( (callback) => { mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
+        .defer( (callback) => { mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
+        .defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .awaitAll(function(error) {
           if (error) throw error
 
