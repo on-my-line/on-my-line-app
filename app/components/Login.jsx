@@ -1,33 +1,72 @@
 import React from 'react'
-
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
+import { withRouter } from 'react-router-dom'
+const auth = firebase.auth()
 
-const google = new firebase.auth.GoogleAuthProvider()
+//const allUsers = db.ref('users')
+const emailProvider = new firebase.auth.EmailAuthProvider()
 
-// Firebase has several built in auth providers:
-// const facebook = new firebase.auth.FacebookAuthProvider()
-// const twitter = new firebase.auth.TwitterAuthProvider()
-// const github = new firebase.auth.GithubAuthProvider()
-// // This last one is the email and password login we all know and
-// // vaguely tolerate:
-// const email = new firebase.auth.EmailAuthProvider()
 
-// If you want to request additional permissions, you'd do it
-// like so:
-//
-// google.addScope('https://www.googleapis.com/auth/plus.login')
-//
-// What kind of permissions can you ask for? There's a lot:
-//   https://developers.google.com/identity/protocols/googlescopes
-//
-// For instance, this line will request the ability to read, send,
-// and generally manage a user's email:
-//
-// google.addScope('https://mail.google.com/')
+class LogInClass extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: '',
+            password: ''
+        }
 
-export default ({ auth }) =>
-  // signInWithPopup will try to open a login popup, and if it's blocked, it'll
-  // redirect. If you prefer, you can signInWithRedirect, which always
-  // redirects.
-  <button className='google login'
-          onClick={() => auth.signInWithPopup(google)}>Login with Google</button>
+        this.handleChange = this.handleChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleChange(event) {
+        event.preventDefault()
+        const stateObj = {}
+        stateObj[event.target.name] = event.target.value
+        this.setState(stateObj)
+    }
+
+    handleClick(event) {
+        event.preventDefault()
+        const email = event.target.email.value
+        const password = event.target.password.value
+
+        auth.signInWithEmailAndPassword(email, password)
+        .then(() => this.props.history.push(`/`))
+        .catch(console.error)
+    }
+        // .then((user) => {
+        //     console.log(user.uid)
+        //     db.ref('users/' + user.uid).set({line: event.target.line.value})
+        // })
+
+    render() {
+        return(
+            <div className="center-screen fade">
+                <h1> Log In </h1>
+                <form name="sign-up-form" onSubmit={this.handleClick}>
+                    <TextField
+                        name="email"
+                        value={this.state.email}
+                        floatingLabelText="Email"
+                        onChange={this.handleChange} /><br />
+                    <TextField
+                        name="password"
+                        value={this.state.password}
+                        floatingLabelText="Password"
+                        type="password"
+                        onChange={this.handleChange} />
+                    <div>
+                        <FlatButton type="submit" label="Log In" />
+                    </div>
+                </form>
+            </div>
+        )
+    }
+}
+
+const Login = withRouter(LogInClass)
+
+export default Login

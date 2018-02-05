@@ -1,11 +1,41 @@
-#routes{
-	stroke: green;
-	stroke-width:8;
-	fill:none;
-	position:absolute;
-	top:0;
-	left:0;
-	z-index:110;
+@font-face {
+	font-family: "Roboto";
+	src: url("./fonts/Roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-Thin";
+	src: url("./fonts/Roboto/Roboto-Thin.ttf");
+}
+
+body {
+	background-color: #212121;
+	color: white;
+	font-family: 'Roboto', sans-serif;
+	margin-bottom: 60px
+}
+
+* {
+	font-family: 'Roboto';
+}
+
+h1 {
+	font-family: 'Roboto-Thin'
+}
+
+
+#mapcontainer {
+	font-family: Didot;
+	margin: auto;
+	height: 100vh; 
+	width: 100vw; 
+	z-index: 100;
+	overflow: auto;
+	align-content: center;
+}
+
+#D3Map {
+	margin: auto;
 }
 
 #nycBoroughs {
@@ -19,28 +49,126 @@
 	z-index: 100;
 }
 
+#nycStreets {
+	z-index: 200;
+}
+
+#routes{
+	z-index:300;
+}
+
 #stops{
-	position:absolute;
-	top:0;
-	left:0;
-	z-index:150;
-	fill: white;
-	stroke: black;
+	z-index:400;
+}
+
+#restaurant {
+	z-index: 500;
 }
 
 .yelp {
-	opacity: 0.5;
-	z-index: 105;
+	z-index: 500;
+	
+}
+
+#stopName {
+	background-color: white;
+	z-index: 800;
+	font-family: sans-serif;
+}
+
+.stopsTip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: white;
+  color: #fff;
+  border-radius: 6px;
+  z-index: 600;
+}
+
+.yelpTip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border-radius: 70px;
+  z-index: 600;
+  text-align: center;
+}
+
+/*.yelpTip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(231, 76, 60, 0.9);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}*/
+
+.meetupTip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(214, 219, 223, 0.9);
+  color: #797D7F;
+  border-radius: 10px;
+  z-index: 600;
+  text-align: center;
+}
+
+
+
+body { 
+	margin: 2%;
+	overflow-x: hidden;
+}
+
+.navBar {
+	display: flex;
+	margin-left: -4%;
+	flex-direction: row;
+	align-items: baseline;
+	justify-content: flex-end;
+	width: 100vw;
+	height: 5vh;
+}
+
+.icon-right {
+	margin-left: auto;
 }
 
 .center-screen {
+	margin-top: 15%;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
-	text-align: center;
-	min-height: 100vh;
 }
+
+.line-circle {
+	background: #f00;
+    width: 200px;
+    height: 200px;
+	border-radius: 50%;
+	display: flex;
+    align-items: center;
+	justify-content: center;
+	font-size: 500%;
+	color: white;
+}
+
+/* .line-circle-text {
+	font-size: 150%;
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+} */
 
 /*.scaling-svg-container {
 	position: absolute; 
@@ -50,31 +178,8 @@
 	/* over-ride this inline for aspect ratio other than square */
 
 
-#mapcontainer {
-	position: absolute; 
-	height: 960px; 
-	width: 1280px; 
-	left: 0; 
-	top:0;
-	z-index: 100;
-	overflow: auto;
-	align-content: center;
-}
 
-#D3Map {
-	margin: auto;
-}
 
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: white;
-  color: #fff;
-  border-radius: 6px;
-  z-index: 300;
-
-}
 
 
 .fade {
@@ -113,3 +218,37 @@
 	from { opacity: 0; }
 	to   { opacity: 1; }
 }
+
+/* Mobile */
+.flexbox .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  
+  display: flex;
+  background: #eee;
+  overflow: auto;
+}
+
+/* img {
+	max-width: 100%;
+} */
+
+.flexbox .container .col {
+  flex: 1;
+  padding: 1rem;
+}
+
+@media screen and (max-width: 48rem) {
+  .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+	display: flex;
+	max-width: 100%;
+	flex-flow: column;
+	overflow: auto;
+  }
+  * {
+	max-width: 100%
+  }
+}
+

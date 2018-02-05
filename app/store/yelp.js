@@ -13,8 +13,9 @@ const defaultYelp = []
 
 const setYelpThings = yelpThings => ({ type: SET_YELP_THINGS, yelpThings })
 
-export const fetchYelpThunk = (arrayOfStops, rad = 400) => // array of arrays lon/lat
+export const fetchYelpThunk = (arrayOfStops, rad = 400, callback) => // array of arrays lon/lat
     dispatch => {
+        console.log('hello')
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
             const stopId = stopObj.stopId
@@ -44,8 +45,11 @@ export const fetchYelpThunk = (arrayOfStops, rad = 400) => // array of arrays lo
                 })
                 return uniqueThings
             })
-            .then(uniqueYelpThings =>
+            .then(uniqueYelpThings => 
                 dispatch(setYelpThings(uniqueYelpThings)))
+            .then(() => {
+                callback(null)
+            })
             .catch(err => console.log(err))
     }
 
