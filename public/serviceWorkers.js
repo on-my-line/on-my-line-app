@@ -19,9 +19,9 @@ self.addEventListener("install", function(event) {
 				'/images/location.svg',
 				'/images/place-yellow.svg',
 				'/images/place.svg',
+				'/nyc-streets.json',
 				'/images/restaurant_white.svg',
 				'/images/restaurant_white.png',
-				'/nyc-streets.json',
 				'/style.css',
 				'/bundle.js'
 			]);
@@ -35,50 +35,66 @@ self.addEventListener("activate", function(event) {
 	//when app is complete, this fixes corner case (where app isnt returning latest data) - not necessary, just lets you activate service worker faster
 });
 
+
 self.addEventListener("fetch", function(event) {
 	// later: lets add some logic to put all initial fetches in the same place (if undefined or / put it in the index)
 	let currentLine = event.request.referrer.slice(event.request.referrer.lastIndexOf("/") + 1) || "Index";
 	
-	var fetchRequest = event.request.clone()
-	//event.request.headers.set("Cache-Control", "no-store")
-	//fetchRequest.headers.set("Cache-Control", "no-store")
+	//let fetchRequest = event.request.clone()
 	//console.log("Event object:", event);
 	// it will still always fetch the bundle, css, and index b/c in the index html they are fetched?
-	console.log("WTF is the event???", event.request)
+	//console.log("WTF is the event???", event.request)
 	event.respondWith(
 		caches.match(event.request).then(function(response) {
 			// Cache hit - return response
-			console.log("[ServiceWorker] Fetch START", event.request.url)
+			//console.log("[ServiceWorker] Fetch START", event.request.url)
 			
 			if (response) {
-                console.log("response FROM the cache", response)
+                //console.log("response FROM the cache", response)
 				return response
-			}
+			} else {
 
-			
+			// caches.open(currentLine).then(function(cache) {
+			// 	cache.add(event.request).then(function(thing){
+			// 		console.log("we in da cash", thing)
+			// 	})
+			// 	.catch(err => console.error(err))
+			// })
 			//if the cache falls through, fetch the request from the network
-			return fetch(fetchRequest).then(function(res) {
-             //if the response is janky, dont add it to the cache  
-			if (!res || res.status !== 200 || res.type !== "basic") {
-                console.log("fetched response is janky?", res);
-				return res
-			}
-			let responseToCache = res.clone()
-			console.log("Response to cache clone", responseToCache )
-			//serviceWorkers.js:62 Uncaught (in promise) TypeError: Failed to execute 'set' on 'Headers': Headers are immutable
-			//responseToCache.headers.set('Cache-Control', 'no-store')
-			return caches.open(currentLine).then(function(cache) {
-				console.log("response to fetched and SAVED TO cache", event.request)
-				return cache.put(event.request, responseToCache);
-				})
+	
+			return fetch(event.request)
+				.then(function(fetchRes) {
+					//if the response is janky, dont add it to the cache
+					if (!fetchRes || fetchRes.status !== 200 || fetchRes.type !== "basic") {
+						//console.log("fetched response is janky?", fetchRes);
+						return fetchRes;
+					}
 
-			})
-			.catch(err => console.error(err))
+					let responseToCache = fetchRes.clone();
+					//console.log("Response to cache clone", responseToCache )
+					//serviceWorkers.js:62 Uncaught (in promise) TypeError: Failed to execute 'set' on 'Headers': Headers are immutable
+					//responseToCache.headers.set('Cache-Control', 'no-store')
+					return caches.open(currentLine).then(function(cache) {
+						//console.log("response to fetched and SAVED TO cache: ", fetchRequest)
+						cache.put(event.request, fetchRes.clone());
+						return fetchRes;
+					});
+				})
+				// .catch(() =>
+				// 	caches.match("http://null:null@localhost:1337/nyc-streets.json")
+				// )
+				.catch(() =>
+					caches.match("http://localhost:1337/nyc-streets.json")
+				)
+				.catch((err) => console.error(err))
 			//no matter what return the response - if its from either the cache OR the fetch (doesnt matter) return it
-			// return response
+			//return response
+			}
 		})
 	)
 });
+
+
 /*what is getting stored in the cache: 
 index, current line(current routes/current stops), things @ stop by stop id
 */
