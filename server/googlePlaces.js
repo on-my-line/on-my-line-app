@@ -42,6 +42,10 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${t
     .then(resolvedPromiseArray => {
     const museumThings = resolvedPromiseArray.filter(elem => elem.result.website)
     .map(elem => {
+        if(elem.result.photos){
+            photoId = elem.result.photos[0].photo_reference
+            photoWidth = elem.result.photos[0].width
+        }
             return (
                 {
                     id: elem.result.id,
@@ -54,32 +58,12 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${t
                     location: elem.result.formatted_address,
                     phone: elem.result.formatted_phone_number,
                     time:(elem.result.opening_hours) ? elem.result.opening_hours.weekday_text : null,
-                    img: (elem.result.photos) ? elem.result.photos[0]   : null,
+                    img: (elem.result.photos) ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${photoWidth}&photoreference=${photoId}&key=${GOOGLE_PLACES_API_KEY}`   : null,
                 }
             )
         })
         res.json(museumThings)
-        //return museumThings
     })
-    // .then(museumThings => {
-    // promiseArray = museumThings.map(thing => {
-    //     if(thing.img){
-    //         photoId = thing.img.photo_reference
-    //         photoWidth = thing.img.width
-    //         let promise = axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${photoWidth}&photoreference=${photoId}&key=${GOOGLE_PLACES_API_KEY}`)
-    //         .then(response => response.data)
-    //         return promise
-    //     }
-    //     else{ return null}
-    // })
-    // let photos = Promise.all(promiseArray)
-    // .then((resolvedPromiseArray) => {
-    //     museumThings.forEach((elem,index) => {
-    //         elem.img = resolvedPromiseArray[index]
-    //     })
-    //     res.send(museumThings)
-    // })
-    // })
 })
 .catch(next)
 })
