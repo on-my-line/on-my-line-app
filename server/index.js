@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/yelp', require('./yelp'))
 app.use('/meetup', require('./meetup'))
 app.use('/googlePlaces', require('./googlePlaces'))
-//app.use('/googleMaps', require('./googleMaps'))
 app.use('/stops', require('./stops'))
 app.use('/routes', require('./lines'))
 

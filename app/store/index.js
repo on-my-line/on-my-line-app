@@ -11,6 +11,7 @@ import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
+import google from './googlePlaces'
 import user from './user'
 
 const reducer = combineReducers(
@@ -19,6 +20,7 @@ const reducer = combineReducers(
     stop,
     yelp,
     meetup,
+    google,
     eventBrite,
     singleTrainStops,
     singleRoute,
@@ -43,4 +45,5 @@ export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'
+export * from './googlePlaces'
 export * from './user'
