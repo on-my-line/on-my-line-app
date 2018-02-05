@@ -97,6 +97,21 @@ class CongressionalDistrict extends Component {
         return `<span style='color:black'>${d.name}</span><br><span>${d.date}</span><br/><span>${price}</span>`
       })
 
+    let museumTip = d3Tip()
+      .attr("class", "museumTip")
+      .offset([-12, 0])
+      .html(function(d) {
+        let time = d.time ? d.time[new Date().getDay() - 1] : "<span/>"
+        return `<span style='color:black'>${d.name}</span><br><span>${time}</span>`
+      })
+
+    let keyTip = d3Tip()
+      .attr("class", "keyTip")
+      .offset([-250,  -470])
+      .html(function(d) {
+        return `<span style='color:white;vertical-align:50%'><img src='images/museum.svg'>&nbsp;&nbsp;museum</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:white;vertical-align:50%'><img src='images/event.svg'>&nbsp;&nbsp;Meetup</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:white;vertical-align:50%'><img src='images/place.svg'>&nbsp;&nbsp;Yelp</span>`
+      })
+
 
     const svg = d3
       .select(node)
@@ -107,6 +122,8 @@ class CongressionalDistrict extends Component {
     svg.call(stopsTip)
     .call(yelpTip)
     .call(meetupTip)
+    .call(museumTip)
+    .call(keyTip)
 
     const projection = d3
       .geoMercator()
@@ -201,13 +218,25 @@ class CongressionalDistrict extends Component {
 
     defs.append("svg:pattern")
     .attr("id", "museum")
-    .attr("width", "2.5px")
-    .attr("height", "2.5px")
+    .attr("width", "2px")
+    .attr("height", "2px")
     // .attr("patternUnits", "userSpaceOnUse")
     .append("svg:image")
-    .attr("xlink:href","images/event-hover.svg")
-    .attr("width", "2.5px")
-    .attr("height", "2.5px")
+    .attr("xlink:href","images/museum.svg")
+    .attr("width", "2px")
+    .attr("height", "2px")
+    .attr("x", 0)
+    .attr("y", 0)
+
+    defs.append("svg:pattern")
+    .attr("id", "museumHover")
+    .attr("width", "2px")
+    .attr("height", "2px")
+    // .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href","images/museum-hover.svg")
+    .attr("width", "2px")
+    .attr("height", "2px")
     .attr("x", 0)
     .attr("y", 0)
 
@@ -274,8 +303,14 @@ class CongressionalDistrict extends Component {
       .attr("cx", function(data) { return projection(data.geometry.coordinates)[0] })
       .attr("cy", function(data) { return projection(data.geometry.coordinates)[1] })
       .attr("fill", "rgba(255, 255, 255)")
-      .on("mouseover", stopsTip.show)
-      .on("mouseout", stopsTip.hide)
+      .on("mouseover", (data) => {
+        keyTip.show(data)
+        stopsTip.show(data)
+      })
+      .on("mouseout", (data) => {
+        stopsTip.hide(data)
+        keyTip.hide(data)
+      })
       .on("dblclick", (data) => mySelf.handleClick(data))
       .on("click", function(data) {
         let thisStop = this
@@ -307,11 +342,16 @@ class CongressionalDistrict extends Component {
     }
 
     const clicked = function(d, thisStop) {
+
         d3.selectAll("g#stopName text").remove()
         d3.selectAll("g#location circle").remove()
+        d3.selectAll("g#yelp circle").remove()
+        d3.selectAll("g#meetup circle").remove()
+        d3.selectAll("g#museum circle").remove()
       stopsTip.hide()
       var x, y, o, w, r
       if (d && centered !== d || centered === d && k === 1) {
+        
         var centroid = path.centroid(d)
         x = projection(d.geometry.coordinates)[0]
         y = projection(d.geometry.coordinates)[1]
@@ -327,7 +367,7 @@ class CongressionalDistrict extends Component {
         .defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .awaitAll(function(error) {
           if (error) throw error
-
+          
           const location = d3.select("g")
           .append("g")
           .attr("id", "location")
@@ -428,37 +468,37 @@ class CongressionalDistrict extends Component {
           .styleTween("r", () => d3.interpolate("0", "1.25"))
           .duration(750)
 
-          // const museum = d3.select("g")
-          // .append("g")
-          // .attr("id", "museum")
-          // .selectAll(".museum")
-          // .data(mySelf.props.museum)
+          const museum = d3.select("g")
+          .append("g")
+          .attr("id", "museum")
+          .selectAll(".museum")
+          .data(mySelf.props.google)
 
-          // museum
-          // .enter()
-          // .append("circle")
-          // .attr("class", "museum")
-          // .on("mouseover", function(data) {
-          //   museumTip.show(data)
-          //   d3.select(this)
-          //   .transition()
-          //   .attr("fill", "url(#eventHover)")
-          // })
-          // .on("mouseout", function(data) {
-          //   museumTip.hide(data)
-          //   d3.select(this)
-          //   .transition()
-          //   .attr("fill", "url(#event)")
-          // })
-          // .on("click", (data) => {
-          //   museumTip.hide()
-          //   mySelf.handleEventClick(data, 'museum')})
-          // .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
-          // .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
-          // .attr("fill", "url(#museum)")
-          // .transition()
-          // .styleTween("r", () => d3.interpolate("0", "1.25"))
-          // .duration(750)
+          museum
+          .enter()
+          .append("circle")
+          .attr("class", "museum")
+          .on("mouseover", function(data) {
+            museumTip.show(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#museumHover)")
+          })
+          .on("mouseout", function(data) {
+            museumTip.hide(data)
+            d3.select(this)
+            .transition()
+            .attr("fill", "url(#museum)")
+          })
+          .on("click", (data) => {
+            museumTip.hide()
+            mySelf.handleEventClick(data, 'googleplaces')})
+          .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
+          .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
+          .attr("fill", "url(#museum)")
+          .transition()
+          .styleTween("r", () => d3.interpolate("0", "1"))
+          .duration(750)
         })
       } else {
         x = width / 2
@@ -472,9 +512,6 @@ class CongressionalDistrict extends Component {
         .transition()
         .duration(1250)
         .attr("fill", "white")
-
-        d3.selectAll("g#yelp circle").remove()
-        d3.selectAll("g#meetup circle").remove()
       }
 
       g.selectAll("path").classed(
