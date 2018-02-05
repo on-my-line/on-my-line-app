@@ -46,10 +46,13 @@ class NavBarContainer extends React.Component {
     render() {
     let eventsLength = 0
     if(this.props.user.uid) {
-            console.log(this.props.user.uid)
+            console.log("UID: ", this.props.user.uid)
             getUserExtras(this.props.user.uid)
-            .then(Extras => Object.keys(Extras.Events).length)
+            .then(Extras => {
+                return Object.keys(Extras.Events).length
+            })
             .then(length => eventsLength = length)
+            .catch(err=> console.log(err))
         }
     return (
         <div className="navBar">
