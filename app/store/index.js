@@ -45,8 +45,5 @@ export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'
-<<<<<<< HEAD
 export * from './googlePlaces'
-=======
 export * from './user'
->>>>>>> 8f62ad1eeaccb926db5deb6d337b3cc5f835dba9
