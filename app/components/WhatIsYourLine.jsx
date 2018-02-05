@@ -26,6 +26,9 @@ const mapDispatch = dispatch => ({
   },
   addUserLine: line => {
     dispatch(setUserLine(line))
+  },
+  setCurrentLine: line => {
+    dispatch(setLine(line))
   }
 
 })
@@ -61,6 +64,7 @@ class WhatIsYourLineAndStop extends React.Component {
 
   handleLineChange(event, index, value) {
     this.setState({userLine: value})
+    this.props.setCurrentLine(event.target.innerHTML)
   }
 
   handleClick(){
@@ -78,6 +82,7 @@ class WhatIsYourLineAndStop extends React.Component {
       }
     })
     }
+
     this.props.history.push(`/${this.state.userLine}`)
   }
 
@@ -100,7 +105,7 @@ class WhatIsYourLineAndStop extends React.Component {
     </SelectField>
     {this.state.userLine ?
     <FlatButton label="Let's go!" 
-      onClick={this.handleClick} 
+      onClick={this.handleClick()} 
     />
     :
     null }
