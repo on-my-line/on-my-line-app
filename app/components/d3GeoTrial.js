@@ -199,6 +199,18 @@ class CongressionalDistrict extends Component {
     .attr("x", 0)
     .attr("y", 0)
 
+    defs.append("svg:pattern")
+    .attr("id", "museum")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
+    // .attr("patternUnits", "userSpaceOnUse")
+    .append("svg:image")
+    .attr("xlink:href","images/event-hover.svg")
+    .attr("width", "2.5px")
+    .attr("height", "2.5px")
+    .attr("x", 0)
+    .attr("y", 0)
+
     d3.queue()
       .defer(d3.json, "nyc-streets.json")
       .awaitAll(function(error, results) {
@@ -415,6 +427,38 @@ class CongressionalDistrict extends Component {
           .transition()
           .styleTween("r", () => d3.interpolate("0", "1.25"))
           .duration(750)
+
+          // const museum = d3.select("g")
+          // .append("g")
+          // .attr("id", "museum")
+          // .selectAll(".museum")
+          // .data(mySelf.props.museum)
+
+          // museum
+          // .enter()
+          // .append("circle")
+          // .attr("class", "museum")
+          // .on("mouseover", function(data) {
+          //   museumTip.show(data)
+          //   d3.select(this)
+          //   .transition()
+          //   .attr("fill", "url(#eventHover)")
+          // })
+          // .on("mouseout", function(data) {
+          //   museumTip.hide(data)
+          //   d3.select(this)
+          //   .transition()
+          //   .attr("fill", "url(#event)")
+          // })
+          // .on("click", (data) => {
+          //   museumTip.hide()
+          //   mySelf.handleEventClick(data, 'museum')})
+          // .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
+          // .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
+          // .attr("fill", "url(#museum)")
+          // .transition()
+          // .styleTween("r", () => d3.interpolate("0", "1.25"))
+          // .duration(750)
         })
       } else {
         x = width / 2
