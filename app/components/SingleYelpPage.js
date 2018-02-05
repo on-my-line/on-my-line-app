@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../../fire'
-import { getCurrentUser } from '../store'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUserExtras } from '../../fire/refs'
@@ -13,6 +13,9 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
     getUser() {
         dispatch(getCurrentUser())
+    },
+    addEvent: event => {
+        dispatch(addToUserEvents(event))
     }
 })
 
@@ -24,16 +27,11 @@ class SingleYelpPageClass extends React.Component {
     
     this.handleAddEvent = this.handleAddEvent.bind(this)
     }
-
-    componentDidMount() {
-        getUserExtras(this.props.user.uid)
-        .then(userExtras => console.log(userExtras))
-    }
-
+    
     handleAddEvent() {
         const currentThing = this.props.currentThing
-        firebase.database().ref(`Users/${this.props.user.uid}/Events/`)
-        .push({Yelp: currentThing})
+        const userId = this.props.user.uid
+        this.props.addEvent(currentThing, userId)
     }
 
     // handleClick(){
@@ -54,7 +52,6 @@ class SingleYelpPageClass extends React.Component {
     //     this.props.history.push(`/${this.props.line}`)
     //   }
     render() {
-        console.log("CurrentThingL ", this.props.currentThing)
         const { currentThing } =  this.props
         return(
             <div>
@@ -75,7 +72,7 @@ class SingleYelpPageClass extends React.Component {
                 null}
                 <h3>Address: {currentThing.location}</h3>
                 <h3>Phone: {currentThing.phone}</h3>
-                <h4><a href={currentThing.url}>Site</a></h4>
+                <h4><a href={currentThing.url} target="_blank">Site</a></h4>
             </div>
         )
     }

@@ -5,7 +5,6 @@ import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
 const auth = firebase.auth()
 
-//const allUsers = db.ref('users')
 const emailProvider = new firebase.auth.EmailAuthProvider()
 
 
@@ -44,11 +43,6 @@ class SignUpClass extends React.Component {
         .then(() => this.props.history.push(`/`))
         .catch(console.error)
     }
-        // .then((user) => {
-        //     console.log(user.uid)
-        //     db.ref('users/' + user.uid).set({line: event.target.line.value})
-        // })
-
     render() {
         return(
             <div className="center-screen fade">

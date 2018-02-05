@@ -26,31 +26,18 @@ const mapDispatch = dispatch => ({
 class NavBarContainer extends React.Component {
     constructor() {
     super()
-    this.state = {
-        eventsLength: 0
-    }
+
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getUser()
     }
 
-    componentWillReceiveProps() {
-        if(this.props.user.uid) {
-            console.log(this.props.user.uid)
-        }
-        // getUserExtras('KLrJCgtDrEeMxOOnRIW59kY18o42')
-        // .then(Extras => console.log('USER EXTRAS', Extras))
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
     }
 
     render() {
-    let eventsLength = 0
-    if(this.props.user.uid) {
-            console.log(this.props.user.uid)
-            getUserExtras(this.props.user.uid)
-            .then(Extras => Object.keys(Extras.Events).length)
-            .then(length => eventsLength = length)
-        }
     return (
         <div className="navBar">
             <IconButton
@@ -78,17 +65,19 @@ class NavBarContainer extends React.Component {
             </IconMenu>
             {this.props.user !== "none" ?
             <Badge
-            badgeContent={eventsLength}
+            badgeContent={Object.keys(this.props.user.Extras.Events).length || 0}
             secondary={true}
+            badgeStyle={{top: 12, right: 12}}
             >
-                <MapsNearMe />
+                <IconButton
+                containerElement={<Link to="/login" />}>
+                    <MapsNearMe />
+                </IconButton>
             </Badge>
+
             :
             null
         }
-            {/* <IconButton
-            containerElement={<Link to="/" />}
-            ></IconButton> */}
         </div>
     )
 }

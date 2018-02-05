@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 export default function SingleMeetupPage(props){
-    console.log("CurrentThingL ", props.currentThing)
     const { currentThing } =  props
     return(
         <div>
@@ -20,7 +19,7 @@ export default function SingleMeetupPage(props){
             }
             <h3>Address: {currentThing.location}</h3>
             <h3>Phone: {currentThing.phone}</h3>
-            <h4><a href={currentThing.url}>Site</a></h4>
+            <h4><a href={currentThing.url} target="_blank">Site</a></h4>
         </div>
     )
 }

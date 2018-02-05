@@ -126,6 +126,7 @@ h1 {
 	margin-left: -4%;
 	flex-direction: row;
 	justify-content: flex-end;
+	align-items: baseline;
 	width: 100vw;
 	height: 5vh;
 }
