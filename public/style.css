@@ -223,10 +223,15 @@ body {
 .flexbox .container {
   display: -webkit-box;
   display: -ms-flexbox;
+  
   display: flex;
   background: #eee;
   overflow: auto;
 }
+
+/* img {
+	max-width: 100%;
+} */
 
 .flexbox .container .col {
   flex: 1;
@@ -237,9 +242,13 @@ body {
   .container {
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+	display: flex;
+	max-width: 100%;
 	flex-flow: column;
 	overflow: auto;
+  }
+  * {
+	max-width: 100%
   }
 }
 
