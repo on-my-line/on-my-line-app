@@ -83,6 +83,7 @@
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "topojson-client": "^3.0.0",
+    "twilio": "^3.11.2",
     "yelp-fusion": "^2.0.3"
   },
   "devDependencies": {

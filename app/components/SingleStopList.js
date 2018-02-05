@@ -41,6 +41,7 @@ const mapState = state => {
 };
 
 class SingleStopList extends Component {
+	
 	render() {
 		if (this.props.singleTrainStops) {
 			const { stop, singleTrainStops, line } = this.props
@@ -56,7 +57,6 @@ class SingleStopList extends Component {
 			let googleThings = this.props.google.filter(thing => {
 				return thing.stopId === stop
 			})
-			console.log("STOP: ", stop)
 			return <div style={styles.root}>
 					<GridList cellHeight={180} style={styles.gridList}>
 						<Subheader>

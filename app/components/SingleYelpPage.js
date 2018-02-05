@@ -4,6 +4,8 @@ import { getCurrentUser } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUserExtras } from '../../fire/refs'
+import axios from 'axios'
+import FlatButton from 'material-ui/FlatButton/FlatButton';
 
 const mapState = state => ({
     user: state.user
@@ -22,6 +24,7 @@ class SingleYelpPageClass extends React.Component {
     this.state = {}
     
     this.handleAddEvent = this.handleAddEvent.bind(this)
+    this.shareWithAFriend = this.shareWithAFriend.bind(this)
     }
 
     componentDidMount() {
@@ -33,6 +36,11 @@ class SingleYelpPageClass extends React.Component {
         const currentThing = this.props.currentThing
         firebase.database().ref(`Users/${this.props.user.uid}/Events/`)
         .push({Yelp: currentThing})
+    }
+
+    shareWithAFriend(reqBody){
+        console.log("Sending SMS")
+        axios.post('/sms', reqBody)
     }
 
     // handleClick(){
@@ -67,6 +75,10 @@ class SingleYelpPageClass extends React.Component {
             {currentThing.img? <img src={currentThing.img}/> : <img src=""/>}
             <h3>Address: {currentThing.location}</h3>
             <h3>Phone: {currentThing.phone}</h3>
+            <FlatButton
+            label="Share with a Friend"
+            onClick={this.shareWithAFriend({toNumber: 'PUT IN A PHONE NUMBER', url: currentThing.url, message: "Hey Sierra check this out!"})}
+            />
         </div>
     )
 
