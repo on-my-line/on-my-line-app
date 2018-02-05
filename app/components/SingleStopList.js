@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GridList, GridTile } from "material-ui/GridList";
 //import { setStop } from '../store'
 import { blue500, red500, greenA200 } from "material-ui/styles/colors";
@@ -56,14 +56,14 @@ class SingleStopList extends Component {
 			let googleThings = this.props.google.filter(thing => {
 				return thing.stopId === stop
 			})
-
+			console.log("STOP: ", stop)
 			return <div style={styles.root}>
 					<GridList cellHeight={180} style={styles.gridList}>
 						<Subheader>
 							{`Things to do near: ${singleStop[0].properties.STOP_NAME}`}
-							<NavLink to={`/${line}`}>
+							<Link to={`/${line}`}>
 								<HomeIcon color={red500} hoverColor={greenA200} />
-							</NavLink>
+							</Link>
 						</Subheader>
 						{yelpThings.map(thing => (
 							<GridTile
@@ -76,20 +76,20 @@ class SingleStopList extends Component {
 									</IconButton>
 								}
 							>
-								<NavLink to={`/${line}/${stop}/yelp/${thing.id}`}>
+								<Link to={`/${line}/${stop}/yelp/${thing.id}`}>
 									{thing.img ? (
 										<img src={thing.img} />
 									) : (
 										<img src="https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no" />
 									)}
-								</NavLink>
+								</Link>
 							</GridTile>
 						))}
 						{meetupThings.map(thing => (
 							<GridTile
 								key={thing.id}
 								title={thing.name}
-								subtitle={<span>Rating: {thing.rating}</span>}
+								subtitle={<span>When: {thing.date}</span>}
 								actionIcon={
 									<IconButton>
 										<StarBorder color="white" />
