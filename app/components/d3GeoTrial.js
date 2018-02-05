@@ -5,13 +5,14 @@ import { NavLink } from 'react-router-dom'
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
-import { setStop, fetchYelpThunk, fetchMeetupThunk } from '../store'
+import { setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk } from '../store'
 
 
 
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
   yelp: state.yelp,
+  google: state.google,
   singleRoute: state.singleRoute,
   singleTrainStops: state.singleTrainStops, 
   stop: state.stop
@@ -26,6 +27,9 @@ const mapDistpatchToProps = dispatch => {
     },
     fetchMeetup(arrayOfStops, callback){
       dispatch(fetchMeetupThunk(arrayOfStops, 400, callback))
+    },
+    fetchGoogle(arrayOfStops, callback){
+      dispatch(fetchGoogleThunk(arrayOfStops, 400, callback))
     }
   }
 }
@@ -306,8 +310,15 @@ class CongressionalDistrict extends Component {
         centered = d
 
         d3.queue(2)
-        .defer( (callback) => { mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
-        .defer( (callback) => { mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
+        .defer( (callback) => {
+          mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
+        })
+        .defer( (callback) => {
+          mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
+        })
+        .defer( (callback) => {
+          mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback)
+        })
         .awaitAll(function(error) {
           if (error) throw error
 
