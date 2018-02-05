@@ -17,7 +17,6 @@ const lon = userInputSplit[0]
 const lat = userInputSplit[1]
 const rad = userInputSplit[2]
 const type = 'museum'
-console.log(rad)
 
 axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${type}&location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
 //only one type can be searched at a time. 
@@ -60,7 +59,27 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${t
             )
         })
         res.json(museumThings)
+        //return museumThings
     })
+    // .then(museumThings => {
+    // promiseArray = museumThings.map(thing => {
+    //     if(thing.img){
+    //         photoId = thing.img.photo_reference
+    //         photoWidth = thing.img.width
+    //         let promise = axios.get(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${photoWidth}&photoreference=${photoId}&key=${GOOGLE_PLACES_API_KEY}`)
+    //         .then(response => response.data)
+    //         return promise
+    //     }
+    //     else{ return null}
+    // })
+    // let photos = Promise.all(promiseArray)
+    // .then((resolvedPromiseArray) => {
+    //     museumThings.forEach((elem,index) => {
+    //         elem.img = resolvedPromiseArray[index]
+    //     })
+    //     res.send(museumThings)
+    // })
+    // })
 })
 .catch(next)
 })
