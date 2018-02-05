@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
@@ -8,7 +9,7 @@ const auth = firebase.auth()
 const emailProvider = new firebase.auth.EmailAuthProvider()
 
 
-export default class SignUp extends React.Component {
+class SignUpClass extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -39,8 +40,8 @@ export default class SignUp extends React.Component {
             user.updateProfile({
                 displayName: disName
             })
-            console.log(user)
         })
+        .then(() => this.props.history.push(`/`))
         .catch(console.error)
     }
         // .then((user) => {
@@ -50,7 +51,7 @@ export default class SignUp extends React.Component {
 
     render() {
         return(
-            <div>
+            <div className="center-screen fade">
                 <h1> Sign Up </h1>
                 <form name="sign-up-form" onSubmit={this.handleClick}>
                 <TextField
@@ -77,3 +78,7 @@ export default class SignUp extends React.Component {
         )
     }
 }
+
+const SignUp = withRouter(SignUpClass)
+
+export default SignUp
