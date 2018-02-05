@@ -1,24 +1,18 @@
 import axios from 'axios'
 import history from '../history'
 
-function delay(time) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time)
-    })
-}
+const SET_GOOGLE_THINGS = 'SET_GOOGLE_THINGS'
 
-const SET_MEETUP_THINGS = 'SET_MEETUP_THINGS'
+const defaultGoogle = []
 
-const defaultMeetup = []
+const setGoogleThings = googleThings => ({ type: SET_GOOGLE_THINGS, googleThings })
 
-const setMeetupThings = meetupThings => ({ type: SET_MEETUP_THINGS, meetupThings })
-
-export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
+export const fetchGoogleThunk = (arrayOfStops, rad = 400, callback) =>
     dispatch => {
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
             const stopId = stopObj.stopId
-            const promise = delay(400*i).then(() => axios.get(`/meetup/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`))
+            const promise = axios.get(`/googlePlaces/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`)
                 .then(response => {
                     response.data.forEach(thing => {
                         thing.stopId = stopId
@@ -29,13 +23,14 @@ export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
                 })
             Promise.all(fetchAllPromiseArray)
                 .then(resolvedArray => {
-                    let allMeetupThings = []
-                    resolvedArray.forEach(meetupResponse => {
-                        allMeetupThings = [...allMeetupThings, ...meetupResponse.data]
+                    let allGoogleThings = []
+                    resolvedArray.forEach(googleResponse => {
+                       
+                        allGoogleThings = [...allGoogleThings, ...googleResponse.data]
                     })
                     let alreadyFound = {}
                     let uniqueThings = []
-                    allMeetupThings.forEach(obj => {
+                    allGoogleThings.forEach(obj => {
                         let name = obj.id
                         if (!alreadyFound[name]) {
                             alreadyFound[name] = true
@@ -44,18 +39,18 @@ export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
                     })
                     return uniqueThings
                 })
-                .then(uniqueMeetupThings =>
-                    dispatch(setMeetupThings(uniqueMeetupThings)))
+                .then(uniqueGoogleThings =>
+                    dispatch(setGoogleThings(uniqueGoogleThings)))
                 .then(() => {
                     callback(null)
                 })
                 .catch(err => console.log(err))
         }
 
-export default function (state = defaultMeetup, action) {
+export default function (state = defaultGoogle, action) {
             switch (action.type) {
-                case SET_MEETUP_THINGS:
-                let allthings = [...state, ...action.meetupThings]
+                case SET_GOOGLE_THINGS:
+                let allthings = [...state, ...action.googleThings]
                 let alreadyFound = {}
                 let uniqueThings = []
                 allthings.forEach(obj => {

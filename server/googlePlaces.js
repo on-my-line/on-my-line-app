@@ -17,9 +17,8 @@ const lon = userInputSplit[0]
 const lat = userInputSplit[1]
 const rad = userInputSplit[2]
 const type = 'museum'
-console.log(rad)
 
-axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
+axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${type}&location=${lon},${lat}&radius=${rad}&key=${GOOGLE_PLACES_API_KEY}`)
 //only one type can be searched at a time. 
 // amusement_park
 // aquarium
@@ -32,37 +31,40 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location
 // spa
 // shopping_mall
 // zoo
-.then(response => response.data.results)
-.then(data => {
-    const placesThings = data.filter(elem => elem.photos)
+.then(response => response.data.results)//response without any info
+.then((results)=> {
+    promiseArray = results.map(elem=>{
+       let promise = axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${elem.place_id}&key=${GOOGLE_PLACES_API_KEY}`)
+        .then(response => response.data)
+       return promise
+    })
+    let data = Promise.all(promiseArray)
+    .then(resolvedPromiseArray => {
+    const museumThings = resolvedPromiseArray.filter(elem => elem.result.website)
     .map(elem => {
-                const date = new Date(elem.time)
-                let month = date.getMonth()
-                let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec']
-                month = months[month]
-                let day = date.getDay()
-                let days = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
-                day = days[day]
-                let min = date.getMinutes()
-                if(!min) min = '00'
-                else if(min.length<2) min = '0'+ min
+        if(elem.result.photos){
+            photoId = elem.result.photos[0].photo_reference
+            photoWidth = elem.result.photos[0].width
+        }
             return (
                 {
-                    id: elem.id,
-                    name: elem.name,
-                    place_id: elem.place_id,
-                    //url: elem.event_url,
-                    lat: elem.geometry.location.lat,
-                    lon: elem.geometry.location.lng,
-                    //location: (elem.venue.address_2) ? elem.venue.name + ', ' + elem.venue.address_1 + ' ' + elem.venue.address_2 + ', ' + elem.venue.city + ' NY' : elem.venue.name + ', ' + elem.venue.address_1 + ', ' + elem.venue.city + ' NY',
-                    //date: day + ", " + month + " " + date.getDate() + ", " + date.getFullYear(), //in datetime form
-                    //start_time: date.getHours() + ':' + min,
-                    img: elem.photos,
+                    id: elem.result.id,
+                    name: elem.result.name,
+                    place_id: elem.result.place_id,
+                    category: elem.result.types,
+                    url: elem.result.website,
+                    lat: elem.result.geometry.location.lat,
+                    lon: elem.result.geometry.location.lng,
+                    location: elem.result.formatted_address,
+                    phone: elem.result.formatted_phone_number,
+                    time:(elem.result.opening_hours) ? elem.result.opening_hours.weekday_text : null,
+                    img: (elem.result.photos) ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${photoWidth}&photoreference=${photoId}&key=${GOOGLE_PLACES_API_KEY}`   : null,
                 }
             )
         })
-        res.json(data)
+        res.json(museumThings)
     })
+})
 .catch(next)
 })
 module.exports = router

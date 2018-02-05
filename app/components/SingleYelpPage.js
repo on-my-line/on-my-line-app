@@ -56,6 +56,7 @@ class SingleYelpPageClass extends React.Component {
         console.log("CurrentThingL ", this.props.currentThing)
         const { currentThing } =  this.props
         return(
+
         <div>
             <h1><a targer="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
             {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
@@ -68,6 +69,7 @@ class SingleYelpPageClass extends React.Component {
             <h3>Phone: {currentThing.phone}</h3>
         </div>
     )
+
     }
 }
 

@@ -6,6 +6,7 @@ export default function SingleMeetupPage(props){
     const { currentThing } =  props
     return (
         <div>
+
 		    <h1><a targer="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
 			{currentThing.group ? <h2>Host: {currentThing.group}</h2> : ""}
 			<img src={currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"} />
@@ -17,6 +18,7 @@ export default function SingleMeetupPage(props){
 			{currentThing.description ? <div><h2>Description: </h2>
 			<div dangerouslySetInnerHTML={{ __html: currentThing.description }} />
 			</div> : ""}
+
         </div>
     )
 }
