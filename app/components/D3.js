@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
-// import allRoutes from '../../allRoutes'
-// import allStops from '../../allStops'
 import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
 import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
@@ -32,7 +30,7 @@ class D3Trial extends Component {
     return (
         <div className="scaling-svg-container">
             <div id="mapcontainer" >
-              <CongressionalDistricts id="D3Map" width={1280} height={960} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
+              <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} nycBoroughs={nycBoroughs} color={color[lineParam]}/>
             </div>
         </div>
     )

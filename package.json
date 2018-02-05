@@ -50,6 +50,8 @@
     "cookie-session": "^2.0.0-alpha.1",
     "d3": "^4.12.2",
     "d3-queue": "^3.0.7",
+    "d3-request": "^1.0.6",
+    "d3-svg-legend": "^2.25.4",
     "d3-tip": "^0.7.1",
     "enzyme": "^2.5.1",
     "express": "^4.14.0",
