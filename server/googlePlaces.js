@@ -48,6 +48,7 @@ axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?type=${t
                     id: elem.result.id,
                     name: elem.result.name,
                     place_id: elem.result.place_id,
+                    category: elem.result.types,
                     url: elem.result.website,
                     lat: elem.result.geometry.location.lat,
                     lon: elem.result.geometry.location.lng,

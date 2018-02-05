@@ -4,6 +4,7 @@ import axios from 'axios'
 import OneItemMap from './OneItemMap'
 import SingleYelpPage from './SingleYelpPage'
 import SingleMeetupPage from './SingleMeetupPage'
+import SingleGooglePage from './SingleGooglePage'
 import Marker from './Marker'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
@@ -14,6 +15,7 @@ const mapState = (state) => {
         stop: state.stop,
         yelp: state.yelp,
         meetup: state.meetup,
+        googleThing: state.google,
         singleTrainStops: state.singleTrainStops,
     }
 }
@@ -36,6 +38,11 @@ export class OneItemPage extends Component {
                 return elem.id === thingId
             })
         } 
+        if(type === 'google'){
+            currentThing = this.props.googleThing.find(elem => {
+                return elem.id === thingId
+            })
+        } 
         //console.log(currentThing)
         return (
             <div>
@@ -44,6 +51,9 @@ export class OneItemPage extends Component {
             }
             {(type === 'meetup')?
             <SingleMeetupPage currentThing={currentThing}/>:''
+            }
+            {(type === 'google')?
+            <SingleGooglePage currentThing={currentThing}/>:''
             }
             {/* --------------- MAP ---------------- */}
                 <OneItemMap google={this.props.google} currentStop={currentStop}>

@@ -12,7 +12,7 @@ export const fetchGoogleThunk = (arrayOfStops, rad = 400, callback) =>
         const fetchAllPromiseArray = []
         arrayOfStops.forEach((stopObj, i) => {
             const stopId = stopObj.stopId
-            const promise = delay(400*i).then(() => axios.get(`/googlePlaces/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`))
+            const promise = axios.get(`/googlePlaces/${stopObj.coordinates[1]}_${stopObj.coordinates[0]}_${rad}`)
                 .then(response => {
                     response.data.forEach(thing => {
                         thing.stopId = stopId
@@ -23,8 +23,9 @@ export const fetchGoogleThunk = (arrayOfStops, rad = 400, callback) =>
                 })
             Promise.all(fetchAllPromiseArray)
                 .then(resolvedArray => {
-                    let allgoogleThings = []
+                    let allGoogleThings = []
                     resolvedArray.forEach(googleResponse => {
+                       
                         allGoogleThings = [...allGoogleThings, ...googleResponse.data]
                     })
                     let alreadyFound = {}
@@ -39,7 +40,7 @@ export const fetchGoogleThunk = (arrayOfStops, rad = 400, callback) =>
                     return uniqueThings
                 })
                 .then(uniqueGoogleThings =>
-                    dispatch(setMeetupThings(uniqueGoogleThings)))
+                    dispatch(setGoogleThings(uniqueGoogleThings)))
                 .then(() => {
                     callback(null)
                 })

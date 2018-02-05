@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-export default function SingleMeetupPage(props){
+export default function SingleGooglePage(props){
     console.log("CurrentThingL ", props.currentThing)
     const { currentThing } =  props
     return(
         <div>
             <h1>{currentThing.name}</h1>
             {(currentThing.Time)?
-                <div><h2>Opening Times: {currentThing.time}</h2>: ""
+                <h2>Opening Times: {currentThing.time}</h2>: ""
             }
             <img src={currentThing.img}/>
             <h3>Address: {currentThing.location}</h3>

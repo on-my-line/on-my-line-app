@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 export default function SingleYelpPage(props){
-    console.log("CurrentThingL ", props.currentThing)
     const { currentThing } =  props
     return(
         <div>
@@ -9,7 +8,6 @@ export default function SingleYelpPage(props){
             <h2>Rating: {currentThing.rating}</h2>
             <h2>Price: {currentThing.price}</h2>
             {currentThing.category.map(type => {
-                console.log("CATEGORY ", type)
                 return <h3>{type}</h3>
             })
             }    
