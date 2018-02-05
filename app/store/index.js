@@ -25,7 +25,7 @@ const reducer = combineReducers(
     singleTrainStops,
     singleRoute,
     userLine,
-    loading
+    loading,
     user
   })
 

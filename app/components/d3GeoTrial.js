@@ -227,7 +227,7 @@ class CongressionalDistrict extends Component {
       .append("path")
       .attr("d", path)
       .attr("fill", "none")
-      .attr("stroke", "rgba(66, 73, 73, 0.6)")
+      .attr("stroke", "#212121")
       .attr("stroke-width", "0.2")
 
       const routes = g
