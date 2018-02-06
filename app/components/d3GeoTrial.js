@@ -5,6 +5,7 @@ import React, { Component } from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
+import {Spinner} from '../../spin.js';
 import { setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk } from '../store'
 
 
@@ -39,6 +40,7 @@ class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
+    this.drawMap = this.drawMap.bind(this)
     // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
@@ -62,8 +64,7 @@ class CongressionalDistrict extends Component {
     )
   }
 
-
-  componentDidMount() {
+  drawMap() {
     const node = this.node
     const mySelf = this
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
@@ -73,6 +74,7 @@ class CongressionalDistrict extends Component {
     // const height = 2000
     const width = d3.select("#mapcontainer").node().clientWidth
     const height = d3.select("#mapcontainer").node().clientHeight
+
 
     let stopsTip = d3Tip()
       .attr("class", "stopsTip")
@@ -240,11 +242,35 @@ class CongressionalDistrict extends Component {
     .attr("x", 0)
     .attr("y", 0)
 
+    let opts = {
+        lines: 13, // The number of lines to draw
+        length: 15, // The length of each line
+        width: 7, // The line thickness
+        radius: 20, // The radius of the inner circle
+        scale: 1, // Scales overall size of the spinner
+        corners: 0.8, // Corner roundness (0..1)
+        color: '#ffffff', // CSS color or array of colors
+        fadeColor: 'transparent', // CSS color or array of colors
+        opacity: 0.25, // Opacity of the lines
+        rotate: 21, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        className: 'spinner', // The CSS class to assign to the spinner
+        top: '50%', // Top position relative to parent
+        left: '50%', // Left position relative to parent
+        shadow: 'none', // Box-shadow for the lines
+        position: 'absolute' // Element positioning
+    }
+    let spinner = new Spinner(opts).spin(d3.select("#mapcontainer").node());
+
     d3.queue()
       .defer(d3.json, "nyc-streets.json")
       .awaitAll(function(error, results) {
       if (error) throw error
-
+      spinner.stop()
       const map = g
       .append("g")
       .attr("id", "nycBoroughs")
@@ -342,7 +368,6 @@ class CongressionalDistrict extends Component {
     }
 
     const clicked = function(d, thisStop) {
-
         d3.selectAll("g#stopName text").remove()
         d3.selectAll("g#location circle").remove()
         d3.selectAll("g#yelp circle").remove()
@@ -367,7 +392,7 @@ class CongressionalDistrict extends Component {
         .defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .awaitAll(function(error) {
           if (error) throw error
-          
+          spinner.stop()
           const location = d3.select("g")
           .append("g")
           .attr("id", "location")
@@ -539,7 +564,13 @@ class CongressionalDistrict extends Component {
         .style("r", r)
         // .style("stroke-opacity", o)
         .style("stroke-width", w / 3  + "px")
+
+      spinner.spin(d3.select("#mapcontainer").node())
     }
+  }
+
+  componentDidMount() {
+    this.drawMap()
   }
 
 
