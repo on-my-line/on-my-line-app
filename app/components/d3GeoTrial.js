@@ -6,7 +6,7 @@ import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
 import {Spinner} from '../../spin.js';
-import { setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk } from '../store'
+import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 
 
@@ -23,15 +23,17 @@ const mapDistpatchToProps = dispatch => {
   return{
     setCurrentStop: stop => dispatch(setStop(stop))
     ,
-    fetchYelp(arrayOfStops, callback) {
-      return dispatch(fetchYelpThunk(arrayOfStops, 400, callback))
-    },
-    fetchMeetup(arrayOfStops, callback){
-      dispatch(fetchMeetupThunk(arrayOfStops, 400, callback))
-    },
-    fetchGoogle(arrayOfStops, callback){
-      dispatch(fetchGoogleThunk(arrayOfStops, 400, callback))
-    }
+    setCurrentLine: line => dispatch(setLine(line))
+    ,
+    fetchSingleRoute: line => dispatch(fetchSingleRouteThunk(line))
+    ,
+    fetchSingleStops: line => dispatch(fetchSingleStopsThunk(line))
+    ,
+    fetchYelp(arrayOfStops, callback) { dispatch(fetchYelpThunk(arrayOfStops, 400, callback)) }
+    ,
+    fetchMeetup(arrayOfStops, callback) {dispatch(fetchMeetupThunk(arrayOfStops, 400, callback))}
+    ,
+    fetchGoogle(arrayOfStops, callback) {dispatch(fetchGoogleThunk(arrayOfStops, 400, callback))}
   }
 }
 
@@ -45,12 +47,22 @@ class CongressionalDistrict extends Component {
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
-  handleEventClick(data, event) {
+  handleEventClick(data, event, additionalLine) {
+    let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
     this.props.setCurrentStop(currentStop)
-    this.props.history.push(
-      `/${this.props.singleRoute[0].properties.route_id}/${data.stopId}/${event}/${data.id}`
-    )
+    // this.props.fetchSingleRoute(line)
+    if(additionalLine) {
+      this.props.setCurrentLine(additionalLine)
+      this.props.fetchSingleStops(line)
+      .then(() => this.props.history.push(
+      `/${line}/${data.stopId}/${event}/${data.id}`
+      ))  
+    } else {
+      this.props.history.push(
+      `/${line}/${data.stopId}/${event}/${data.id}`
+      )
+    }
   }
 
 
@@ -136,19 +148,14 @@ class CongressionalDistrict extends Component {
 
     svg.selectAll("g").remove()
 
-    let combinedRoute;
-    if(this.props.singleRoute[0].geometry.type === "MultiLineString") {
-      combinedRoute = this.props.singleRoute[0]
-    } else {
-      combinedRoute = {
-        type: "Feature",
-        geometry: { type: "LineString", coordinates: this.props.singleRoute.reduce((a, b) => [...a, ...b.geometry.coordinates],[])},
-        properties: { Division: "IND", Line: "Crosstown", route_id: "G" }
-      }
-    }
+    let combinedRoute = [...this.props.singleRoute, ...this.props.additionalRoute]
 
+    let combinedRouteBounds = combinedRoute.map(route => path.bounds(route))
+
+    let b = combinedRouteBounds.reduce((a, b) => {
+      return [[Math.min(a[0][0], b[0][0]), Math.min(a[0][1], b[0][1])], [Math.max(a[1][0], b[1][0]), Math.max(a[1][1], b[1][1])]]
+    })
     // geo.path.bounds() output [[left, bottom], [right, top]]
-    let b = path.bounds(combinedRoute)
     let s = 0.9 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height)
     let t = [ (width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 ]
 
@@ -348,6 +355,55 @@ class CongressionalDistrict extends Component {
       .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
       .duration(750)
 
+      if(mySelf.props.additionalStops) {
+        const additionalRoute = g
+        .append("g")
+        .attr("id", "additionalRoutes")
+        .selectAll(".route")
+        .data(mySelf.props.additionalRoute)
+
+        additionalRoute
+        .enter()
+        .append("path")
+        .attr("class", data => data.properties.route_id)
+        .attr("d", path)
+        .style("stroke", mySelf.props.additionalColor)
+        .style("stroke-width", "6px")
+        .style("fill", "none")
+
+        const additionalStops = g
+        .append("g")
+        .attr("id", "additionalStops")
+        .selectAll(".stops")
+        .attr("class", "stops")
+        .data(mySelf.props.additionalStops)
+
+        additionalStops
+        .enter()
+        .append("circle")
+        .attr("cx", function(data) { return projection(data.geometry.coordinates)[0] })
+        .attr("cy", function(data) { return projection(data.geometry.coordinates)[1] })
+        .attr("fill", "rgba(255, 255, 255)")
+        .on("mouseover", (data) => {
+          keyTip.show(data)
+          stopsTip.show(data)
+        })
+        .on("mouseout", (data) => {
+          stopsTip.hide(data)
+          keyTip.hide(data)
+        })
+        .on("dblclick", (data) => mySelf.handleClick(data))
+        .on("click", function(data) {
+          let thisStop = this
+          return clicked(data, thisStop)
+        })
+        .transition()
+        .styleTween("r", () => d3.interpolate("0", "8")) //Async
+        .styleTween("stroke", () => d3.interpolate("none", mySelf.props.additionalColor))
+        .styleTween("stroke-width", () => d3.interpolate("0px", "3px"))
+        .duration(750)
+      }
+
     })
 
 
@@ -376,7 +432,7 @@ class CongressionalDistrict extends Component {
       stopsTip.hide()
       var x, y, o, w, r
       if (d && centered !== d || centered === d && k === 1) {
-        
+        spinner.spin(d3.select("#mapcontainer").node())
         var centroid = path.centroid(d)
         x = projection(d.geometry.coordinates)[0]
         y = projection(d.geometry.coordinates)[1]
@@ -452,7 +508,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             yelpTip.hide()
-            mySelf.handleEventClick(data, 'yelp')
+            mySelf.handleEventClick(data, 'yelp', mySelf.props.additionalLine)
           })
           .transition()
           .attr("transform", function(data) {
@@ -485,7 +541,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             meetupTip.hide()
-            mySelf.handleEventClick(data, 'meetup')})
+            mySelf.handleEventClick(data, 'meetup', mySelf.props.additionalLine)})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#event)")
@@ -517,7 +573,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             museumTip.hide()
-            mySelf.handleEventClick(data, 'googleplaces')})
+            mySelf.handleEventClick(data, 'googleplaces', mySelf.props.additionalLine)})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#museum)")
@@ -552,20 +608,19 @@ class CongressionalDistrict extends Component {
         .attr( "transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
           // .style("stroke-width", 0.02 / k + "px") 
 
-      d3.selectAll("g#routes path")
+      d3.selectAll("g#routes path, g#additionalRoutes path")
         .transition()
         .duration(750)
         .style("stroke-opacity", o)
         .style("stroke-width", w  + "px")
 
-      d3.selectAll("g#stops circle")
+      d3.selectAll("g#stops circle, g#additionalStops circle")
         .transition()
         .duration(750)
         .style("r", r)
         // .style("stroke-opacity", o)
         .style("stroke-width", w / 3  + "px")
 
-      spinner.spin(d3.select("#mapcontainer").node())
     }
   }
 
@@ -573,13 +628,12 @@ class CongressionalDistrict extends Component {
     this.drawMap()
   }
 
+ componentDidUpdate(prevProps) {
+    if(prevProps.additionalStops !== this.props.additionalStops) {
+      this.drawMap()
+    }
+  }
 
-
-  // componentWillReceiveProps(nextProps) {
-  //     if (nextProps.singleRoute !== this.props.singleRoute) {
-  //       this.renderMap(nextProps)
-  //     }
-  // }
 
   // shouldComponentUpdate () {
   //   return false

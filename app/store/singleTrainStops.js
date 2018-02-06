@@ -5,7 +5,7 @@ const SET_SINGLE_STOPS = "SET_SINGLE_STOPS"
 
 const defaultStops = []
 
-const setSingleStops = singleStops => ({type: SET_SINGLE_STOPS, singleStops})
+export const setSingleStops = singleStops => ({type: SET_SINGLE_STOPS, singleStops})
 
 export const fetchSingleStopsThunk = currentLine => 
     dispatch => 
