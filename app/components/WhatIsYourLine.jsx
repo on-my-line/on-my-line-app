@@ -8,15 +8,11 @@ import firebase from '../../fire'
 import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
 const auth = firebase.auth()
 
-<<<<<<< HEAD
-const mapState = state => ({ userLine: state.userLine})
-=======
 
 const mapState = state => ({
   userLine: state.userLine,
   line: state.line,
 })
->>>>>>> e276f718d27099d59b24a3e0ea5099066472c7df
 
 const mapDispatch = dispatch => ({
   handleChange: value => {
@@ -49,10 +45,6 @@ class WhatIsYourLineAndStop extends React.Component {
 
 //TODO PLACE FIREBASE LOGIC IN REFS FILE 
 
-<<<<<<< HEAD
-  handleLineChange(event, index, value) {
-    this.setState({userLine: value})
-=======
   componentWillMount() {
     // let lines = []
     // firebase
@@ -70,7 +62,6 @@ class WhatIsYourLineAndStop extends React.Component {
   }
 
   handleLineChange(event) {
->>>>>>> e276f718d27099d59b24a3e0ea5099066472c7df
     this.props.setCurrentLine(event.target.innerHTML)
     //this.setState({userLine:value})
   }
@@ -98,27 +89,6 @@ class WhatIsYourLineAndStop extends React.Component {
 
   render() {
     return (
-<<<<<<< HEAD
-      <div className='center-screen fade'>
-        { this.props.userLine ? "Or go elsewhere ..." : null }
-        <SelectField
-            className="fade"
-            name="line"
-            floatingLabelText="Where to go..."
-            value={this.state.userLine}
-            onChange={this.handleLineChange}
-            maxHeight={200}
-          >
-            {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
-        </SelectField>
-        {this.state.userLine ?
-        <FlatButton label="Let's go!" 
-          onClick={this.handleClick()} 
-        />
-        :
-        null }
-      </div>
-=======
         <div className='center-screen fade'>
            { this.props.line ? "Or go elsewhere ..." : null }
           <SelectField
@@ -136,7 +106,6 @@ class WhatIsYourLineAndStop extends React.Component {
             />: null
           }
         </div>
->>>>>>> e276f718d27099d59b24a3e0ea5099066472c7df
     )
   }
 }

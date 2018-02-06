@@ -14,9 +14,7 @@ export const getCurrentUser = () => {
         return auth.onAuthStateChanged(cU => {
             if(!cU) dispatch(getUser("none"))
             else { 
-                getUserExtras(cU.uid)
-                .then(userExtras => cU.Extras=userExtras)
-                .then(() => dispatch(getUser(cU)))
+                dispatch(getUser(cU))
             }
         })
     }

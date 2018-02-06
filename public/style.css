@@ -112,6 +112,11 @@ h1, h2, h3 {
   text-align: center;
 }*/
 
+.your-events {
+	max-height: 35vh;
+	overflow-y: scroll;
+}
+
 .meetupTip {
   line-height: 1;
   font-weight: bold;

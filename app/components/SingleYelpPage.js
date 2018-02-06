@@ -3,19 +3,18 @@ import firebase from '../../fire'
 import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUserExtras } from '../../fire/refs'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
 import Paper from 'material-ui/Paper'
 
 const mapState = state => ({
-    user: state.user
+    user: state.user,
+    stop: state.stop, //id
+    singleTrainStops: state.singleTrainStops
 })
 
 const mapDispatch = dispatch => ({
     getUser() {
         dispatch(getCurrentUser())
-    },
-    addEvent: event => {
-        dispatch(addToUserEvents(event))
     }
 })
 
@@ -31,7 +30,8 @@ class SingleYelpPageClass extends React.Component {
     handleAddEvent() {
         const currentThing = this.props.currentThing
         const userId = this.props.user.uid
-        this.props.addEvent(currentThing, userId)
+        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].name
+        addUserEvent(currentThing, userId, stopName)
     }
 
     // handleClick(){
@@ -59,6 +59,7 @@ class SingleYelpPageClass extends React.Component {
             <a target="_blank" href={currentThing.url}><h1>{currentThing.name}</h1></a>
             {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
             {currentThing.price? <h2>Price: {currentThing.price}</h2> : "" }
+            {this.props.user.uid && <button onClick={this.handleAddEvent}>Add to your events!</button>}
             {currentThing.category.map(type => {
                 return <p key={type}>#{type}</p>
             })}
