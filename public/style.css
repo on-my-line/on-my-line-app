@@ -243,7 +243,6 @@ body {
     display: -webkit-box;
     display: -ms-flexbox;
 	display: flex;
-	max-width: 100%;
 	flex-flow: column;
 	overflow: auto;
   }
