@@ -14,7 +14,8 @@ class SignUpClass extends React.Component {
         this.state = {
             disName: '',
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -41,7 +42,10 @@ class SignUpClass extends React.Component {
             })
         })
         .then(() => this.props.history.push(`/`))
-        .catch(console.error)
+        .catch(err => {
+            console.log(err)
+            this.setState({error:err.message})
+        })
     }
     render() {
         return(
@@ -66,8 +70,10 @@ class SignUpClass extends React.Component {
                         onChange={this.handleChange} />
                     <div>
                         <FlatButton type="submit" label="Submit" />
+                        <br />
                     </div>
                 </form>
+                <div>{this.state.error}</div>                
             </div>
         )
     }

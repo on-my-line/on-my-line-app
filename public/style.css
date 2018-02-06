@@ -117,6 +117,29 @@ h1, h2, h3 {
 	overflow-y: scroll;
 }
 
+.card-padding {
+	margin-top: 5%;
+	padding: 3%;
+}
+
+.flex-row {
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: col;
+	flex-wrap: wrap;
+}
+
+.card-text {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .meetupTip {
   line-height: 1;
   font-weight: bold;
@@ -132,7 +155,9 @@ h1, h2, h3 {
 	display: flex;
 	background-color: #212121;
 	margin-left: -4%;
+	margin-top: -1%;
 	flex-direction: row;
+	z-index: 1000;
 	justify-content: flex-end;
 	align-items: baseline;
 	width: 100vw;

@@ -64,12 +64,12 @@ export class OneItemPage extends Component {
         } 
         //console.log(currentThing)
         return (
-            <div style={styles.root} id="container">
+            <div className="container">
             {(type === 'yelp')? 
             <SingleYelpPage currentThing={currentThing} style={styles.gridList}/>: ''
             }
             {(type === 'meetup')?
-            <SingleMeetupPage currentThing={currentThing} style={styles.gridList}/>:''
+            <SingleMeetupPage currentThing={currentThing}/>:''
             }
             {(type === 'google')?
             <SingleGooglePage currentThing={currentThing}/>:''

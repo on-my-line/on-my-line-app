@@ -30,31 +30,14 @@ class SingleYelpPageClass extends React.Component {
     handleAddEvent() {
         const currentThing = this.props.currentThing
         const userId = this.props.user.uid
-        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].name
-        addUserEvent(currentThing, userId, stopName)
+        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].properties.STOP_NAME
+        const savedPlace = {stopName: stopName, ...currentThing}
+        addUserEvent(savedPlace, userId)
     }
-
-    // handleClick(){
-    //     if(this.props.line) {
-    //     auth.onAuthStateChanged(user => {
-    //       if(user && !user.isAnonymous) {
-    //           firebase.database().ref(`Users/${user.uid}`)
-    //           .set({line:` ${this.props.line}`})
-    //           .then(() => {
-    //             firebase.database()
-    //             .ref(`Users/${user.uid}/line`)
-    //             .once('value')
-    //             .then(lineVal => this.props.addUserLine(lineVal.val()))
-    //           })
-    //       }
-    //     })
-    //     }
-    //     this.props.history.push(`/${this.props.line}`)
-    //   }
+    
     render() {
         const { currentThing } =  this.props
         return(
-
         <div>
             <a target="_blank" href={currentThing.url}><h1>{currentThing.name}</h1></a>
             {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
