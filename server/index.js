@@ -17,6 +17,7 @@ app.use('/meetup', require('./meetup'))
 app.use('/googlePlaces', require('./googlePlaces'))
 app.use('/stops', require('./stops'))
 app.use('/routes', require('./lines'))
+app.use('/sms', require('./sendSMS'))
 
 app.use(express.static(path.join(__dirname, '../public')))
 
