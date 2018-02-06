@@ -141,7 +141,7 @@ body {
 }
 
 .center-screen {
-	margin-top: 15%;
+	margin-top: 10%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
