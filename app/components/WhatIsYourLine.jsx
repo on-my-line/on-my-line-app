@@ -86,7 +86,6 @@ class WhatIsYourLineAndStop extends React.Component {
   render() {
     return (
         <div className='center-screen fade'>
-           { this.props.line ? "Or go elsewhere ..." : null }
           <SelectField
               className="fade"
               name="line"

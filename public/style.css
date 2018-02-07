@@ -28,6 +28,17 @@ h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
+a {
+	color: white;
+}
+
+.title-img {
+	display: flex;
+	flex-direction: row;
+	overflow-wrap: inherit;
+	flex-wrap: wrap; 
+	justify-content: space-around;
+}
 
 #mapcontainer {
 	bottom: 0;
@@ -293,4 +304,5 @@ body {
 	overflow: auto;
   }
 }
+
 
