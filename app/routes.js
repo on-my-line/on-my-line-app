@@ -10,23 +10,40 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import OneItemPage from './components/OneItemPage'
 import NavBar from './components/NavBar'
+import { getCurrentUser } from './store'
+import { connect } from 'react-redux'
+import { getUserEvents, getUserExtras } from '../fire/refs'
 
-export default class Routes extends Component {
+const mapDispatch = dispatch => ({
+    getUser() {
+        dispatch(getCurrentUser())
+    }
+})
+
+class RoutesClass extends Component {
+
+    componentDidMount() {
+        this.props.getUser()
+    }
+
     render() {
-        return (
-            <div>
-                <Router>
-                    <div>
-                    <NavBar />
-                        <Route exact path='/' component={Home} />
-                        <Route exact path='/login' component={Login} />
-                        <Route exact path='/signup' component={SignUp} />
-                        <Route exact path='/:line/:stopID' component={SingleStopList} />
-                        <Route exact path='/:line' component={D3} />
-                        <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />
-                    </div>
-                </Router>
-            </div>
-        )
+            return (
+                <div>
+                    <Router>
+                        <div>
+                        <NavBar />
+                            <Route exact path='/' component={Home} />
+                            <Route exact path='/login' component={Login} />
+                            <Route exact path='/signup' component={SignUp} />
+                            <Route exact path='/:line/:stopID' component={SingleStopList} />
+                            <Route exact path='/:line' component={D3} />
+                            <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />
+                        </div>
+                    </Router>
+                </div>
+            )
     }
 }
+
+const Routes = connect(null, mapDispatch)(RoutesClass)
+export default Routes

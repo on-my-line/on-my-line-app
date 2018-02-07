@@ -1,19 +1,26 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Redirect} from 'react-router'
+import { connect } from 'react-redux'
 import WhatIsYourLine from './WhatIsYourLine'
 import firebase from '../../fire'
 import Hello from './Hello'
-import UserLineContainer from './UserLine'
-import LogInOut from './LogInOut'
+import UserHome from './UserHome'
 
+const mapState = state => ({user: state.user})
 
-const Home = props => (
-  <div className="center-screen fade">
-    <Hello />
-    <UserLineContainer />
-    <WhatIsYourLine />
-  </div>
-)
+class HomeContainer extends React.Component {
+
+  render() {
+    console.log(this.props)
+    return (
+      <div className="center-screen fade">
+        <Hello />
+        {this.props.user.uid && <UserHome />}
+        <WhatIsYourLine />
+      </div>
+    )
+  }
+}
+
+const Home = connect(mapState)(HomeContainer)
 
 export default Home
