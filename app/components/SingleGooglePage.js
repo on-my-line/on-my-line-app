@@ -5,7 +5,22 @@ import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
-import { addUserEvent } from '../../fire/refs'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
+
+const style = {
+    image: {
+        width: '350px',
+        height: '350px'
+    },
+    div: {
+        display: 'flex',
+        justifyContent: 'center'
+
+    },
+    words: {
+        flexDirection: 'column'
+    }
+}
 
 const mapState = state => ({
     user: state.user, 
@@ -24,12 +39,18 @@ class SingleGooglePageClass extends Component{
             message: ''
         }
 
+        this.handleAddEvent = this.handleAddEvent.bind(this)
         this.openModal = this.openModal.bind(this)
         this.afterOpenModal = this.afterOpenModal.bind(this)
         this.closeModal = this.closeModal.bind(this)
         this.shareWithAFriend = this.shareWithAFriend.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
+    }
+
+    componentDidMount() {
+        getUserExtras(this.props.user.uid)
+            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {
@@ -77,14 +98,14 @@ class SingleGooglePageClass extends Component{
         const { currentThing } =  this.props
         return (
             <div>
-                <div className="title-img">
-                    <img src={currentThing.img}/>
-                    <div>
+                <div style={style.div}>
+                {currentThing.img ? <img src={currentThing.img} style={style.image}/> : <img src="" />}
+                    <div style={style.words}>
                         <h1>{currentThing.name}</h1>
                         {(currentThing.Time) && <h2>Opening Times: {currentThing.time}</h2>}
                         <h3>Address: {currentThing.location}</h3>
                         <h3>Phone: {currentThing.phone}</h3>
-                        <h4><a href={currentThing.url} target="_blank">Site</a></h4>
+                        <a target="_blank" href={currentThing.url}><p>see more</p></a>
                     </div>
                 </div>
             {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}

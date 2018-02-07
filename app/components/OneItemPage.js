@@ -77,6 +77,7 @@ export class OneItemPage extends Component {
             <SingleGooglePage currentThing={currentThing}/>:''
             }
             {/* --------------- MAP ---------------- */}
+            <br/>
             {currentThing &&
                 <OneItemMap google={this.props.google} currentStop={currentStop} style={styles.gridList} >
                     <Marker currentThing={currentThing} />

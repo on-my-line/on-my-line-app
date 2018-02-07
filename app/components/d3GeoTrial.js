@@ -619,6 +619,7 @@ class CongressionalDistrict extends Component {
     if(this.props.yelpBool !== prevProps.yelpBool) {
       let newOpacity = this.props.yelpBool? 1 : 0
       d3.selectAll("g#yelp circle").style("opacity", newOpacity)
+      d3.selectAll("div.yelpTip").style("opacity", newOpacity)
     }
     if(this.props.museumBool !== prevProps.museumBool) {
       let newOpacity = this.props.museumBool? 1 : 0

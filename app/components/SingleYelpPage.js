@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import FontIcon from "material-ui/FontIcon";
 import Modal from 'react-modal'
+import ReactStars from 'react-stars'
 
 const style = {
     image: {
@@ -22,9 +23,13 @@ const style = {
 
     },
     words: {
-        flexDirection: 'column'
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+
     }
 }
+
 
 const mapState = state => ({
     user: state.user,
@@ -108,21 +113,28 @@ class SingleYelpPageClass extends Component {
     render() {
         const { currentThing } = this.props
         return (
-
+            <div>
             <div style={style.div}>
-                {currentThing.img ? <img src={currentThing.img} style={style.image}/> : <img src="" />}
+                <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
                 <div style={style.words}>
                 <h1>{currentThing.name}</h1>
-                {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                {currentThing.rating ? <ReactStars count={5} value={currentThing.rating} half={true} edit={false} size={18} color2={'#ffffff'}/> : ""}
+                </div>
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
                 <p>{currentThing.category.map(type => ` ${type} `)}</p>
                 <h3>Address: {currentThing.location}</h3>
                 <h3>{currentThing.phone}</h3>
                 <a target="_blank" href={currentThing.url}><p>see more</p></a>
+                </div>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
                 />
+            </div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
@@ -175,8 +187,7 @@ class SingleYelpPageClass extends Component {
                         </label>
                     </form>
                 </Modal>
-                </div> 
-            </div>
+                </div>
         )
 
     }

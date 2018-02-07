@@ -5,7 +5,22 @@ import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
-import { addUserEvent } from '../../fire/refs'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
+
+const style = {
+    image: {
+        width: '350px',
+        height: '350px'
+    },
+    div: {
+        display: 'flex',
+        justifyContent: 'center'
+
+    },
+    words: {
+        flexDirection: 'column'
+    }
+}
 
 const mapState = state => ({
     user: state.user, 
@@ -31,6 +46,11 @@ class SingleMeetupPageClass extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.handleAddEvent = this.handleAddEvent.bind(this)
+    }
+
+    componentDidMount() {
+        getUserExtras(this.props.user.uid)
+            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {
@@ -79,8 +99,8 @@ class SingleMeetupPageClass extends Component {
         return (
             <div>
                 <div className="title-img">
-                    <img src={currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"} />
-                    <div>
+                    <img className='single-page-img' src={currentThing.img ? currentThing.img : "http://mikeschinkel.com/images/meetup-logo-300x220.jpg"} />
+              
                         <h3>{currentThing.name}</h3>
                         {currentThing.group && <h3>{currentThing.group}</h3>}
                         {currentThing.price && <h4>${currentThing.price}</h4>}
@@ -88,7 +108,7 @@ class SingleMeetupPageClass extends Component {
                         {<h4>{currentThing.date}</h4>}
                         {<h4>{currentThing.start_time}</h4>}
                         <a target="_blank" href={currentThing.url}>See More!</a>
-                    </div>
+                    
                 </div>
                 {currentThing.phone &&  <h4>{currentThing.phone}</h4>}
                 {currentThing.description &&
