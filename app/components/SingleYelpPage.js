@@ -118,7 +118,9 @@ class SingleYelpPageClass extends Component {
                 <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
                 <div style={style.words}>
                 <h1>{currentThing.name}</h1>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
                 {currentThing.rating ? <ReactStars count={5} value={currentThing.rating} half={true} edit={false} size={18} color2={'#ffffff'}/> : ""}
+                </div>
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
                 <p>{currentThing.category.map(type => ` ${type} `)}</p>
                 <h3>Address: {currentThing.location}</h3>
