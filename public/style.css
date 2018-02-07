@@ -9,7 +9,7 @@
 }
 
 body {
-	background-color: #212121;
+	background-color: #212121c9;
 	color: white;
 	font-family: 'Roboto', sans-serif;
 	margin-bottom: 60px
@@ -49,26 +49,6 @@ h1 {
 	z-index: 100;
 }
 
-#nycStreets {
-	z-index: 200;
-}
-
-#routes{
-	z-index:300;
-}
-
-#stops{
-	z-index:400;
-}
-
-#restaurant {
-	z-index: 500;
-}
-
-.yelp {
-	z-index: 500;
-	
-}
 
 #stopName {
 	background-color: white;
@@ -96,6 +76,16 @@ h1 {
   text-align: center;
 }
 
+.museumTip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(214, 219, 223, 0.9);
+  color: white;
+  border-radius: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+
 /*.yelpTip:after {
   box-sizing: border-box;
   display: inline;
@@ -115,8 +105,38 @@ h1 {
   background: rgba(214, 219, 223, 0.9);
   color: #797D7F;
   border-radius: 10px;
-  z-index: 600;
   text-align: center;
+}
+
+/*.keyTip {
+	background: rgba(0, 0, 0, 0.9);
+	line-height: 1;
+	 padding: 12px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 20px;
+	box-shadow: 5px 5px rgba(66, 73, 73, 0.7);
+}*/
+
+.keyBar {
+	display: flex;
+	/*align-content: space-around;*/
+}
+
+.otherLine {
+	display: flex;
+}
+
+#key p {
+	height: 40px;
+  	line-height: 40px;
+}
+
+#key {
+	display: flex;
+	justify-content: space-between;
+	width: 300px;
+	margin-left: auto;
 }
 
 
@@ -141,7 +161,7 @@ body {
 }
 
 .center-screen {
-	margin-top: 15%;
+	margin-top: 10%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
