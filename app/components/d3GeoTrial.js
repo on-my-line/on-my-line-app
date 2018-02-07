@@ -9,7 +9,6 @@ import {Spinner} from '../../spin.js';
 import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 
-
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
   yelp: state.yelp,
@@ -37,20 +36,21 @@ const mapDistpatchToProps = dispatch => {
   }
 }
 
-
 class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
     this.drawMap = this.drawMap.bind(this)
+    this.state = { showYelp: true }
     // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
   handleEventClick(data, event, additionalLine) {
+    //when I've clicked on a thing, this gives me all the thing stuff in the data, the event is the synthetic event and the additionalLine is the additionalLine
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
-    this.props.setCurrentStop(data)
+    this.props.setCurrentStop(data.stopId)
     // this.props.fetchSingleRoute(line)
     if(additionalLine) {
       this.props.setCurrentLine(additionalLine)
@@ -67,7 +67,6 @@ class CongressionalDistrict extends Component {
 
 
   handleClick(data) {
-
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
     this.props.history.push(
@@ -431,7 +430,7 @@ class CongressionalDistrict extends Component {
         d3.queue(2)
         .defer( (callback) => { mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .defer( (callback) => { mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
-        .defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
+        //.defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .awaitAll(function(error) {
           if (error) throw error
           spinner.stop()
@@ -559,7 +558,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             museumTip.hide()
-            mySelf.handleEventClick(data, 'googleplaces', mySelf.props.additionalLine)})
+            mySelf.handleEventClick(data, 'google', mySelf.props.additionalLine)})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#museum)")
@@ -614,9 +613,22 @@ class CongressionalDistrict extends Component {
     this.drawMap()
   }
 
- componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps, prevState) {
     if(prevProps.additionalStops !== this.props.additionalStops) {
       this.drawMap()
+    }
+    if(this.props.yelpBool !== prevProps.yelpBool) {
+      let newOpacity = this.props.yelpBool? 1 : 0
+      d3.selectAll("g#yelp circle").style("opacity", newOpacity)
+      d3.selectAll("div.yelpTip").style("opacity", newOpacity)
+    }
+    if(this.props.museumBool !== prevProps.museumBool) {
+      let newOpacity = this.props.museumBool? 1 : 0
+      d3.selectAll("g#museum circle").style("opacity", newOpacity)
+    }
+    if(this.props.meetupBool !== prevProps.meetupBool) {
+      let newOpacity = this.props.meetupBool? 1 : 0
+      d3.selectAll("g#meetup circle").style("opacity", newOpacity)
     }
   }
 

@@ -5,8 +5,7 @@ import MenuItem from 'material-ui/MenuItem'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import firebase from '../../fire'
-import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
-import UserLineContainer from './UserLine'
+import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine, setSingleRoute, setSingleStops } from '../store' 
 const auth = firebase.auth()
 
 
@@ -30,8 +29,14 @@ const mapDispatch = dispatch => ({
   },
   setCurrentLine: line => {
     dispatch(setLine(line))
+  },
+  resetSingleRoute: () => {
+    console.log('hello')
+    dispatch(setSingleRoute([]))
+  },
+  resetSingleStops: () => {
+    dispatch(setSingleStops([]))
   }
-
 })
 
 class WhatIsYourLineAndStop extends React.Component {
@@ -47,20 +52,9 @@ class WhatIsYourLineAndStop extends React.Component {
 
 //TODO PLACE FIREBASE LOGIC IN REFS FILE 
 
-  componentWillMount() {
-    // let lines = []
-    // firebase
-    //   .database()
-    //   .ref('Lines')
-    //   .once('value')
-    //   .then(snapshot => {
-    //     for (let keys in snapshot.val()) {
-    //       lines.push(keys)
-    //     }
-    //     this.setState({lines: lines})
-    //   })
-    //   .catch(console.error)
-      
+  componentDidMount() {
+    this.props.resetSingleStops()
+    this.props.resetSingleRoute()
   }
 
   handleLineChange(event) {
@@ -92,7 +86,6 @@ class WhatIsYourLineAndStop extends React.Component {
   render() {
     return (
         <div className='center-screen fade'>
-           { this.props.line ? "Or go elsewhere ..." : null }
           <SelectField
               className="fade"
               name="line"

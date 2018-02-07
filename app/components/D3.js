@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-//import { NavLink } from 'react-router-dom'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
 import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
 import NavBar from './NavBar'
+//Material-ui
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import {List, ListItem} from 'material-ui/List';
+import Toggle from 'material-ui/Toggle';
+import IconYelp from 'material-ui/svg-icons/maps/place'
+import IconMuseum from 'material-ui/svg-icons/action/account-balance'
+import IconMeetup from 'material-ui/svg-icons/action/event'
 
 class D3Trial extends Component {
   constructor(props) {
@@ -15,9 +20,13 @@ class D3Trial extends Component {
     this.state = { 
       additionalLine: "",
       additionalRoute: [], 
-      additionalStops: []
+      additionalStops: [],
+      yelpToggled: true,
+      museumToggled: true,
+      meetupToggled: true
     }
     this.addOtherLine = this.addOtherLine.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
 
   }
 
@@ -36,18 +45,24 @@ class D3Trial extends Component {
     .catch(err => console.error(err))
   }
 
+  handleToggle(event, type) {
+    this.setState({ [`${type}Toggled`]: !this.state[`${type}Toggled`]})
+  }
+
   render() {
     const lineParam = this.props.match.params.line
     const color = {"1": "#EE352E", "2": "#EE352E", "3": "#EE352E", "4": "#00933C", "5": "#00933C", "6": "#00933C", "7": "#B933AD", "A": "#0039A6", "C": "#0039A6", "E": "#0039A6", "B": "#FF6319", "D": "#FF6319", "F": "#FF6319", "M": "#FF6319", "J": "#996633", "Z": "#996633", "N": "#FCCC0A", "Q": "#FCCC0A" , "R": "#FCCC0A", "W": "#FCCC0A", "G": "#6CBE45", "L": "#A7A9AC", "S": "#808183"}
     const otherLines = ["1", "2", "3", "4", "5", "6", "7", "A", "B", "C", "D", "E", "F", "G", "J", "L", "M", "N", "Q", "R", "S", "W", "Z"].filter(line => line !== this.props.match.params.line)
     if(!this.props.singleTrainStops.length || !this.props.singleRoute.length) {
-      return <div/>
+      if(this.props.match.params.line === 'login' || this.props.match.params.line === 'signup') return <div />
+      if(this.props.match.params.line !== 'login') return <h1> Sorry this isn't a valid subway line!</h1>
     }
+
     return (
         <div className="scaling-svg-container">
             <div className="keyBar">
               <SelectField
-                className="fade otherLine"
+                className="SelectField"
                 name="line"
                 floatingLabelText="Choose other line..."
                 value={this.state.additionalLine}
@@ -58,10 +73,29 @@ class D3Trial extends Component {
                   otherLines.map(line => <MenuItem key={line} value={line} primaryText={line} />)
                 }
               </SelectField>
-              <div id="key"><img src='images/museum.svg'/><p>museum</p><img src='images/event.svg'/><p>Meetup</p><img src='images/place.svg'/><p>Yelp</p></div>
+              <List className="list-horizontal-display">
+                <ListItem primaryText="Museum" leftIcon={<IconMuseum />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'museum')} defaultToggled={this.state.museumToggled} />}/>
+                <ListItem primaryText="Yelp" leftIcon={<IconYelp />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'yelp')} defaultToggled={this.state.yelpToggled} />}/>
+                <ListItem primaryText="Meetup" leftIcon={<IconMeetup />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'meetup')} defaultToggled={this.state.meetupToggled} />}/>
+              </List>
             </div>
             <div id="mapcontainer" >
-              <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} additionalRoute={this.state.additionalRoute} additionalStops={this.state.additionalStops} additionalLine={this.state.additionalLine} nycBoroughs={nycBoroughs} color={color[lineParam]} additionalColor={color[this.state.additionalLine]}/> 
+              <CongressionalDistricts 
+                id="D3Map" 
+                width={1280} 
+                height={600} 
+                singleRoute={this.props.singleRoute} 
+                singleTrainStops={this.props.singleTrainStops} 
+                additionalRoute={this.state.additionalRoute} 
+                additionalStops={this.state.additionalStops} 
+                additionalLine={this.state.additionalLine} 
+                nycBoroughs={nycBoroughs} 
+                color={color[lineParam]} 
+                additionalColor={color[this.state.additionalLine]} 
+                yelpBool={this.state.yelpToggled}
+                museumBool={this.state.museumToggled}
+                meetupBool={this.state.meetupToggled}
+              /> 
             </div>
         </div>
     )
@@ -98,18 +132,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-// this.props.match.params.line
-//<h1>hello nyc</h1>
-           /*<ul>
-              {
-                singleTrainStops.map(stop => {
-                  return (
-                    <li key={stop.properties.STOP_ID}>
-                      <NavLink to={`/${lineParam}/${stop.properties.STOP_ID}`}>{stop.properties.STOP_NAME}</NavLink>
-                    </li>
-                  )
-                })
-              }
-            </ul>*/
-const D3 =  connect(mapState, mapDispatch)(D3Trial)
+const D3 = connect(mapState, mapDispatch)(D3Trial)
 export default D3

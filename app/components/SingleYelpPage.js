@@ -1,16 +1,40 @@
 import React, { Component } from 'react'
 import firebase from '../../fire'
-import { getCurrentUser } from '../store'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUserExtras } from '../../fire/refs'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
+import Paper from 'material-ui/Paper'
 import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
+import FontIcon from "material-ui/FontIcon";
 import Modal from 'react-modal'
+import ReactStars from 'react-stars'
+
+const style = {
+    image: {
+        width: '350px',
+        height: '350px'
+    },
+    div: {
+        display: 'flex',
+        justifyContent: 'center'
+
+    },
+    words: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+
+    }
+}
+
 
 const mapState = state => ({
-    user: state.user
+    user: state.user,
+    stop: state.stop, //id
+    singleTrainStops: state.singleTrainStops
 })
 
 const mapDispatch = dispatch => ({
@@ -38,16 +62,18 @@ class SingleYelpPageClass extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
     }
+    
+    handleAddEvent() {
+        const currentThing = this.props.currentThing
+        const userId = this.props.user.uid
+        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].properties.STOP_NAME
+        const savedPlace = {stopName: stopName, ...currentThing}
+        addUserEvent(savedPlace, userId)
+    }
 
     componentDidMount() {
         getUserExtras(this.props.user.uid)
             .then(userExtras => console.log(userExtras))
-    }
-
-    handleAddEvent() {
-        const currentThing = this.props.currentThing
-        firebase.database().ref(`Users/${this.props.user.uid}/Events/`)
-            .push({ Yelp: currentThing })
     }
 
     handleClick(event, obj) {
@@ -88,16 +114,16 @@ class SingleYelpPageClass extends Component {
         const { currentThing } = this.props
         return (
 
-            <div>
-                <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
-                {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
+            <div style={style.div}>
+                <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
+                <div style={style.words}>
+                <h1>{currentThing.name}</h1>
+                {currentThing.rating ? <ReactStars count={5} value={currentThing.rating} half={true} edit={false} size={18} color2={'#ffffff'}/> : ""}
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
-                {currentThing.category.map(type => {
-                    return <p key={type}>#{type}</p>
-                })}
-                {currentThing.img ? <img src={currentThing.img} /> : <img src="" />}
+                <p>{currentThing.category.map(type => ` ${type} `)}</p>
                 <h3>Address: {currentThing.location}</h3>
-                <h3>Phone: {currentThing.phone}</h3>
+                <h3>{currentThing.phone}</h3>
+                <a target="_blank" href={currentThing.url}><p>see more</p></a>
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
@@ -154,6 +180,7 @@ class SingleYelpPageClass extends Component {
                         </label>
                     </form>
                 </Modal>
+                </div>
             </div>
         )
 

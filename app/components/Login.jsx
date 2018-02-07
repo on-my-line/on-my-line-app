@@ -5,16 +5,13 @@ import firebase from '../../fire'
 import { withRouter } from 'react-router-dom'
 const auth = firebase.auth()
 
-//const allUsers = db.ref('users')
-const emailProvider = new firebase.auth.EmailAuthProvider()
-
-
 class LogInClass extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -35,12 +32,11 @@ class LogInClass extends React.Component {
 
         auth.signInWithEmailAndPassword(email, password)
         .then(() => this.props.history.push(`/`))
-        .catch(console.error)
+        .catch(err => {
+            console.log(err)
+            this.setState({error:err.message})
+        })
     }
-        // .then((user) => {
-        //     console.log(user.uid)
-        //     db.ref('users/' + user.uid).set({line: event.target.line.value})
-        // })
 
     render() {
         return(
@@ -62,6 +58,7 @@ class LogInClass extends React.Component {
                         <FlatButton type="submit" label="Log In" />
                     </div>
                 </form>
+                <div>{this.state.error}</div>   
             </div>
         )
     }
