@@ -46,9 +46,10 @@ class CongressionalDistrict extends Component {
   }
 
   handleEventClick(data, event, additionalLine) {
+    //when I've clicked on a thing, this gives me all the thing stuff in the data, the event is the synthetic event and the additionalLine is the additionalLine
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
-    this.props.setCurrentStop(data)
+    this.props.setCurrentStop(data.stopId)
     // this.props.fetchSingleRoute(line)
     if(additionalLine) {
       this.props.setCurrentLine(additionalLine)
@@ -557,7 +558,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             museumTip.hide()
-            mySelf.handleEventClick(data, 'googleplaces', mySelf.props.additionalLine)})
+            mySelf.handleEventClick(data, 'google', mySelf.props.additionalLine)})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#museum)")

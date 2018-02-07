@@ -25,7 +25,7 @@ export class OneItemMap extends Component {
             
             const mapConfig = Object.assign({}, {
                 center: {lat: lat, lng: lng}, 
-                zoom: 14
+                zoom: 15
             })
             this.map = new maps.Map(node, mapConfig)
             }

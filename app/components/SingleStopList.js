@@ -107,7 +107,6 @@ class SingleStopList extends Component {
 							<GridTile
 								key={thing.id}
 								title={thing.name}
-								//subtitle={<span>Rating: {thing.rating}</span>}
 								actionIcon={
 									<IconButton>
 										<StarBorder color="white" />
@@ -122,7 +121,7 @@ class SingleStopList extends Component {
 									)}
 								</Link>
 							</GridTile>
-						))} */}
+						))}*/}
 					</GridList>
 				</div>
 		} else {
