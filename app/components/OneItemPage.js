@@ -51,6 +51,7 @@ export class OneItemPage extends Component {
             return elem.properties.STOP_ID === this.props.stop
         })
         let currentThing = {}
+        console.log(currentStop)
         if(type === 'yelp') {
             currentThing = this.props.yelp.find(elem => {
                 return elem.id === thingId

@@ -41,6 +41,7 @@ class CongressionalDistrict extends Component {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
     this.drawMap = this.drawMap.bind(this)
+    this.state = { showYelp: true }
     // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
@@ -613,9 +614,13 @@ class CongressionalDistrict extends Component {
     this.drawMap()
   }
 
- componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps, prevState) {
     if(prevProps.additionalStops !== this.props.additionalStops) {
       this.drawMap()
+    }
+    console.log(this.state, prevState)
+    if(this.state.showYelp !== prevState.showYelp) {
+      d3.selectAll("g#yelp circle").style("opacity", 0)
     }
   }
 
