@@ -1,4 +1,3 @@
-
 import {createStore, combineReducers, applyMiddleware} from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
@@ -11,8 +10,10 @@ import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
+import loading from './loading'
 import google from './googlePlaces'
 import user from './user'
+
 
 const reducer = combineReducers(
   {
@@ -25,6 +26,7 @@ const reducer = combineReducers(
     singleTrainStops,
     singleRoute,
     userLine,
+    loading,
     user
   })
 
@@ -45,5 +47,7 @@ export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'
-export * from './googlePlaces'
+export * from './loading'
 export * from './user'
+export * from './googlePlaces'
+

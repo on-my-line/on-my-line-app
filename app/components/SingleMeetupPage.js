@@ -1,54 +1,139 @@
 import React, { Component } from 'react'
-import firebase from '../../fire'
-import { getCurrentUser, addToUserEvents } from '../store'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { getUserExtras, addUserEvent } from '../../fire/refs'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import Paper from 'material-ui/Paper'
-import Avatar from 'material-ui/Avatar'
+import axios from 'axios'
+import FlatButton from 'material-ui/FlatButton/FlatButton'
+import TextField from 'material-ui/TextField'
+import Modal from 'react-modal'
 
-const mapState = state => ({
-    user: state.user,
-    stop: state.stop,
-    singleTrainStops: state.singleTrainStops
-})
+class SingleMeetupPageClass extends Component {
+    constructor(props) {
+        super(props)
 
-class SingleMeetupPageClass extends React.Component {
-    constructor() {
-    super()
-    this.state = {}
+        this.state = {
+            modalIsOpen: false,
+            toNumber: '',
+            url: '',
+            message: ''
+        }
+
+        this.openModal = this.openModal.bind(this)
+        this.afterOpenModal = this.afterOpenModal.bind(this)
+        this.closeModal = this.closeModal.bind(this)
+        this.shareWithAFriend = this.shareWithAFriend.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
-    render() {
-        //{currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"}
-        const { currentThing } = this.props
+    handleClick(event, obj) {
+        event.preventDefault()
+        this.shareWithAFriend(obj)
+        this.closeModal()
+    }
+
+    handleChange(event) {
+        event.preventDefault()
+        const stateObj = {}
+        stateObj[event.target.name] = event.target.value
+        this.setState(stateObj)
+    }
+
+    openModal() {
+        this.setState({ modalIsOpen: true })
+    }
+
+    afterOpenModal() {
+        this.subtitle.style={
+            color: '#ffffff',
+            fontFamily: 'Roboto'
+        }
+    }
+
+    closeModal() {
+        this.setState({ modalIsOpen: false });
+    }
+
+    shareWithAFriend(reqBody) { //toNumber, url, message
+        if(reqBody.toNumber!==''){
+            axios.post('/sms', reqBody)
+        }
+    }
+    render(){
+        const { currentThing } =  this.props
         return (
-            <div className="flex-col">
-                <Card className="card-padding flex-col">
-                    <div className="flex-col">
-                    <Avatar
-                        src={currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"}
-                        size={150}
-                    />
-                    <CardTitle title={currentThing.name} subtitle={currentThing.group} />
-                    </div>
-                    <h1><a target="_blank" href={currentThing.url}></a></h1>
-                    {currentThing.price && <h3>$: {currentThing.price}</h3>}
-                    {<h2>Where: {currentThing.location}</h2>}
-                    {<h2>When: {currentThing.date}</h2>}
-                    {<h2>Start Time: {currentThing.start_time}</h2>}
-                    {currentThing.phone && <h2>phone: {currentThing.phone}</h2>}
-                    <CardText>
-                    {currentThing.description &&
-                        <div dangerouslySetInnerHTML={{ __html: currentThing.description }} />}
-                    </CardText>
-                </Card>
+            <div>
+    
+                <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+                {currentThing.group ? <h2>Host: {currentThing.group}</h2> : ""}
+                <img src={currentThing.img ? currentThing.img : "https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg"} />
+                {currentThing.price ? <h3>$: {currentThing.price}</h3> : ""}
+                {<h2>where: {currentThing.location}</h2>}
+                {<h2>When: {currentThing.date}</h2>}
+                {<h2>Start Time: {currentThing.start_time}</h2>}
+                {currentThing.phone? <h2>phone: {currentThing.phone}</h2> : ""}
+                {currentThing.description ? <div><h2>Description: </h2>
+                <div dangerouslySetInnerHTML={{ __html: currentThing.description }} />
+                </div> : ""}
+                <FlatButton
+                label="Share with a Friend"
+                onClick={this.openModal}
+            />
+            <Modal
+                isOpen={this.state.modalIsOpen}
+                onAfterOpen={this.afterOpenModal}
+                onRequestClose={this.closeModal}
+                ariaHideApp={false}
+                style={{
+                    overlay: {
+                      position: 'fixed',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                    },
+                    content: {
+                      position: 'absolute',
+                      top: '30vh',
+                      left: '30vw',
+                      right: '30vw',
+                      background: '#212121',
+                      overflow: 'auto',
+                      WebkitOverflowScrolling: 'touch',
+                      borderRadius: '4px',
+                      outline: 'none',
+                      padding: '20px'
+                    }
+                  }}
+            >
+                <h2 ref={subtitle => this.subtitle = subtitle}>Share with a friend</h2>
+                <form name="share-with-a-friend" onSubmit={(event)=>this.handleClick(event, {toNumber: this.state.toNumber, url: currentThing.url, message: this.state.message})}>
+                    <label>
+                        <TextField
+                            name="toNumber"
+                            value={this.state.toNumber}
+                            floatingLabelText="Number to text"
+                            hintText='+155555555'
+                            onChange={this.handleChange}
+                        />
+                        </label>
+                        <br />
+                        <label>
+                        <TextField
+                            name="message"
+                            value={this.state.message}
+                            floatingLabelText="Optional message"
+                            onChange={this.handleChange}
+                        />
+                        <br />
+                        <FlatButton type="submit" label="Submit" />
+                    </label>
+                </form>
+            </Modal>
+    
             </div>
         )
     }
 }
-
-const SingleMeetupPage = connect(mapState)(SingleMeetupPageClass)
+const SingleMeetupPage = withRouter(SingleMeetupPageClass)
 
 export default SingleMeetupPage
