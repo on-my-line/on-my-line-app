@@ -50,7 +50,7 @@ class CongressionalDistrict extends Component {
   handleEventClick(data, event, additionalLine) {
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
-    this.props.setCurrentStop(currentStop)
+    this.props.setCurrentStop(data)
     // this.props.fetchSingleRoute(line)
     if(additionalLine) {
       this.props.setCurrentLine(additionalLine)
@@ -70,7 +70,6 @@ class CongressionalDistrict extends Component {
 
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
-
     this.props.history.push(
       `/${this.props.singleRoute[0].properties.route_id}/${data.properties.STOP_ID}/`
     )
@@ -119,14 +118,6 @@ class CongressionalDistrict extends Component {
         return `<span style='color:black'>${d.name}</span><br><span>${time}</span>`
       })
 
-    let keyTip = d3Tip()
-      .attr("class", "keyTip")
-      .offset([-250,  -470])
-      .html(function(d) {
-        return `<span style='color:white;vertical-align:50%'><img src='images/museum.svg'>&nbsp;&nbsp;museum</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:white;vertical-align:50%'><img src='images/event.svg'>&nbsp;&nbsp;Meetup</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:white;vertical-align:50%'><img src='images/place.svg'>&nbsp;&nbsp;Yelp</span>`
-      })
-
-
     const svg = d3
       .select(node)
       .attr("width", width)
@@ -137,7 +128,6 @@ class CongressionalDistrict extends Component {
     .call(yelpTip)
     .call(meetupTip)
     .call(museumTip)
-    .call(keyTip)
 
     const projection = d3
       .geoMercator()
@@ -337,12 +327,10 @@ class CongressionalDistrict extends Component {
       .attr("cy", function(data) { return projection(data.geometry.coordinates)[1] })
       .attr("fill", "rgba(255, 255, 255)")
       .on("mouseover", (data) => {
-        keyTip.show(data)
         stopsTip.show(data)
       })
       .on("mouseout", (data) => {
         stopsTip.hide(data)
-        keyTip.hide(data)
       })
       .on("dblclick", (data) => mySelf.handleClick(data))
       .on("click", function(data) {
@@ -385,12 +373,10 @@ class CongressionalDistrict extends Component {
         .attr("cy", function(data) { return projection(data.geometry.coordinates)[1] })
         .attr("fill", "rgba(255, 255, 255)")
         .on("mouseover", (data) => {
-          keyTip.show(data)
           stopsTip.show(data)
         })
         .on("mouseout", (data) => {
           stopsTip.hide(data)
-          keyTip.hide(data)
         })
         .on("dblclick", (data) => mySelf.handleClick(data))
         .on("click", function(data) {
@@ -633,7 +619,6 @@ class CongressionalDistrict extends Component {
       this.drawMap()
     }
   }
-
 
   // shouldComponentUpdate () {
   //   return false

@@ -108,7 +108,7 @@ h1 {
   text-align: center;
 }
 
-.keyTip {
+/*.keyTip {
 	background: rgba(0, 0, 0, 0.9);
 	line-height: 1;
 	 padding: 12px;
@@ -116,22 +116,27 @@ h1 {
 	vertical-align: middle;
 	border-radius: 20px;
 	box-shadow: 5px 5px rgba(66, 73, 73, 0.7);
-}
+}*/
 
 .keyBar {
-	vertical-align: middle;
+	display: flex;
+	/*align-content: space-around;*/
+}
+
+.otherLine {
+	display: flex;
+}
+
+#key p {
+	height: 40px;
+  	line-height: 40px;
 }
 
 #key {
-	/*background: rgba(0, 0, 0, 0.9);*/
-	/*line-height: 1;*/
-	 /*padding: 12px;*/
-	text-align: center;
-	vertical-align: middle;
-	/*border-radius: 20px;*/
-	/*box-shadow: 5px 5px rgba(66, 73, 73, 0.7);*/
-	position: absolute;
-	right: 0;
+	display: flex;
+	justify-content: space-between;
+	width: 300px;
+	margin-left: auto;
 }
 
 

@@ -47,7 +47,7 @@ class D3Trial extends Component {
         <div className="scaling-svg-container">
             <div className="keyBar">
               <SelectField
-                className="fade"
+                className="fade otherLine"
                 name="line"
                 floatingLabelText="Choose other line..."
                 value={this.state.additionalLine}
@@ -58,7 +58,7 @@ class D3Trial extends Component {
                   otherLines.map(line => <MenuItem key={line} value={line} primaryText={line} />)
                 }
               </SelectField>
-              <span id="key"><span><img src='images/museum.svg'/>&nbsp;&nbsp;museum</span>&nbsp;&nbsp;&nbsp;&nbsp;<span><img src='images/event.svg'/>&nbsp;&nbsp;Meetup</span>&nbsp;&nbsp;&nbsp;&nbsp;<span><img src='images/place.svg'/>&nbsp;&nbsp;Yelp</span></span>
+              <div id="key"><img src='images/museum.svg'/><p>museum</p><img src='images/event.svg'/><p>Meetup</p><img src='images/place.svg'/><p>Yelp</p></div>
             </div>
             <div id="mapcontainer" >
               <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} additionalRoute={this.state.additionalRoute} additionalStops={this.state.additionalStops} additionalLine={this.state.additionalLine} nycBoroughs={nycBoroughs} color={color[lineParam]} additionalColor={color[this.state.additionalLine]}/> 
