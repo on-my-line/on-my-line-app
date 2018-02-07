@@ -20,7 +20,7 @@
     "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js fire/**/*.test.js",
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
-    "deploy": "git checkout deploy && webpack -p && git add -f public/bundle.js public/bundle.js.map && git commit --allow-empty -m 'Deploying' && git push --force heroku deploy:master && git checkout Demo && git branch -D deploy"
+    "deploy": "git checkout -b deploy && webpack -p && git add -f public/bundle.js public/bundle.js.map && git commit --allow-empty -m 'Deploying' && git push --force heroku deploy:master && git checkout Demo && git branch -D deploy"
   },
   "repository": {
     "type": "git",
