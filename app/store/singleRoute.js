@@ -4,7 +4,7 @@ const SET_SINGLE_ROUTE = "SET_SINGLE_ROUTE"
 
 const defaultRoute = []
 
-const setSingleRoute = singleRoute => ({type: SET_SINGLE_ROUTE, singleRoute})
+export const setSingleRoute = singleRoute => ({type: SET_SINGLE_ROUTE, singleRoute})
 
 export const fetchSingleRouteThunk = (currentLine) => 
     dispatch => 
