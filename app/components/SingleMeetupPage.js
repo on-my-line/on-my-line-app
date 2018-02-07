@@ -47,7 +47,6 @@ class SingleMeetupPageClass extends Component {
     }
 
     handleAddEvent() {
-        console.log(this.props)
         const currentThing = this.props.currentThing
         const userId = this.props.user.uid
         const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].properties.STOP_NAME
