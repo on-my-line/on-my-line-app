@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import FontIcon from "material-ui/FontIcon";
 import Modal from 'react-modal'
+import ReactStars from 'react-stars'
 
 const style = {
     image: {
@@ -22,9 +23,13 @@ const style = {
 
     },
     words: {
-        flexDirection: 'column'
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+
     }
 }
+
 
 const mapState = state => ({
     user: state.user,
@@ -113,7 +118,7 @@ class SingleYelpPageClass extends Component {
                 <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
                 <div style={style.words}>
                 <h1>{currentThing.name}</h1>
-                {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
+                {currentThing.rating ? <ReactStars count={5} value={currentThing.rating} half={true} edit={false} size={18} color2={'#ffffff'}/> : ""}
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
                 <p>{currentThing.category.map(type => ` ${type} `)}</p>
                 <h3>Address: {currentThing.location}</h3>
