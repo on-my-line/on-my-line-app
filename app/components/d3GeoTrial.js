@@ -41,14 +41,16 @@ class CongressionalDistrict extends Component {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
     this.drawMap = this.drawMap.bind(this)
+    this.state = { showYelp: true }
     // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
 
   handleEventClick(data, event, additionalLine) {
+    //when I've clicked on a thing, this gives me all the thing stuff in the data, the event is the synthetic event and the additionalLine is the additionalLine
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
-    this.props.setCurrentStop(data)
+    this.props.setCurrentStop(data.stopId)
     // this.props.fetchSingleRoute(line)
     if(additionalLine) {
       this.props.setCurrentLine(additionalLine)
@@ -557,7 +559,7 @@ class CongressionalDistrict extends Component {
           })
           .on("click", (data) => {
             museumTip.hide()
-            mySelf.handleEventClick(data, 'googleplaces', mySelf.props.additionalLine)})
+            mySelf.handleEventClick(data, 'google', mySelf.props.additionalLine)})
           .attr("cx", function(data) { return projection([data.lon, data.lat])[0] })
           .attr("cy", function(data) { return projection([data.lon, data.lat])[1] })
           .attr("fill", "url(#museum)")
@@ -612,9 +614,13 @@ class CongressionalDistrict extends Component {
     this.drawMap()
   }
 
- componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps, prevState) {
     if(prevProps.additionalStops !== this.props.additionalStops) {
       this.drawMap()
+    }
+    console.log(this.state, prevState)
+    if(this.state.showYelp !== prevState.showYelp) {
+      d3.selectAll("g#yelp circle").style("opacity", 0)
     }
   }
 

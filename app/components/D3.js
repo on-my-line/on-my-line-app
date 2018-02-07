@@ -5,8 +5,14 @@ import nycBoroughs from '../../nycBoroughs'
 import { connect } from 'react-redux'
 import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
 import NavBar from './NavBar'
+//Material-ui
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import {List, ListItem} from 'material-ui/List';
+import Toggle from 'material-ui/Toggle';
+import IconYelp from 'material-ui/svg-icons/maps/place'
+import IconMuseum from 'material-ui/svg-icons/action/account-balance'
+import IconMeetup from 'material-ui/svg-icons/action/event'
 
 class D3Trial extends Component {
   constructor(props) {
@@ -58,7 +64,11 @@ class D3Trial extends Component {
                   otherLines.map(line => <MenuItem key={line} value={line} primaryText={line} />)
                 }
               </SelectField>
-              <div id="key"><img src='images/museum.svg'/><p>museum</p><img src='images/event.svg'/><p>Meetup</p><img src='images/place.svg'/><p>Yelp</p></div>
+              <List className="list-horizontal-display">
+                <ListItem primaryText="Museum" leftIcon={<IconMuseum />} rightToggle={<Toggle />}/>
+                <ListItem primaryText="Yelp" leftIcon={<IconYelp />} rightToggle={<Toggle />}/>
+                <ListItem primaryText="Meetup" leftIcon={<IconMeetup />} rightToggle={<Toggle />}/>
+              </List>
             </div>
             <div id="mapcontainer" >
               <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} additionalRoute={this.state.additionalRoute} additionalStops={this.state.additionalStops} additionalLine={this.state.additionalLine} nycBoroughs={nycBoroughs} color={color[lineParam]} additionalColor={color[this.state.additionalLine]}/> 
