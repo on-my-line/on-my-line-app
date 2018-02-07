@@ -5,7 +5,7 @@ import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
-import { addUserEvent } from '../../fire/refs'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
 
 const mapState = state => ({
     user: state.user, 
@@ -31,6 +31,11 @@ class SingleMeetupPageClass extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.handleAddEvent = this.handleAddEvent.bind(this)
+    }
+
+    componentDidMount() {
+        getUserExtras(this.props.user.uid)
+            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {

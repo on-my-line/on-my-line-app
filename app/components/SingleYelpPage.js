@@ -119,6 +119,7 @@ class SingleYelpPageClass extends Component {
                 <h3>Address: {currentThing.location}</h3>
                 <h3>{currentThing.phone}</h3>
                 <a target="_blank" href={currentThing.url}><p>see more</p></a>
+                {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
