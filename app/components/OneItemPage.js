@@ -68,7 +68,7 @@ export class OneItemPage extends Component {
         } 
         //console.log(currentThing)
         return (
-            <div className="container">
+            <div className="container" style={styles.root}>
             {(type === 'yelp')? 
             <SingleYelpPage currentThing={currentThing} style={styles.gridList}/>: ''
             }
