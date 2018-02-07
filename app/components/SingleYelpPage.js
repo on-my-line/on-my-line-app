@@ -113,7 +113,7 @@ class SingleYelpPageClass extends Component {
     render() {
         const { currentThing } = this.props
         return (
-
+            <div>
             <div style={style.div}>
                 <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
                 <div style={style.words}>
@@ -124,11 +124,15 @@ class SingleYelpPageClass extends Component {
                 <h3>Address: {currentThing.location}</h3>
                 <h3>{currentThing.phone}</h3>
                 <a target="_blank" href={currentThing.url}><p>see more</p></a>
+                </div>
+            </div>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
                 {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
                 />
+            </div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
@@ -182,7 +186,6 @@ class SingleYelpPageClass extends Component {
                     </form>
                 </Modal>
                 </div>
-            </div>
         )
 
     }
