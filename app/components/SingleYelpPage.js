@@ -110,7 +110,7 @@ class SingleYelpPageClass extends Component {
         return (
 
             <div style={style.div}>
-                {currentThing.img ? <img src={currentThing.img} style={style.image}/> : <img src="" />}
+                <img style={style.image} src={currentThing.img ? currentThing.img : "https://yt3.ggpht.com/a-/AK162_53TCkRV0sl6Bx6OpTBE49CVTtyNoJyazMZFg=s900-mo-c-c0xffffffff-rj-k-no"}/>
                 <div style={style.words}>
                 <h1>{currentThing.name}</h1>
                 {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
@@ -175,7 +175,7 @@ class SingleYelpPageClass extends Component {
                         </label>
                     </form>
                 </Modal>
-                </div> 
+                </div>
             </div>
         )
 

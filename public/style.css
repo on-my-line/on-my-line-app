@@ -40,6 +40,11 @@ a {
 	justify-content: space-around;
 }
 
+.single-page-img {
+	width: 300px;
+    height: 220px;
+}
+
 #mapcontainer {
 	bottom: 0;
 	font-family: Didot;
