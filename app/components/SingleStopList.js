@@ -61,9 +61,6 @@ class SingleStopList extends Component {
 					<GridList cellHeight={180} style={styles.gridList}>
 						<Subheader>
 							{`Things to do near: ${singleStop[0].properties.STOP_NAME}`}
-							<Link to={`/${line}`}>
-								<HomeIcon color={red500} hoverColor={greenA200} />
-							</Link>
 						</Subheader>
 						{yelpThings.map(thing => (
 							<GridTile
