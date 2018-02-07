@@ -59,7 +59,8 @@ class UserHomeClass extends React.Component {
     render() {
         if(!Object.keys(this.state.events).length) return <div />
         return(
-            <div>
+            <div className="fade">
+                {this.state.events && <h2> Here are some things you thought were cool </h2>}
                 <div className="your-events">
                     {this.state.events.map(event => {
                         return (
@@ -69,19 +70,17 @@ class UserHomeClass extends React.Component {
                             subtitle={event.stopName}
                             avatar={<Avatar src={event.img} />}
                         >
+                        <IconButton
+                            onClick={this.handleRemoveEvent.bind(this, event.key)}
+                        >
+                            <ContentClear/>
+                        </IconButton>
                         <CardText>
                             <div className="card-text">
                                 <div>
-                                    Link to event<br />
-                                    Text to a friend <br />
-                                    Location <br />
+                                    {event.location} <br />
+                                    <a target="_blank" href={event.url}>See more</a>
                                 </div>
-                                <IconButton
-                                    onClick={this.handleRemoveEvent.bind(this, event.key)}
-                                >
-                                   <ContentClear
-                                   />
-                                </IconButton>
                             </div>
                         </CardText>
                         </CardHeader>

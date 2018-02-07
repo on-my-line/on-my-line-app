@@ -10,7 +10,8 @@ class LogInClass extends React.Component {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -31,7 +32,10 @@ class LogInClass extends React.Component {
 
         auth.signInWithEmailAndPassword(email, password)
         .then(() => this.props.history.push(`/`))
-        .catch(console.error)
+        .catch(err => {
+            console.log(err)
+            this.setState({error:err.message})
+        })
     }
 
     render() {
@@ -54,6 +58,7 @@ class LogInClass extends React.Component {
                         <FlatButton type="submit" label="Log In" />
                     </div>
                 </form>
+                <div>{this.state.error}</div>   
             </div>
         )
     }
