@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router";
 import { GoogleApiWrapper } from 'google-maps-react'
-import axios from 'axios'
 import OneItemMap from './OneItemMap'
 import SingleYelpPage from './SingleYelpPage'
 import SingleMeetupPage from './SingleMeetupPage'
 import SingleGooglePage from './SingleGooglePage'
 import Marker from './Marker'
-import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 import {connect} from 'react-redux'
 
 
@@ -44,7 +42,7 @@ export class OneItemPage extends Component {
         if(!this.props.singleTrainStops.length) return (
             <h1> Sorry! No data was fetched, how about you head home and pick out a line? </h1>
         )
-        else {
+        else{
         let type = this.props.match.params.type
         let thingId = this.props.match.params.thingId
         let currentStop = this.props.singleTrainStops.find(elem =>{
@@ -66,7 +64,6 @@ export class OneItemPage extends Component {
                 return elem.id === thingId
             })
         } 
-        //console.log(currentThing)
         return (
             <div className="container">
             {(type === 'yelp')? 
@@ -92,4 +89,4 @@ export class OneItemPage extends Component {
 
 const connected = connect(mapState)(OneItemPage)
 
-export default withRouter(GoogleApiWrapper({ apiKey: GOOGLE_MAPS_API_KEY})(connected))
+export default withRouter(GoogleApiWrapper({ apiKey: 'AIzaSyDULSvfnNIRJqxnRh7VUkmsgnVz6-RwLGs'})(connected))
