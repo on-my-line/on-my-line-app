@@ -53,20 +53,6 @@ class NavBarContainer extends React.Component {
                     </div>
                 }
                 </IconMenu>
-                {this.props.user !== "none" ?
-                <Badge
-                badgeContent={0}
-                secondary={true}
-                badgeStyle={{top: 12, right: 12}}
-                >
-                    <IconButton
-                    containerElement={<Link to="/login" />}>
-                        <MapsNearMe />
-                    </IconButton>
-                </Badge>
-                :
-                null
-            }
             </div>
         )
     }

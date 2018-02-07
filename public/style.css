@@ -28,6 +28,17 @@ h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
+a {
+	color: white;
+}
+
+.title-img {
+	display: flex;
+	flex-direction: row;
+	overflow-wrap: inherit;
+	flex-wrap: wrap; 
+	justify-content: space-around;
+}
 
 #mapcontainer {
 	bottom: 0;
@@ -152,28 +163,9 @@ h1, h2, h3 {
 	box-shadow: 5px 5px rgba(66, 73, 73, 0.7);
 }*/
 
-.keyBar {
-	display: flex;
-	/*align-content: space-around;*/
+.list-horizontal-display > div {
+	display: inline-block;
 }
-
-.otherLine {
-	display: flex;
-}
-
-#key p {
-	height: 40px;
-  	line-height: 40px;
-}
-
-#key {
-	display: flex;
-	justify-content: space-between;
-	width: 300px;
-	margin-left: auto;
-}
-
-
 
 body { 
 	margin: 2%;
@@ -299,4 +291,5 @@ body {
 	overflow: auto;
   }
 }
+
 

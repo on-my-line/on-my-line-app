@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
+import { addUserEvent } from '../../fire/refs'
 
+const mapState = state => ({
+    user: state.user, 
+    stop: state.stop,
+    singleTrainStops: state.singleTrainStops
+})
 
 class SingleGooglePageClass extends Component{
     constructor(props) {
@@ -38,6 +45,14 @@ class SingleGooglePageClass extends Component{
         this.setState(stateObj)
     }
 
+    handleAddEvent() {
+        const currentThing = this.props.currentThing
+        const userId = this.props.user.uid
+        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].properties.STOP_NAME
+        const savedPlace = {stopName: stopName, ...currentThing}
+        addUserEvent(savedPlace, userId)
+    }
+
     openModal() {
         this.setState({ modalIsOpen: true })
     }
@@ -61,15 +76,18 @@ class SingleGooglePageClass extends Component{
     render(){
         const { currentThing } =  this.props
         return (
-        <div>
-            <h1>{currentThing.name}</h1>
-            {(currentThing.Time)?
-                <h2>Opening Times: {currentThing.time}</h2>: ""
-            }
-            <img src={currentThing.img}/>
-            <h3>Address: {currentThing.location}</h3>
-            <h3>Phone: {currentThing.phone}</h3>
-            <h4><a href={currentThing.url} target="_blank">Site</a></h4>
+            <div>
+                <div className="title-img">
+                    <img src={currentThing.img}/>
+                    <div>
+                        <h1>{currentThing.name}</h1>
+                        {(currentThing.Time) && <h2>Opening Times: {currentThing.time}</h2>}
+                        <h3>Address: {currentThing.location}</h3>
+                        <h3>Phone: {currentThing.phone}</h3>
+                        <h4><a href={currentThing.url} target="_blank">Site</a></h4>
+                    </div>
+                </div>
+            {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
             <FlatButton
             label="Share with a Friend"
             onClick={this.openModal}
@@ -112,9 +130,9 @@ class SingleGooglePageClass extends Component{
                         hintText='+155555555'
                         onChange={this.handleChange}
                     />
-                    </label>
-                    <br />
-                    <label>
+                </label>
+                <br />
+                <label>
                     <TextField
                         name="message"
                         value={this.state.message}
@@ -125,13 +143,13 @@ class SingleGooglePageClass extends Component{
                     <FlatButton type="submit" label="Submit" />
                 </label>
             </form>
-        </Modal>
+            </Modal>
         </div>
         
-    )
-}
+        )
+    }
 }
 
-const SingleGooglePage = withRouter(SingleGooglePageClass)
+const SingleGooglePage = withRouter(connect(mapState)(SingleGooglePageClass))
 
 export default SingleGooglePage

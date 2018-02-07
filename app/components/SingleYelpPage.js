@@ -71,12 +71,6 @@ class SingleYelpPageClass extends Component {
             .then(userExtras => console.log(userExtras))
     }
 
-    handleAddEvent() {
-        const currentThing = this.props.currentThing
-        firebase.database().ref(`Users/${this.props.user.uid}/Events/`)
-            .push({ Yelp: currentThing })
-    }
-
     handleClick(event, obj) {
         event.preventDefault()
         this.shareWithAFriend(obj)
