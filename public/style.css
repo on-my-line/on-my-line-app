@@ -16,15 +16,21 @@ body {
 }
 
 * {
-	font-family: 'Roboto';
+	font-family: 'Roboto', sans-serif;
 }
 
-h1 {
+body {
+	background-color: #212121;
+	color: white;
+}
+
+h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
 
 #mapcontainer {
+	bottom: 0;
 	font-family: Didot;
 	margin: auto;
 	height: 100vh; 
@@ -49,26 +55,6 @@ h1 {
 	z-index: 100;
 }
 
-#nycStreets {
-	z-index: 200;
-}
-
-#routes{
-	z-index:300;
-}
-
-#stops{
-	z-index:400;
-}
-
-#restaurant {
-	z-index: 500;
-}
-
-.yelp {
-	z-index: 500;
-	
-}
 
 #stopName {
 	background-color: white;
@@ -96,6 +82,16 @@ h1 {
   text-align: center;
 }
 
+.museumTip {
+  line-height: 1;
+  padding: 12px;
+  background: rgba(214, 219, 223, 0.9);
+  color: white;
+  border-radius: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+
 /*.yelpTip:after {
   box-sizing: border-box;
   display: inline;
@@ -108,6 +104,34 @@ h1 {
   text-align: center;
 }*/
 
+.your-events {
+	max-height: 35vh;
+	overflow-y: scroll;
+}
+
+.card-padding {
+	margin-top: 5%;
+	padding: 3%;
+}
+
+.flex-row {
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: col;
+	flex-wrap: wrap;
+}
+
+.card-text {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .meetupTip {
   line-height: 1;
   font-weight: bold;
@@ -115,8 +139,38 @@ h1 {
   background: rgba(214, 219, 223, 0.9);
   color: #797D7F;
   border-radius: 10px;
-  z-index: 600;
   text-align: center;
+}
+
+/*.keyTip {
+	background: rgba(0, 0, 0, 0.9);
+	line-height: 1;
+	 padding: 12px;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 20px;
+	box-shadow: 5px 5px rgba(66, 73, 73, 0.7);
+}*/
+
+.keyBar {
+	display: flex;
+	/*align-content: space-around;*/
+}
+
+.otherLine {
+	display: flex;
+}
+
+#key p {
+	height: 40px;
+  	line-height: 40px;
+}
+
+#key {
+	display: flex;
+	justify-content: space-between;
+	width: 300px;
+	margin-left: auto;
 }
 
 
@@ -128,10 +182,13 @@ body {
 
 .navBar {
 	display: flex;
+	background-color: #212121;
 	margin-left: -4%;
+	margin-top: -1%;
 	flex-direction: row;
-	align-items: baseline;
+	z-index: 1000;
 	justify-content: flex-end;
+	align-items: baseline;
 	width: 100vw;
 	height: 5vh;
 }
@@ -183,7 +240,7 @@ body {
 
 
 .fade {
-	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 
+	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 */
 	-moz-animation: fadein 1s; /* Firefox < 16 */
 	-ms-animation: fadein 1s; /* Internet Explorer */
 	-o-animation: fadein 1s; /* Opera < 11.1 */

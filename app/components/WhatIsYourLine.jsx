@@ -6,7 +6,6 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import firebase from '../../fire'
 import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine } from '../store' 
-import UserLineContainer from './UserLine'
 const auth = firebase.auth()
 
 
@@ -31,7 +30,6 @@ const mapDispatch = dispatch => ({
   setCurrentLine: line => {
     dispatch(setLine(line))
   }
-
 })
 
 class WhatIsYourLineAndStop extends React.Component {
