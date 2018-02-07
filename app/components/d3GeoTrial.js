@@ -67,7 +67,6 @@ class CongressionalDistrict extends Component {
 
 
   handleClick(data) {
-
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
     this.props.history.push(
