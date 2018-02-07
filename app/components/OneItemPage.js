@@ -40,7 +40,11 @@ export class OneItemPage extends Component {
     componentDidMount() {
         window.scrollTo(0, 0)
     }
-    render(){
+    render() {
+        if(!this.props.singleTrainStops.length) return (
+            <h1> Sorry! No data was fetched, how about you headshit head home and pick out a line? </h1>
+        )
+        else {
         let type = this.props.match.params.type
         let thingId = this.props.match.params.thingId
         let currentStop = this.props.singleTrainStops.find(elem =>{
@@ -78,11 +82,14 @@ export class OneItemPage extends Component {
             <SingleGooglePage currentThing={currentThing}/>:''
             }
             {/* --------------- MAP ---------------- */}
+            {currentThing &&
                 <OneItemMap google={this.props.google} currentStop={currentStop} style={styles.gridList} >
                     <Marker currentThing={currentThing} />
                 </OneItemMap>
+            }
             </div>
         )
+    }
     }
 }    
 
