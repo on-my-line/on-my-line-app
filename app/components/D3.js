@@ -20,9 +20,13 @@ class D3Trial extends Component {
     this.state = { 
       additionalLine: "",
       additionalRoute: [], 
-      additionalStops: []
+      additionalStops: [],
+      yelpToggled: true,
+      museumToggled: true,
+      meetupToggled: true
     }
     this.addOtherLine = this.addOtherLine.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
 
   }
 
@@ -41,6 +45,10 @@ class D3Trial extends Component {
     .catch(err => console.error(err))
   }
 
+  handleToggle(event, type) {
+    this.setState({ [`${type}Toggled`]: !this.state[`${type}Toggled`]})
+  }
+
   render() {
     const lineParam = this.props.match.params.line
     const color = {"1": "#EE352E", "2": "#EE352E", "3": "#EE352E", "4": "#00933C", "5": "#00933C", "6": "#00933C", "7": "#B933AD", "A": "#0039A6", "C": "#0039A6", "E": "#0039A6", "B": "#FF6319", "D": "#FF6319", "F": "#FF6319", "M": "#FF6319", "J": "#996633", "Z": "#996633", "N": "#FCCC0A", "Q": "#FCCC0A" , "R": "#FCCC0A", "W": "#FCCC0A", "G": "#6CBE45", "L": "#A7A9AC", "S": "#808183"}
@@ -54,7 +62,7 @@ class D3Trial extends Component {
         <div className="scaling-svg-container">
             <div className="keyBar">
               <SelectField
-                className="fade otherLine"
+                className="SelectField"
                 name="line"
                 floatingLabelText="Choose other line..."
                 value={this.state.additionalLine}
@@ -66,13 +74,28 @@ class D3Trial extends Component {
                 }
               </SelectField>
               <List className="list-horizontal-display">
-                <ListItem primaryText="Museum" leftIcon={<IconMuseum />} rightToggle={<Toggle />}/>
-                <ListItem primaryText="Yelp" leftIcon={<IconYelp />} rightToggle={<Toggle />}/>
-                <ListItem primaryText="Meetup" leftIcon={<IconMeetup />} rightToggle={<Toggle />}/>
+                <ListItem primaryText="Museum" leftIcon={<IconMuseum />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'museum')} defaultToggled={this.state.museumToggled} />}/>
+                <ListItem primaryText="Yelp" leftIcon={<IconYelp />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'yelp')} defaultToggled={this.state.yelpToggled} />}/>
+                <ListItem primaryText="Meetup" leftIcon={<IconMeetup />} rightToggle={<Toggle onToggle={(event) => this.handleToggle(event, 'meetup')} defaultToggled={this.state.meetupToggled} />}/>
               </List>
             </div>
             <div id="mapcontainer" >
-              <CongressionalDistricts id="D3Map" width={1280} height={600} singleRoute={this.props.singleRoute} singleTrainStops={this.props.singleTrainStops} additionalRoute={this.state.additionalRoute} additionalStops={this.state.additionalStops} additionalLine={this.state.additionalLine} nycBoroughs={nycBoroughs} color={color[lineParam]} additionalColor={color[this.state.additionalLine]}/> 
+              <CongressionalDistricts 
+                id="D3Map" 
+                width={1280} 
+                height={600} 
+                singleRoute={this.props.singleRoute} 
+                singleTrainStops={this.props.singleTrainStops} 
+                additionalRoute={this.state.additionalRoute} 
+                additionalStops={this.state.additionalStops} 
+                additionalLine={this.state.additionalLine} 
+                nycBoroughs={nycBoroughs} 
+                color={color[lineParam]} 
+                additionalColor={color[this.state.additionalLine]} 
+                yelpBool={this.state.yelpToggled}
+                museumBool={this.state.museumToggled}
+                meetupBool={this.state.meetupToggled}
+              /> 
             </div>
         </div>
     )

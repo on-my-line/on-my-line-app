@@ -163,8 +163,21 @@ a {
 	box-shadow: 5px 5px rgba(66, 73, 73, 0.7);
 }*/
 
-.list-horizontal-display > div {
-	display: inline-block;
+.keyBar {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+.selectField {
+	align-self: flex-end;
+}
+
+
+.list-horizontal-display {
+	display: flex;
+	flex-direction: row;
 }
 
 body { 

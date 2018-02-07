@@ -67,7 +67,6 @@ class CongressionalDistrict extends Component {
 
 
   handleClick(data) {
-
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
     this.props.history.push(
@@ -618,9 +617,17 @@ class CongressionalDistrict extends Component {
     if(prevProps.additionalStops !== this.props.additionalStops) {
       this.drawMap()
     }
-    console.log(this.state, prevState)
-    if(this.state.showYelp !== prevState.showYelp) {
-      d3.selectAll("g#yelp circle").style("opacity", 0)
+    if(this.props.yelpBool !== prevProps.yelpBool) {
+      let newOpacity = this.props.yelpBool? 1 : 0
+      d3.selectAll("g#yelp circle").style("opacity", newOpacity)
+    }
+    if(this.props.museumBool !== prevProps.museumBool) {
+      let newOpacity = this.props.museumBool? 1 : 0
+      d3.selectAll("g#museum circle").style("opacity", newOpacity)
+    }
+    if(this.props.meetupBool !== prevProps.meetupBool) {
+      let newOpacity = this.props.meetupBool? 1 : 0
+      d3.selectAll("g#meetup circle").style("opacity", newOpacity)
     }
   }
 
