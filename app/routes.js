@@ -35,7 +35,7 @@ class RoutesClass extends Component {
                             <Route exact path='/' component={Home} />
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/signup' component={SignUp} />
-                            <Route exact path='/:line/:stopID' component={SingleStopList} />
+                            <Route path='/:line/:stopID' component={SingleStopList} />
                             <Route exact path='/:line' component={D3} />
                             <Route exact path='/:line/:stopID/:type/:thingId' component={OneItemPage} />
                         </div>
