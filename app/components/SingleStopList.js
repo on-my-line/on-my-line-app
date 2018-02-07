@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { GridList, GridTile } from "material-ui/GridList";
-//import { setStop } from '../store'
 import { blue500, red500, greenA200 } from "material-ui/styles/colors";
 import SvgIcon from "material-ui/SvgIcon";
 import IconButton from "material-ui/IconButton";
@@ -22,11 +21,7 @@ const styles = {
 		overflowY: "auto"
 	}
 };
-const HomeIcon = props => (
-	<SvgIcon {...props}>
-		<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-	</SvgIcon>
-);
+
 
 const mapState = state => {
 	return {
@@ -98,7 +93,7 @@ class SingleStopList extends Component {
 									{thing.img ? (
 										<img src={thing.img} />
 									) : (
-										<img src="https://thumb7.shutterstock.com/display_pic_with_logo/2117717/504799285/stock-photo-meeting-meetup-organization-text-concept-504799285.jpg" />
+										<img src="http://mikeschinkel.com/images/meetup-logo-300x220.jpg" />
 									)}
 								</Link>
 							</GridTile>

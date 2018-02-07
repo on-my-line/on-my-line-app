@@ -28,6 +28,17 @@ h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
+a {
+	color: white;
+}
+
+.title-img {
+	display: flex;
+	flex-direction: row;
+	overflow-wrap: inherit;
+	flex-wrap: wrap; 
+	justify-content: space-around;
+}
 
 #mapcontainer {
 	bottom: 0;
@@ -154,26 +165,20 @@ h1, h2, h3 {
 
 .keyBar {
 	display: flex;
-	/*align-content: space-around;*/
-}
-
-.otherLine {
-	display: flex;
-}
-
-#key p {
-	height: 40px;
-  	line-height: 40px;
-}
-
-#key {
-	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
 	justify-content: space-between;
-	width: 300px;
-	margin-left: auto;
+}
+
+.selectField {
+	align-self: flex-end;
 }
 
 
+.list-horizontal-display {
+	display: flex;
+	flex-direction: row;
+}
 
 body { 
 	margin: 2%;
@@ -299,4 +304,5 @@ body {
 	overflow: auto;
   }
 }
+
 

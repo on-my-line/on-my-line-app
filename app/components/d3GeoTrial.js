@@ -41,6 +41,7 @@ class CongressionalDistrict extends Component {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
     this.drawMap = this.drawMap.bind(this)
+    this.state = { showYelp: true }
     // this.handleDoubleClick = this.handleDoubleClick.bind(this)
     // this.handleZoom = this.handleZoom.bind(this)
   }
@@ -65,7 +66,6 @@ class CongressionalDistrict extends Component {
 
 
   handleClick(data) {
-
     let currentStop = data.properties.STOP_ID
     this.props.setCurrentStop(currentStop)
     this.props.history.push(
@@ -612,9 +612,21 @@ class CongressionalDistrict extends Component {
     this.drawMap()
   }
 
- componentDidUpdate(prevProps) {
+ componentDidUpdate(prevProps, prevState) {
     if(prevProps.additionalStops !== this.props.additionalStops) {
       this.drawMap()
+    }
+    if(this.props.yelpBool !== prevProps.yelpBool) {
+      let newOpacity = this.props.yelpBool? 1 : 0
+      d3.selectAll("g#yelp circle").style("opacity", newOpacity)
+    }
+    if(this.props.museumBool !== prevProps.museumBool) {
+      let newOpacity = this.props.museumBool? 1 : 0
+      d3.selectAll("g#museum circle").style("opacity", newOpacity)
+    }
+    if(this.props.meetupBool !== prevProps.meetupBool) {
+      let newOpacity = this.props.meetupBool? 1 : 0
+      d3.selectAll("g#meetup circle").style("opacity", newOpacity)
     }
   }
 

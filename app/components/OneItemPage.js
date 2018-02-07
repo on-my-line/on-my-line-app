@@ -49,6 +49,7 @@ export class OneItemPage extends Component {
             return elem.properties.STOP_ID === this.props.stop
         })
         let currentThing = {}
+        console.log(currentStop)
         if(type === 'yelp') {
             currentThing = this.props.yelp.find(elem => {
                 return elem.id === thingId
@@ -65,7 +66,7 @@ export class OneItemPage extends Component {
             })
         } 
         return (
-            <div className="container">
+            <div className="container" style={styles.root}>
             {(type === 'yelp')? 
             <SingleYelpPage currentThing={currentThing} style={styles.gridList}/>: ''
             }
