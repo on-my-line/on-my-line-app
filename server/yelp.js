@@ -1,10 +1,5 @@
 const yelp = require('yelp-fusion')
 const router = require('express').Router()
-
-if(process.env.NODE_ENV!== 'production'){
-  const secrets = require('../secrets')
-}
-
 const YELP_API_KEY = process.env.YELP_API_KEY
 
 const client = yelp.client(YELP_API_KEY)

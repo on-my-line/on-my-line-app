@@ -1,14 +1,9 @@
 const router = require('express').Router()
-
-if(process.env.NODE_ENV!== 'production'){
-    const secrets = require('../secrets')
-  }
-
-  const accountSid = process.env.TWILIO_ACCOUNT_SID
-  const authToken = process.env.TWILIO_AUTH_TOKEN
-  const sierraNumber = process.env.MY_PHONE_NUMBER
-  const twilioNumber = process.env.TWILIO_NUMBER
-  const client = require('twilio')(accountSid, authToken)
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN
+const sierraNumber = process.env.MY_PHONE_NUMBER
+const twilioNumber = process.env.TWILIO_NUMBER
+const client = require('twilio')(accountSid, authToken)
 
 
 router.post('/', (req, res, next) => {

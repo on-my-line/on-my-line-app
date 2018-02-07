@@ -1,9 +1,5 @@
 const router = require('express').Router()
 const axios = require('axios')
-
-if(process.env.NODE_ENV!== 'production'){
-    const secrets = require('../secrets')
-}
     
 const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 

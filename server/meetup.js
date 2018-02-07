@@ -1,10 +1,5 @@
 const axios = require('axios')
 const router = require('express').Router()
-
-if(process.env.NODE_ENV!== 'production'){
-    const secrets = require('../secrets')
-  }
-
 const API_KEY = process.env.MEETUP_API_KEY
 
 router.get('/:lat_long_rad', (req, res, next) => {

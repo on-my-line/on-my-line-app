@@ -6,9 +6,10 @@ const PORT = 1337
 
 const app = express()
 
-if(process.env.NODE_ENV!== 'production'){
+if(process.env.NODE_ENV !== 'production'){
   const volleyball = require('volleyball')
   app.use(volleyball)
+  const secrets = require('../secrets')
 }
 
 app.use(bodyParser.json())
