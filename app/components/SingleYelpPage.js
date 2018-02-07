@@ -9,6 +9,7 @@ import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
 
+
 const mapState = state => ({
     user: state.user
 })
@@ -89,7 +90,7 @@ class SingleYelpPageClass extends Component {
         return (
 
             <div>
-                <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+                <h1>{currentThing.name}</h1>
                 {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
                 {currentThing.category.map(type => {
@@ -98,6 +99,7 @@ class SingleYelpPageClass extends Component {
                 {currentThing.img ? <img src={currentThing.img} /> : <img src="" />}
                 <h3>Address: {currentThing.location}</h3>
                 <h3>Phone: {currentThing.phone}</h3>
+                <a target="_blank" href={currentThing.url}><p>see more</p></a>
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
