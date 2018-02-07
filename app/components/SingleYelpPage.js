@@ -8,7 +8,23 @@ import Paper from 'material-ui/Paper'
 import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
+import FontIcon from "material-ui/FontIcon";
 import Modal from 'react-modal'
+
+const style = {
+    image: {
+        width: '350px',
+        height: '350px'
+    },
+    div: {
+        display: 'flex',
+        justifyContent: 'center'
+
+    },
+    words: {
+        flexDirection: 'column'
+    }
+}
 
 const mapState = state => ({
     user: state.user,
@@ -93,16 +109,16 @@ class SingleYelpPageClass extends Component {
         const { currentThing } = this.props
         return (
 
-            <div>
-                <h1><a target="_blank" href={currentThing.url}>{currentThing.name}</a></h1>
+            <div style={style.div}>
+                {currentThing.img ? <img src={currentThing.img} style={style.image}/> : <img src="" />}
+                <div style={style.words}>
+                <h1>{currentThing.name}</h1>
                 {currentThing.rating ? <h2>Rating: {currentThing.rating}</h2> : ""}
                 {currentThing.price ? <h2>Price: {currentThing.price}</h2> : ""}
-                {currentThing.category.map(type => {
-                    return <p key={type}>#{type}</p>
-                })}
-                {currentThing.img ? <img src={currentThing.img} /> : <img src="" />}
+                <p>{currentThing.category.map(type => ` ${type} `)}</p>
                 <h3>Address: {currentThing.location}</h3>
-                <h3>Phone: {currentThing.phone}</h3>
+                <h3>{currentThing.phone}</h3>
+                <a target="_blank" href={currentThing.url}><p>see more</p></a>
                 <FlatButton
                     label="Share with a Friend"
                     onClick={this.openModal}
@@ -159,6 +175,7 @@ class SingleYelpPageClass extends Component {
                         </label>
                     </form>
                 </Modal>
+                </div> 
             </div>
         )
 
