@@ -53,7 +53,7 @@ class SingleGooglePageClass extends Component{
         this.setState({ modalIsOpen: false });
     }
 
-    shareWithAFriend(reqBody) { //toNumber, url, message
+    shareWithAFriend(reqBody) {
         if(reqBody.toNumber!==''){
             axios.post('/sms', reqBody)
         }

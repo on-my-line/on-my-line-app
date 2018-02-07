@@ -46,7 +46,6 @@ class CongressionalDistrict extends Component {
   }
 
   handleEventClick(data, event, additionalLine) {
-    //when I've clicked on a thing, this gives me all the thing stuff in the data, the event is the synthetic event and the additionalLine is the additionalLine
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
     this.props.setCurrentStop(data.stopId)
@@ -430,7 +429,7 @@ class CongressionalDistrict extends Component {
         d3.queue(2)
         .defer( (callback) => { mySelf.props.fetchYelp([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .defer( (callback) => { mySelf.props.fetchMeetup([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
-        //.defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
+        .defer( (callback) => { mySelf.props.fetchGoogle([{ coordinates: d.geometry.coordinates, stopId: d.properties.STOP_ID }], callback) })
         .awaitAll(function(error) {
           if (error) throw error
           spinner.stop()

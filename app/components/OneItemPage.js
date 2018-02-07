@@ -78,9 +78,6 @@ export class OneItemPage extends Component {
             {(type === 'google')?
             <SingleGooglePage currentThing={currentThing}/>:''
             }
-            {(type === 'google')?
-            <SingleGooglePage currentThing={currentThing}/>:''
-            }
             {/* --------------- MAP ---------------- */}
             {currentThing &&
                 <OneItemMap google={this.props.google} currentStop={currentStop} style={styles.gridList} >
