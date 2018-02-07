@@ -16,7 +16,7 @@
     "build-branch": "bin/build-branch.sh",
     "start-server": "node server",
     "start-dev": "webpack -w & nodemon server",
-    "start": "node server",
+    "start": "NODE_ENV=production node server",
     "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js fire/**/*.test.js",
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
