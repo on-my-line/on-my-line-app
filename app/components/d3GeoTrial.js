@@ -48,7 +48,7 @@ class CongressionalDistrict extends Component {
   handleEventClick(data, event, additionalLine) {
     let line = additionalLine ? additionalLine : this.props.singleRoute[0].properties.route_id
     let currentStop = data.stopId
-    this.props.setCurrentStop(data)
+    this.props.setCurrentStop(data.stopId)
     // this.props.fetchSingleRoute(line)
     if(additionalLine) {
       this.props.setCurrentLine(additionalLine)

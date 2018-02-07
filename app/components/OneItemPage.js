@@ -42,9 +42,10 @@ export class OneItemPage extends Component {
     }
     render() {
         if(!this.props.singleTrainStops.length) return (
-            <h1> Sorry! No data was fetched, how about you headshit head home and pick out a line? </h1>
+            <h1> Sorry! No data was fetched, how about you head home and pick out a line? </h1>
         )
         else {
+        console.log("singleTrainStops: ", this.props.singleTrainStops)
         let type = this.props.match.params.type
         let thingId = this.props.match.params.thingId
         let currentStop = this.props.singleTrainStops.find(elem =>{
