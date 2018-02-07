@@ -49,9 +49,9 @@ class SingleStopList extends Component {
 			let meetupThings = this.props.meetup.filter(thing => {
 				return thing.stopId === stop
 			})
-			let googleThings = this.props.google.filter(thing => {
-				return thing.stopId === stop
-			})
+			// let googleThings = this.props.google.filter(thing => {
+			// 	return thing.stopId === stop
+			// })
 			return <div style={styles.root}>
 					<GridList cellHeight={180} style={styles.gridList}>
 						<Subheader>
@@ -98,7 +98,7 @@ class SingleStopList extends Component {
 								</Link>
 							</GridTile>
 						))}
-						{googleThings.map(thing => (
+						{/*{googleThings.map(thing => (
 							<GridTile
 								key={thing.id}
 								title={thing.name}
@@ -117,7 +117,7 @@ class SingleStopList extends Component {
 									)}
 								</Link>
 							</GridTile>
-						))}
+						))} */}
 					</GridList>
 				</div>
 		} else {
