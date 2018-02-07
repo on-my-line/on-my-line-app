@@ -5,7 +5,6 @@ import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
 const auth = firebase.auth()
 
-//const allUsers = db.ref('users')
 const emailProvider = new firebase.auth.EmailAuthProvider()
 
 
@@ -15,7 +14,8 @@ class SignUpClass extends React.Component {
         this.state = {
             disName: '',
             email: '',
-            password: ''
+            password: '',
+            error: ''
         }
 
         this.handleChange = this.handleChange.bind(this)
@@ -42,13 +42,11 @@ class SignUpClass extends React.Component {
             })
         })
         .then(() => this.props.history.push(`/`))
-        .catch(console.error)
+        .catch(err => {
+            console.log(err)
+            this.setState({error:err.message})
+        })
     }
-        // .then((user) => {
-        //     console.log(user.uid)
-        //     db.ref('users/' + user.uid).set({line: event.target.line.value})
-        // })
-
     render() {
         return(
             <div className="center-screen fade">
@@ -72,8 +70,10 @@ class SignUpClass extends React.Component {
                         onChange={this.handleChange} />
                     <div>
                         <FlatButton type="submit" label="Submit" />
+                        <br />
                     </div>
                 </form>
+                <div>{this.state.error}</div>                
             </div>
         )
     }

@@ -13,8 +13,9 @@ const mapDispatch = dispatch => ({
 class HelloClass extends React.Component {
 
     render() {
+    if(!this.props.user) return <div />
     return (
-        <div>
+        <div className="fade">
             <h1> Hello 
             {this.props.user.displayName ? 
            " " + this.props.user.displayName :

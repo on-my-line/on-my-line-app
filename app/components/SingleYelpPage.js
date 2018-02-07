@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import firebase from '../../fire'
-import { getCurrentUser } from '../store'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { getUserExtras, addUserEvent } from '../../fire/refs'
+import Paper from 'material-ui/Paper'
 import { getUserExtras } from '../../fire/refs'
 import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
@@ -10,7 +12,9 @@ import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
 
 const mapState = state => ({
-    user: state.user
+    user: state.user,
+    stop: state.stop, //id
+    singleTrainStops: state.singleTrainStops
 })
 
 const mapDispatch = dispatch => ({
@@ -38,6 +42,31 @@ class SingleYelpPageClass extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleClick = this.handleClick.bind(this)
     }
+    
+    handleAddEvent() {
+        const currentThing = this.props.currentThing
+        const userId = this.props.user.uid
+        const stopName = this.props.singleTrainStops.filter(el => el.properties.STOP_ID === this.props.stop)[0].properties.STOP_NAME
+        const savedPlace = {stopName: stopName, ...currentThing}
+        addUserEvent(savedPlace, userId)
+    }
+    
+    render() {
+            const { currentThing } =  this.props
+            return (
+                <div>
+                    <a target="_blank" href={currentThing.url}><h1>{currentThing.name}</h1></a>
+                    {currentThing.rating? <h2>Rating: {currentThing.rating}</h2> : "" }
+                    {currentThing.price? <h2>Price: {currentThing.price}</h2> : "" }
+                    {this.props.user.uid && <button onClick={this.handleAddEvent}>Add to your events!</button>}
+                    {currentThing.category.map(type => {
+                        return <p key={type}>#{type}</p>
+                    })}
+                    {currentThing.img? <img src={currentThing.img}/> : <img src=""/>}
+                    <h3>Address: {currentThing.location}</h3>
+                    <h3>Phone: {currentThing.phone}</h3>
+                </div>
+            )
 
     componentDidMount() {
         getUserExtras(this.props.user.uid)

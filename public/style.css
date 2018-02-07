@@ -16,15 +16,21 @@ body {
 }
 
 * {
-	font-family: 'Roboto';
+	font-family: 'Roboto', sans-serif;
 }
 
-h1 {
+body {
+	background-color: #212121;
+	color: white;
+}
+
+h1, h2, h3 {
 	font-family: 'Roboto-Thin'
 }
 
 
 #mapcontainer {
+	bottom: 0;
 	font-family: Didot;
 	margin: auto;
 	height: 100vh; 
@@ -98,6 +104,34 @@ h1 {
   text-align: center;
 }*/
 
+.your-events {
+	max-height: 35vh;
+	overflow-y: scroll;
+}
+
+.card-padding {
+	margin-top: 5%;
+	padding: 3%;
+}
+
+.flex-row {
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: col;
+	flex-wrap: wrap;
+}
+
+.card-text {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
 .meetupTip {
   line-height: 1;
   font-weight: bold;
@@ -148,10 +182,13 @@ body {
 
 .navBar {
 	display: flex;
+	background-color: #212121;
 	margin-left: -4%;
+	margin-top: -1%;
 	flex-direction: row;
-	align-items: baseline;
+	z-index: 1000;
 	justify-content: flex-end;
+	align-items: baseline;
 	width: 100vw;
 	height: 5vh;
 }
@@ -203,7 +240,7 @@ body {
 
 
 .fade {
-	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 
+	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 */
 	-moz-animation: fadein 1s; /* Firefox < 16 */
 	-ms-animation: fadein 1s; /* Internet Explorer */
 	-o-animation: fadein 1s; /* Opera < 11.1 */

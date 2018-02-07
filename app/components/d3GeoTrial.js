@@ -9,7 +9,6 @@ import {Spinner} from '../../spin.js';
 import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 
-
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
   yelp: state.yelp,
@@ -36,7 +35,6 @@ const mapDistpatchToProps = dispatch => {
     fetchGoogle(arrayOfStops, callback) {dispatch(fetchGoogleThunk(arrayOfStops, 400, callback))}
   }
 }
-
 
 class CongressionalDistrict extends Component {
   constructor(props) {
