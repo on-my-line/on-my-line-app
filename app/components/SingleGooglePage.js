@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import FlatButton from 'material-ui/FlatButton/FlatButton'
-import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
+
+import FlatButton from 'material-ui/FlatButton/FlatButton'
+import TextField from 'material-ui/TextField'
 
 const style = {
     image: {

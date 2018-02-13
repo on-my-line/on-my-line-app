@@ -4,12 +4,12 @@ import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
-import Paper from 'material-ui/Paper'
 import axios from 'axios'
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
-import FontIcon from "material-ui/FontIcon";
+import FontIcon from 'material-ui/FontIcon'
 import Modal from 'react-modal'
+import Paper from 'material-ui/Paper'
 import ReactStars from 'react-stars'
 
 const style = {
@@ -33,7 +33,7 @@ const style = {
 
 const mapState = state => ({
     user: state.user,
-    stop: state.stop, //id
+    stop: state.stop,
     singleTrainStops: state.singleTrainStops
 })
 

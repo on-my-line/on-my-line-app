@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import WhatIsYourLine from './WhatIsYourLine'
 import firebase from '../../fire'
 import Hello from './Hello'
+import WhatIsYourLine from './WhatIsYourLine'
 import UserHome from './UserHome'
 
 const mapState = state => ({user: state.user})

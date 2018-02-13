@@ -1,13 +1,13 @@
 import React from 'react'
 import firebase from '../../fire'
-import IconButton from 'material-ui/IconButton'
-import ContentClear from 'material-ui/svg-icons/content/clear'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { getUserEvents } from '../../fire/refs'
 import Avatar from 'material-ui/Avatar'
+import IconButton from 'material-ui/IconButton'
+import ContentClear from 'material-ui/svg-icons/content/clear'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
 
 const mapState = state => ({user: state.user})
 
@@ -65,25 +65,23 @@ class UserHomeClass extends React.Component {
                     {this.state.events.map(event => {
                         return (
                         <Card key={event.key}>
-                        <CardHeader
-                            title={event.name}
-                            subtitle={event.stopName}
-                            avatar={<Avatar src={event.img} />}
-                        >
-                        <IconButton
-                            onClick={this.handleRemoveEvent.bind(this, event.key)}
-                        >
-                            <ContentClear/>
-                        </IconButton>
-                        <CardText>
-                            <div className="card-text">
-                                <div>
-                                    {event.location} <br />
-                                    <a target="_blank" href={event.url}>See more</a>
-                                </div>
-                            </div>
-                        </CardText>
-                        </CardHeader>
+                            <CardHeader
+                                title={event.name}
+                                subtitle={event.stopName}
+                                avatar={<Avatar src={event.img} />}
+                            >
+                                <IconButton onClick={this.handleRemoveEvent.bind(this, event.key)}>
+                                    <ContentClear/>
+                                </IconButton>
+                                <CardText>
+                                    <div className="card-text">
+                                        <div>
+                                            {event.location} <br />
+                                            <a target="_blank" href={event.url}>See more</a>
+                                        </div>
+                                    </div>
+                                </CardText>
+                            </CardHeader>
                         </Card>
                     )
                     })}

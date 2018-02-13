@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
-import { GridList, GridTile } from "material-ui/GridList";
-import { blue500, red500, greenA200 } from "material-ui/styles/colors";
-import SvgIcon from "material-ui/SvgIcon";
-import IconButton from "material-ui/IconButton";
-import Subheader from "material-ui/Subheader";
-import StarBorder from "material-ui/svg-icons/toggle/star-border";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
+
+import { GridList, GridTile } from 'material-ui/GridList'
+import { blue500, red500, greenA200 } from 'material-ui/styles/colors'
+import SvgIcon from 'material-ui/SvgIcon'
+import IconButton from 'material-ui/IconButton'
+import Subheader from 'material-ui/Subheader'
+import StarBorder from 'material-ui/svg-icons/toggle/star-border'
 
 const styles = {
 	root: {
@@ -23,17 +24,15 @@ const styles = {
 };
 
 
-const mapState = state => {
-	return {
-		line: state.line,
-		stop: state.stop,
-		yelp: state.yelp,
-		meetup: state.meetup,
-		google: state.google,
-		singleRoute: state.singleRoute,
-		singleTrainStops: state.singleTrainStops
-	};
-};
+const mapState = state => ({
+	line: state.line,
+	stop: state.stop,
+	yelp: state.yelp,
+	meetup: state.meetup,
+	google: state.google,
+	singleRoute: state.singleRoute,
+	singleTrainStops: state.singleTrainStops
+})
 
 class SingleStopList extends Component {
 	

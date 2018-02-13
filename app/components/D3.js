@@ -8,7 +8,7 @@ import NavBar from './NavBar'
 //Material-ui
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Toggle from 'material-ui/Toggle';
 import IconYelp from 'material-ui/svg-icons/maps/place'
 import IconMuseum from 'material-ui/svg-icons/action/account-balance'

@@ -1,13 +1,12 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import firebase from '../../fire'
+import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine, setSingleRoute, setSingleStops } from '../store' 
 import SelectField from 'material-ui/SelectField'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
-import {withRouter} from 'react-router-dom'
-import {connect} from 'react-redux'
-import firebase from '../../fire'
-import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine, setSingleRoute, setSingleStops } from '../store' 
 const auth = firebase.auth()
-
 
 const mapState = state => ({
   userLine: state.userLine,
@@ -15,27 +14,13 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  handleChange: value => {
-    dispatch(setUserLine(value))
-  },
-  fetchSingleRoute: currentRoute => {
-    dispatch(fetchSingleRouteThunk(currentRoute))
-  },
-  fetchSingleStops: currentRoute => {
-    dispatch(fetchSingleStopsThunk(currentRoute))
-  },
-  addUserLine: line => {
-    dispatch(setUserLine(line))
-  },
-  setCurrentLine: line => {
-    dispatch(setLine(line))
-  },
-  resetSingleRoute: () => {
-    dispatch(setSingleRoute([]))
-  },
-  resetSingleStops: () => {
-    dispatch(setSingleStops([]))
-  }
+  handleChange: value => { dispatch(setUserLine(value)) },
+  fetchSingleRoute: currentRoute => { dispatch(fetchSingleRouteThunk(currentRoute)) },
+  fetchSingleStops: currentRoute => { dispatch(fetchSingleStopsThunk(currentRoute)) },
+  addUserLine: line => { dispatch(setUserLine(line)) },
+  setCurrentLine: line => { dispatch(setLine(line)) },
+  resetSingleRoute: () => { dispatch(setSingleRoute([])) },
+  resetSingleStops: () => { dispatch(setSingleStops([])) }
 })
 
 class WhatIsYourLineAndStop extends React.Component {
@@ -49,8 +34,6 @@ class WhatIsYourLineAndStop extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-//TODO PLACE FIREBASE LOGIC IN REFS FILE 
-
   componentDidMount() {
     this.props.resetSingleStops()
     this.props.resetSingleRoute()
@@ -58,11 +41,9 @@ class WhatIsYourLineAndStop extends React.Component {
 
   handleLineChange(event) {
     this.props.setCurrentLine(event.target.innerHTML)
-    //this.setState({userLine:value})
   }
 
   handleClick(){
-    console.log("YOURE IN THE CLICK")
     if(this.props.line) {
     auth.onAuthStateChanged(user => {
       if(user && !user.isAnonymous) {
@@ -92,13 +73,10 @@ class WhatIsYourLineAndStop extends React.Component {
               value={this.props.line}
               onChange={event => this.handleLineChange(event)}
               maxHeight={200}
-            >
+          >
               {this.state.lines.map(line => <MenuItem value={line} key={line} primaryText={line} />)}
           </SelectField>
-          {this.props.line ? 
-            <FlatButton onClick={this.handleClick} label="Let's go!"
-            />: null
-          }
+          {this.props.line && <FlatButton onClick={this.handleClick} label="Let's go!"/>}
         </div>
     )
   }

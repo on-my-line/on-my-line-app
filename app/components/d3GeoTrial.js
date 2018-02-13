@@ -1,13 +1,11 @@
 import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
-import React, { Component } from "react"
-//import { NavLink } from 'react-router-dom'
+import React from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
 import { connect } from 'react-redux'
 import {Spinner} from '../../spin.js';
 import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
-
 
 const mapStateToProps = state => ({ 
   meetup: state.meetup,
@@ -36,7 +34,7 @@ const mapDistpatchToProps = dispatch => {
   }
 }
 
-class CongressionalDistrict extends Component {
+class CongressionalDistrict extends React.Component {
   constructor(props) {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)

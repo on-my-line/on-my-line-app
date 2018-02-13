@@ -1,8 +1,8 @@
 import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
 import firebase from '../../fire'
 import { withRouter } from 'react-router-dom'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
 const auth = firebase.auth()
 
 class LogInClass extends React.Component {
