@@ -13,7 +13,6 @@ router.post('/', (req, res, next) => {
     const toNumber = req.body.toNumber
     const website = req.body.url
     const message = req.body.message
-    console.log("in the message sending ")
     // client.messages.create({
     //     to: toNumber,
     //     from: twilioNumber,

@@ -73,7 +73,6 @@ class SingleYelpPageClass extends Component {
 
     componentDidMount() {
         getUserExtras(this.props.user.uid)
-            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {

@@ -637,7 +637,6 @@ class CongressionalDistrict extends Component {
   // }
 
   render() {
-    console.log("im on top of svg")
     return (
       <div>
         <svg ref={node => (this.node = node)} />

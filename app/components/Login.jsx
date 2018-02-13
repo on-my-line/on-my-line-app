@@ -33,7 +33,6 @@ class LogInClass extends React.Component {
         auth.signInWithEmailAndPassword(email, password)
         .then(() => this.props.history.push(`/`))
         .catch(err => {
-            console.log(err)
             this.setState({error:err.message})
         })
     }

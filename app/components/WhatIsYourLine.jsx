@@ -31,7 +31,6 @@ const mapDispatch = dispatch => ({
     dispatch(setLine(line))
   },
   resetSingleRoute: () => {
-    console.log('hello')
     dispatch(setSingleRoute([]))
   },
   resetSingleStops: () => {

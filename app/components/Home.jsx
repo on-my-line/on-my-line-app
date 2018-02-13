@@ -10,7 +10,6 @@ const mapState = state => ({user: state.user})
 class HomeContainer extends React.Component {
 
   render() {
-    console.log(this.props)
     return (
       <div className="center-screen fade">
         <Hello />
