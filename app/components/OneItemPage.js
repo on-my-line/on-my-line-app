@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router";
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { GoogleApiWrapper } from 'google-maps-react'
 import axios from 'axios'
 import OneItemMap from './OneItemMap'
@@ -8,19 +9,15 @@ import SingleMeetupPage from './SingleMeetupPage'
 import SingleGooglePage from './SingleGooglePage'
 import Marker from './Marker'
 import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
-import {connect} from 'react-redux'
 
-
-const mapState = (state) => {
-    return {
-        line: state.line,
-        stop: state.stop,
-        yelp: state.yelp,
-        meetup: state.meetup,
-        googleThing: state.google,
-        singleTrainStops: state.singleTrainStops,
-    }
-}
+const mapState = state => ({
+    line: state.line,
+    stop: state.stop,
+    yelp: state.yelp,
+    meetup: state.meetup,
+    googleThing: state.google,
+    singleTrainStops: state.singleTrainStops
+})
 
 const styles = {
 	root: {

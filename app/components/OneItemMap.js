@@ -45,11 +45,12 @@ export class OneItemMap extends Component {
         })
     }
 
-    render(){
+    render() {
         const style = {
             width: '68vw',
             height: '68vh'
-            }
+        }
+        
        return (
             <div ref='map' style={style}>
                 Loading map...

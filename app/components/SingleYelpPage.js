@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import firebase from '../../fire'
-import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import firebase from '../../fire'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
 import axios from 'axios'
+
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
 import FontIcon from 'material-ui/FontIcon'
@@ -30,18 +31,13 @@ const style = {
     }
 }
 
-
 const mapState = state => ({
     user: state.user,
     stop: state.stop,
     singleTrainStops: state.singleTrainStops
 })
 
-const mapDispatch = dispatch => ({
-    getUser() {
-        dispatch(getCurrentUser())
-    }
-})
+const mapDispatch = dispatch => ({ getUser() { dispatch(getCurrentUser()) } })
 
 class SingleYelpPageClass extends Component {
     constructor(props) {

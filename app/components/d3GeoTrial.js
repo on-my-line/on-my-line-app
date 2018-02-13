@@ -1,10 +1,10 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
-import React from "react"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
-import { connect } from 'react-redux'
-import {Spinner} from '../../spin.js';
+import { Spinner } from '../../spin.js';
 import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 const mapStateToProps = state => ({ 
@@ -16,25 +16,17 @@ const mapStateToProps = state => ({
   stop: state.stop
 })
 
-const mapDistpatchToProps = dispatch => {
-  return{
-    setCurrentStop: stop => dispatch(setStop(stop))
-    ,
-    setCurrentLine: line => dispatch(setLine(line))
-    ,
-    fetchSingleRoute: line => dispatch(fetchSingleRouteThunk(line))
-    ,
-    fetchSingleStops: line => dispatch(fetchSingleStopsThunk(line))
-    ,
-    fetchYelp(arrayOfStops, callback) { dispatch(fetchYelpThunk(arrayOfStops, 400, callback)) }
-    ,
-    fetchMeetup(arrayOfStops, callback) {dispatch(fetchMeetupThunk(arrayOfStops, 400, callback))}
-    ,
-    fetchGoogle(arrayOfStops, callback) {dispatch(fetchGoogleThunk(arrayOfStops, 400, callback))}
-  }
-}
+const mapDistpatchToProps = dispatch => ({
+  setCurrentStop: stop => dispatch(setStop(stop)),
+  setCurrentLine: line => dispatch(setLine(line)),
+  fetchSingleRoute: line => dispatch(fetchSingleRouteThunk(line)),
+  fetchSingleStops: line => dispatch(fetchSingleStopsThunk(line)),
+  fetchYelp(arrayOfStops, callback) { dispatch(fetchYelpThunk(arrayOfStops, 400, callback)) },
+  fetchMeetup(arrayOfStops, callback) { dispatch(fetchMeetupThunk(arrayOfStops, 400, callback)) },
+  fetchGoogle(arrayOfStops, callback) { dispatch(fetchGoogleThunk(arrayOfStops, 400, callback)) }
+})
 
-class CongressionalDistrict extends React.Component {
+class CongressionalDistrict extends Component {
   constructor(props) {
     super(props)
     this.handleEventClick = this.handleEventClick.bind(this)
@@ -78,8 +70,6 @@ class CongressionalDistrict extends React.Component {
     const middleStop = Math.floor(this.props.singleTrainStops.length / 2)
     const center = this.props.singleTrainStops[middleStop].geometry.coordinates
     let centered, k
-    // const width = 1280
-    // const height = 2000
     const width = d3.select("#mapcontainer").node().clientWidth
     const height = d3.select("#mapcontainer").node().clientHeight
 

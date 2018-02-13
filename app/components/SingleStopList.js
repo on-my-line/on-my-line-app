@@ -4,8 +4,6 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 
 import { GridList, GridTile } from 'material-ui/GridList'
-import { blue500, red500, greenA200 } from 'material-ui/styles/colors'
-import SvgIcon from 'material-ui/SvgIcon'
 import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border'
@@ -86,7 +84,6 @@ class SingleStopList extends Component {
 										<StarBorder color="white" />
 									</IconButton>
 								}
-
 							>
 								<Link to={`/${line}/${stop}/meetup/${thing.id}`}>
 									{thing.img ? (
@@ -119,7 +116,7 @@ class SingleStopList extends Component {
 					</GridList>
 				</div>
 		} else {
-			return <div>Loading</div>;
+			return <div>Loading</div>
 		}
 	}
 }

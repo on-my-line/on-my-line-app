@@ -7,8 +7,6 @@ const router = require('express').Router()
 
 const client = require('twilio')(accountSid, authToken)
 
-
-
 router.post('/', (req, res, next) => {
     const toNumber = req.body.toNumber
     const website = req.body.url

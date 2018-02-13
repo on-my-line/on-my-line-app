@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Modal from 'react-modal'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
@@ -90,7 +90,7 @@ class SingleGooglePageClass extends Component{
     }
 
     shareWithAFriend(reqBody) { //toNumber, url, message
-        if(reqBody.toNumber!==''){
+        if(reqBody.toNumber !== ''){
             axios.post('/sms', reqBody)
         }
     }

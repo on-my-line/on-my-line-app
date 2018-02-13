@@ -1,11 +1,11 @@
-import React from 'react'
-import firebase from '../../fire'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import firebase from '../../fire'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 const auth = firebase.auth()
 
-class LogInClass extends React.Component {
+class LogInClass extends Component {
     constructor(props) {
         super(props)
         this.state = {

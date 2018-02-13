@@ -1,11 +1,12 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import firebase from '../../fire'
 import store, { fetchSingleRouteThunk, fetchSingleStopsThunk, setLine, setUserLine, setSingleRoute, setSingleStops } from '../store' 
 import SelectField from 'material-ui/SelectField'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
+
 const auth = firebase.auth()
 
 const mapState = state => ({
@@ -23,7 +24,7 @@ const mapDispatch = dispatch => ({
   resetSingleStops: () => { dispatch(setSingleStops([])) }
 })
 
-class WhatIsYourLineAndStop extends React.Component {
+class WhatIsYourLineAndStop extends Component {
   constructor() {
     super()
     this.state = {
@@ -62,7 +63,6 @@ class WhatIsYourLineAndStop extends React.Component {
     this.props.history.push(`/${this.props.line}`)
   }
 
-
   render() {
     return (
         <div className='center-screen fade'>
@@ -83,5 +83,4 @@ class WhatIsYourLineAndStop extends React.Component {
 }
 
 const WhatIsYourLine = withRouter(connect(mapState, mapDispatch)(WhatIsYourLineAndStop))
-
 export default WhatIsYourLine

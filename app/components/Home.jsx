@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import firebase from '../../fire'
 import Hello from './Hello'
@@ -7,7 +7,7 @@ import UserHome from './UserHome'
 
 const mapState = state => ({user: state.user})
 
-class HomeContainer extends React.Component {
+class HomeContainer extends Component {
 
   render() {
     return (

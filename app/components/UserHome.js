@@ -57,7 +57,7 @@ class UserHomeClass extends React.Component {
 
 
     render() {
-        if(!Object.keys(this.state.events).length) return <div />
+        if (!Object.keys(this.state.events).length) return <div />
         return(
             <div className="fade">
                 {this.state.events && <h2> Here are some things you thought were cool </h2>}

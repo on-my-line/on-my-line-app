@@ -1,28 +1,19 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import firebase from '../../fire'
 import { getCurrentUser } from '../store'
-import { connect } from 'react-redux'
 
 const mapState = state => ({user: state.user})
-const mapDispatch = dispatch => ({
-    getUser() {
-        dispatch(getCurrentUser())
-    }
-})
+const mapDispatch = dispatch => ({ getUser() { dispatch(getCurrentUser()) } })
 
-class HelloClass extends React.Component {
-
+class HelloClass extends Component {
     render() {
-    if(!this.props.user) return <div />
-    return (
-        <div className="fade">
-            <h1> Hello 
-            {this.props.user.displayName ? 
-           " " + this.props.user.displayName :
-            null}
-            </h1>
-        </div>
-    )
+        if(!this.props.user) return <div />
+        return (
+            <div className="fade">
+                <h1> Hello {this.props.user.displayName && " " + this.props.user.displayName} </h1>
+            </div>
+        )
     }
 }
 

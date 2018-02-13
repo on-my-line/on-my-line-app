@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 
 export class Marker extends Component {
-
-    componentDidUpdate(prevProps){
-            this.renderMarker()
+    componentDidUpdate() {
+        this.renderMarker()
     }
 
     renderMarker(){
