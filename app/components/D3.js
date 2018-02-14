@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
-import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
+import { fetchYelpThunk, fetchMeetupThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
 import NavBar from './NavBar'
 
 import SelectField from 'material-ui/SelectField'
@@ -26,7 +26,6 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
   fetchYelp(arrayOfStops) { dispatch(fetchYelpThunk(arrayOfStops)) },
   fetchMeetup(arrayOfStops) { dispatch(fetchMeetupThunk(arrayOfStops)) },
-  fetchEventBrite(arrayOfStops) { dispatch(fetchEventBriteThunk(arrayOfStops)) },
   fetchRouteAndStops(currentRoute) {
     dispatch(setLoading(true))
     dispatch(fetchSingleRouteThunk(currentRoute))

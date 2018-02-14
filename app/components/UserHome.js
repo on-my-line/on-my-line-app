@@ -1,13 +1,15 @@
 import React from 'react'
-import firebase from '../../fire'
-import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+
+import firebase from '../../fire'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { getUserEvents } from '../../fire/refs'
+
 import Avatar from 'material-ui/Avatar'
 import IconButton from 'material-ui/IconButton'
 import ContentClear from 'material-ui/svg-icons/content/clear'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 
 const mapState = state => ({user: state.user})
 
