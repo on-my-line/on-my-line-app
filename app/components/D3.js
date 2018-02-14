@@ -8,7 +8,7 @@ import NavBar from './NavBar'
 
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { List, ListItem } from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List'
 import Toggle from 'material-ui/Toggle';
 import IconYelp from 'material-ui/svg-icons/maps/place'
 import IconMuseum from 'material-ui/svg-icons/action/account-balance'
@@ -63,7 +63,7 @@ class D3Trial extends Component {
     .then(res =>  self.setState({additionalRoute: res.data}))
     .then(() => axios.get(`/stops/${additionalLine}`))
     .then(res =>  self.setState({additionalStops: res.data}))
-    .catch(err => console.error(err))
+    .catch(console.error)
   }
 
   handleToggle(event, type) {

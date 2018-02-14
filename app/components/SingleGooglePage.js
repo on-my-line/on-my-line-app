@@ -108,11 +108,8 @@ class SingleGooglePageClass extends Component{
                         <a target="_blank" href={currentThing.url}><p>see more</p></a>
                     </div>
                 </div>
-            {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
-            <FlatButton
-            label="Share with a Friend"
-            onClick={this.openModal}
-        />
+            {this.props.user.uid && <FlatButton label="Add to your favorites" onClick={this.handleAddEvent} />}
+            <FlatButton label="Share with a Friend" onClick={this.openModal} />
         <Modal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}

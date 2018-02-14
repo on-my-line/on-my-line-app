@@ -29,9 +29,9 @@ class NavBarContainer extends Component {
     render() {
         return (
             <div className="navBar">
-                <IconButton
-                    containerElement={<Link to="/" />}
-                ><ActionHome /></IconButton>
+                <IconButton containerElement={<Link to="/" />}>
+                    <ActionHome />
+                </IconButton>
                 <IconMenu
                     iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -39,18 +39,18 @@ class NavBarContainer extends Component {
                 >
                 {this.props.user === "none" ? 
                     <div>
-                    <MenuItem
-                        primaryText="Log In"
-                        containerElement={<Link to="/login" />} />
-                    <MenuItem
-                        primaryText="Sign Up"
-                        containerElement={<Link to="/signup" />} />
+                        <MenuItem
+                            primaryText="Log In"
+                            containerElement={<Link to="/login" />} />
+                        <MenuItem
+                            primaryText="Sign Up"
+                            containerElement={<Link to="/signup" />} />
                     </div>
                 :
                     <div>
-                    <MenuItem 
-                        primaryText="Log Out"
-                        onClick={() => auth.signOut()} />
+                        <MenuItem 
+                            primaryText="Log Out"
+                            onClick={() => auth.signOut()} />
                     </div>
                 }
                 </IconMenu>
@@ -60,5 +60,4 @@ class NavBarContainer extends Component {
 }
 
 const NavBar = connect(mapState, mapDispatch)(NavBarContainer)
-
 export default NavBar

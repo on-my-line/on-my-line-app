@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import * as topojson from "topojson-client"
 import { withRouter } from "react-router"
+import * as topojson from "topojson-client"
 import * as d3 from "d3"
 import d3Tip from "d3-tip"
-import { Spinner } from '../../spin.js';
+import { Spinner } from '../../spin.js'
 import { setLine, setStop, fetchYelpThunk, fetchMeetupThunk, fetchGoogleThunk, fetchSingleRouteThunk, fetchSingleStopsThunk } from '../store'
 
 const mapStateToProps = state => ({ 
@@ -634,5 +634,4 @@ class CongressionalDistrict extends Component {
 }
 
 const CongressionalDistricts = withRouter(connect(mapStateToProps,mapDistpatchToProps)(CongressionalDistrict))
-
 export default CongressionalDistricts

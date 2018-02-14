@@ -8,7 +8,6 @@ import UserHome from './UserHome'
 const mapState = state => ({user: state.user})
 
 class HomeContainer extends Component {
-
   render() {
     return (
       <div className="center-screen fade">
