@@ -4,6 +4,7 @@ import firebase from '../../fire'
 import { getCurrentUser } from '../store'
 
 const mapState = state => ({user: state.user})
+
 const mapDispatch = dispatch => ({ getUser() { dispatch(getCurrentUser()) } })
 
 class HelloClass extends Component {
