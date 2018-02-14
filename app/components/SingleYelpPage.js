@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
-import firebase from '../../fire'
-import { getCurrentUser, addToUserEvents } from '../store'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import firebase from '../../fire'
+import { getCurrentUser, addToUserEvents } from '../store'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
-import Paper from 'material-ui/Paper'
 import axios from 'axios'
+
 import FlatButton from 'material-ui/FlatButton/FlatButton'
 import TextField from 'material-ui/TextField'
-import FontIcon from "material-ui/FontIcon";
+import FontIcon from 'material-ui/FontIcon'
 import Modal from 'react-modal'
+import Paper from 'material-ui/Paper'
 import ReactStars from 'react-stars'
 
 const style = {
@@ -30,18 +31,13 @@ const style = {
     }
 }
 
-
 const mapState = state => ({
     user: state.user,
-    stop: state.stop, //id
+    stop: state.stop,
     singleTrainStops: state.singleTrainStops
 })
 
-const mapDispatch = dispatch => ({
-    getUser() {
-        dispatch(getCurrentUser())
-    }
-})
+const mapDispatch = dispatch => ({ getUser() { dispatch(getCurrentUser()) } })
 
 class SingleYelpPageClass extends Component {
     constructor(props) {
@@ -73,7 +69,6 @@ class SingleYelpPageClass extends Component {
 
     componentDidMount() {
         getUserExtras(this.props.user.uid)
-            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {

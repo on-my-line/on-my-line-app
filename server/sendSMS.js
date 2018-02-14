@@ -7,21 +7,10 @@ const router = require('express').Router()
 
 const client = require('twilio')(accountSid, authToken)
 
-
-
 router.post('/', (req, res, next) => {
     const toNumber = req.body.toNumber
     const website = req.body.url
     const message = req.body.message
-    console.log("in the message sending ")
-    // client.messages.create({
-    //     to: toNumber,
-    //     from: twilioNumber,
-    //     body: `${website} ${message}`
-    // })
-    // .then(message => console.log(message.sid))
-    // .then(()=> res.send("Message Sent!"))
-    // .catch(next)
     res.send("Message sent!")
 })
 

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import firebase from '../../fire'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import firebase from '../../fire'
-import { withRouter } from 'react-router-dom'
 const auth = firebase.auth()
 
-class LogInClass extends React.Component {
+class LogInClass extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -33,7 +33,6 @@ class LogInClass extends React.Component {
         auth.signInWithEmailAndPassword(email, password)
         .then(() => this.props.history.push(`/`))
         .catch(err => {
-            console.log(err)
             this.setState({error:err.message})
         })
     }
