@@ -13,6 +13,7 @@ import loading from './loading'
 import google from './googlePlaces'
 import user from './user'
 
+console.log("Enviornment ", process)
 
 const reducer = combineReducers(
   {
