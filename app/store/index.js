@@ -1,3 +1,4 @@
+const isProduction = process.env.NODE_ENV === 'production'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
@@ -12,6 +13,7 @@ import userLine from './userLine'
 import loading from './loading'
 import google from './googlePlaces'
 import user from './user'
+import thunk from 'redux-thunk';
 
 const reducer = combineReducers(
   {
@@ -27,9 +29,11 @@ const reducer = combineReducers(
     user
   })
 
-const middleware = composeWithDevTools(applyMiddleware(
+const middleware = isProduction
+  ? composeWithDevTools(applyMiddleware(
     thunkMiddleware
   ))
+  : composeWithDevTools(applyMiddleware(thunkMiddleware, createLogger({collapsed: true})))
 
 const store = createStore(reducer, middleware)
 
