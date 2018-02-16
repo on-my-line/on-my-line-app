@@ -44,8 +44,11 @@ export const fetchMeetupThunk = (arrayOfStops, rad = 400, callback) =>
                     })
                     return uniqueThings
                 })
-                .then(uniqueMeetupThings =>
-                    dispatch(setMeetupThings(uniqueMeetupThings)))
+                .then(uniqueMeetupThings =>//{
+                   // console.log(uniqueMeetupThings)
+                    uniqueMeetupThings.length ? dispatch(setMeetupThings(uniqueMeetupThings)): dispatch(setMeetupThings([]))
+                //}
+                    )
                 .then(() => {
                     callback(null)
                 })
