@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/queerviolet/bones.git"
+    "url": "git+https://github.com/on-my-line/on-my-line-app"
   },
   "keywords": [
     "react",
@@ -31,10 +31,6 @@
   ],
   "author": "Sierra Saitta, Julia Jaspers, Ko-Hsin Chu, Leah Gerald",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/queerviolet/bones/issues"
-  },
-  "homepage": "https://github.com/queerviolet/bones#readme",
   "dependencies": {
     "@google/maps": "^0.4.5",
     "axios": "^0.15.2",
