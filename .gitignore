@@ -17,3 +17,6 @@ firebase-debug.log
 # secrets
 secrets.js
 app/FrontEndSecrets.js
+oldEsLintRc
+package-lock.json
+LICENSE

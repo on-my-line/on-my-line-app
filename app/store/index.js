@@ -1,4 +1,4 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -6,14 +6,12 @@ import line from './line'
 import stop from './stop'
 import yelp from './yelp'
 import meetup from './meetup'
-import eventBrite from './eventBrite'
 import singleTrainStops from './singleTrainStops'
 import singleRoute from './singleRoute'
 import userLine from './userLine'
 import loading from './loading'
 import google from './googlePlaces'
 import user from './user'
-
 
 const reducer = combineReducers(
   {
@@ -22,7 +20,6 @@ const reducer = combineReducers(
     yelp,
     meetup,
     google,
-    eventBrite,
     singleTrainStops,
     singleRoute,
     userLine,
@@ -43,7 +40,6 @@ export * from './line'
 export * from './stop'
 export * from './yelp'
 export * from './meetup'
-export * from './eventBrite'
 export * from './singleTrainStops'
 export * from './singleRoute'
 export * from './userLine'

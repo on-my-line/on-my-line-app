@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
-import { withRouter } from "react-router";
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { GoogleApiWrapper } from 'google-maps-react'
 import OneItemMap from './OneItemMap'
 import SingleYelpPage from './SingleYelpPage'
 import SingleMeetupPage from './SingleMeetupPage'
 import SingleGooglePage from './SingleGooglePage'
 import Marker from './Marker'
-import {connect} from 'react-redux'
+import GOOGLE_MAPS_API_KEY from '../FrontEndSecrets'
 
-
-const mapState = (state) => {
-    return {
-        line: state.line,
-        stop: state.stop,
-        yelp: state.yelp,
-        meetup: state.meetup,
-        googleThing: state.google,
-        singleTrainStops: state.singleTrainStops,
-    }
-}
+const mapState = state => ({
+    line: state.line,
+    stop: state.stop,
+    yelp: state.yelp,
+    meetup: state.meetup,
+    googleThing: state.google,
+    singleTrainStops: state.singleTrainStops
+})
 
 const styles = {
 	root: {
@@ -49,7 +47,6 @@ export class OneItemPage extends Component {
             return elem.properties.STOP_ID === this.props.stop
         })
         let currentThing = {}
-        console.log(currentStop)
         if(type === 'yelp') {
             currentThing = this.props.yelp.find(elem => {
                 return elem.id === thingId

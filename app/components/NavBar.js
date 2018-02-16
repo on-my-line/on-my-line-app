@@ -1,28 +1,27 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import firebase from '../../fire'
-import FontIcon from 'material-ui/FontIcon'
-import IconButton from 'material-ui/IconButton'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
 import { Link } from 'react-router-dom'
+import { getCurrentUser } from '../store'
+import { getUserEvents, getUserExtras } from '../../fire/refs'
+
 import ActionAccountCircle from 'material-ui/svg-icons/action/account-circle'
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import MapsNearMe from 'material-ui/svg-icons/maps/near-me'
 import Badge from 'material-ui/Badge'
+import FontIcon from 'material-ui/FontIcon'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+
 const auth = firebase.auth()
-import { getCurrentUser } from '../store'
-import { connect } from 'react-redux'
-import { getUserEvents, getUserExtras } from '../../fire/refs'
 
 const mapState = state => ({user: state.user})
-const mapDispatch = dispatch => ({
-    getUser() {
-        dispatch(getCurrentUser())
-    }
-})
+const mapDispatch = dispatch => ({ getUser() { dispatch(getCurrentUser()) } })
 
-class NavBarContainer extends React.Component {
+class NavBarContainer extends Component {
+
     componentDidMount() {
         this.props.getUser()
     }
@@ -30,9 +29,9 @@ class NavBarContainer extends React.Component {
     render() {
         return (
             <div className="navBar">
-                <IconButton
-                containerElement={<Link to="/" />}
-                ><ActionHome /></IconButton>
+                <IconButton containerElement={<Link to="/" />}>
+                    <ActionHome />
+                </IconButton>
                 <IconMenu
                     iconButtonElement={<IconButton><ActionAccountCircle /></IconButton>}
                     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -40,16 +39,18 @@ class NavBarContainer extends React.Component {
                 >
                 {this.props.user === "none" ? 
                     <div>
-                    <MenuItem 
-                    primaryText="Log In"
-                    containerElement={<Link to="/login" />} />
-                    <MenuItem primaryText="Sign Up"
-                    containerElement={<Link to="/signup" />} />
+                        <MenuItem
+                            primaryText="Log In"
+                            containerElement={<Link to="/login" />} />
+                        <MenuItem
+                            primaryText="Sign Up"
+                            containerElement={<Link to="/signup" />} />
                     </div>
                 :
                     <div>
-                    <MenuItem primaryText="Log Out"
-                    onClick={() => auth.signOut()} />
+                        <MenuItem 
+                            primaryText="Log Out"
+                            onClick={() => auth.signOut()} />
                     </div>
                 }
                 </IconMenu>
@@ -59,5 +60,4 @@ class NavBarContainer extends React.Component {
 }
 
 const NavBar = connect(mapState, mapDispatch)(NavBarContainer)
-
 export default NavBar

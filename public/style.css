@@ -9,19 +9,12 @@
 }
 
 body {
-	background-color: #212121bb;
-	color: white;
-	font-family: 'Roboto', sans-serif;
-	margin-bottom: 60px
-}
-
-* {
-	font-family: 'Roboto', sans-serif;
-}
-
-body {
 	background-color: #212121;
 	color: white;
+	font-family: 'Roboto', sans-serif;
+	margin-bottom: 60px;
+	margin: 2%;
+	overflow-x: hidden;
 }
 
 h1, h2, h3 {
@@ -185,11 +178,6 @@ a {
 	flex-direction: row;
 }
 
-body { 
-	margin: 2%;
-	overflow-x: hidden;
-}
-
 .navBar {
 	display: flex;
 	background-color: #212121;
@@ -243,11 +231,6 @@ body {
 	width: 800px; 
 	padding: 0;
 	/* over-ride this inline for aspect ratio other than square */
-
-
-
-
-
 
 .fade {
 	-webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 11.1 */

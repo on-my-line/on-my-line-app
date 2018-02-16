@@ -5,7 +5,6 @@ const sierraNumber = process.env.MY_PHONE_NUMBER
 const twilioNumber = process.env.TWILIO_NUMBER
 const client = require('twilio')(accountSid, authToken)
 
-
 router.post('/', (req, res, next) => {
     const toNumber = req.body.toNumber
     const website = req.body.url

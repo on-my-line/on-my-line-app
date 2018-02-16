@@ -1,18 +1,38 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import CongressionalDistricts from './d3GeoTrial'
 import axios from 'axios'
 import nycBoroughs from '../../nycBoroughs'
-import { connect } from 'react-redux'
-import { fetchYelpThunk, fetchMeetupThunk, fetchEventBriteThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
+import { fetchYelpThunk, fetchMeetupThunk, fetchSingleRouteThunk, fetchSingleStopsThunk, setLoading } from '../store'
 import NavBar from './NavBar'
-//Material-ui
+
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List'
 import Toggle from 'material-ui/Toggle';
 import IconYelp from 'material-ui/svg-icons/maps/place'
 import IconMuseum from 'material-ui/svg-icons/action/account-balance'
 import IconMeetup from 'material-ui/svg-icons/action/event'
+
+const mapState = state => ({
+  yelp: state.yelp,
+  line: state.line,
+  stop: state.stop,
+  singleRoute: state.singleRoute,
+  singleTrainStops: state.singleTrainStops,
+  loading: state.loading
+})
+
+const mapDispatch = dispatch => ({
+  fetchYelp(arrayOfStops) { dispatch(fetchYelpThunk(arrayOfStops)) },
+  fetchMeetup(arrayOfStops) { dispatch(fetchMeetupThunk(arrayOfStops)) },
+  fetchRouteAndStops(currentRoute) {
+    dispatch(setLoading(true))
+    dispatch(fetchSingleRouteThunk(currentRoute))
+    dispatch(fetchSingleStopsThunk(currentRoute))
+    .catch(console.error)
+  }
+})
 
 class D3Trial extends Component {
   constructor(props) {
@@ -42,7 +62,7 @@ class D3Trial extends Component {
     .then(res =>  self.setState({additionalRoute: res.data}))
     .then(() => axios.get(`/stops/${additionalLine}`))
     .then(res =>  self.setState({additionalStops: res.data}))
-    .catch(err => console.error(err))
+    .catch(console.error)
   }
 
   handleToggle(event, type) {
@@ -99,36 +119,6 @@ class D3Trial extends Component {
             </div>
         </div>
     )
-  }
-}
-
-const mapState = (state) => ({
-  yelp: state.yelp,
-  line: state.line,
-  stop: state.stop,
-  singleRoute: state.singleRoute,
-  singleTrainStops: state.singleTrainStops,
-  loading: state.loading
-})
-
-const mapDispatch = (dispatch) => {
-
-  return {
-    fetchYelp(arrayOfStops) {
-      dispatch(fetchYelpThunk(arrayOfStops))
-    },
-    fetchMeetup(arrayOfStops){
-      dispatch(fetchMeetupThunk(arrayOfStops))
-    },
-    fetchEventBrite(arrayOfStops){
-      dispatch(fetchEventBriteThunk(arrayOfStops))
-    },
-    fetchRouteAndStops(currentRoute){
-      dispatch(setLoading(true))
-      dispatch(fetchSingleRouteThunk(currentRoute))
-      dispatch(fetchSingleStopsThunk(currentRoute))
-      .catch(console.error)
-    }
   }
 }
 

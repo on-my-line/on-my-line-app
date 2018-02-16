@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
-import FlatButton from 'material-ui/FlatButton/FlatButton'
-import TextField from 'material-ui/TextField'
 import Modal from 'react-modal'
 import { getUserExtras, addUserEvent } from '../../fire/refs'
+
+import FlatButton from 'material-ui/FlatButton/FlatButton'
+import TextField from 'material-ui/TextField'
 
 const style = {
     image: {
@@ -50,7 +51,6 @@ class SingleGooglePageClass extends Component{
 
     componentDidMount() {
         getUserExtras(this.props.user.uid)
-            .then(userExtras => console.log(userExtras))
     }
 
     handleClick(event, obj) {
@@ -89,8 +89,8 @@ class SingleGooglePageClass extends Component{
         this.setState({ modalIsOpen: false });
     }
 
-    shareWithAFriend(reqBody) {
-        if(reqBody.toNumber!==''){
+    shareWithAFriend(reqBody) { //toNumber, url, message
+        if(reqBody.toNumber !== ''){
             axios.post('/sms', reqBody)
         }
     }
@@ -108,11 +108,8 @@ class SingleGooglePageClass extends Component{
                         <a target="_blank" href={currentThing.url}><p>see more</p></a>
                     </div>
                 </div>
-            {this.props.user.uid && <FlatButton onClick={this.handleAddEvent} label="Add to your favorites"/>}
-            <FlatButton
-            label="Share with a Friend"
-            onClick={this.openModal}
-        />
+            {this.props.user.uid && <FlatButton label="Add to your favorites" onClick={this.handleAddEvent} />}
+            <FlatButton label="Share with a Friend" onClick={this.openModal} />
         <Modal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}

@@ -1,7 +1,7 @@
 {
-  "name": "__BONES_NEEDS_A_NAME__",
+  "name": "On_My_Line",
   "version": "0.0.1",
-  "description": "A happy little burning skeleton.",
+  "description": "An app for finding things off of your subway line.",
   "main": "index.js",
   "engines": {
     "node": ">= 7.0.0"
@@ -12,11 +12,11 @@
     "lint": "eslint ./ --ignore-path .gitignore",
     "build": "webpack -w",
     "build-watch": "npm run build -- -w",
-    "build-dev": "cross-env NODE_ENV=development npm run build-watch",
+    "build-dev": "NODE_ENV='development' npm run build-watch",
     "build-branch": "bin/build-branch.sh",
     "start-server": "node server",
-    "start-dev": "webpack -w & nodemon server",
-    "start": "NODE_ENV=production node server",
+    "start-dev": "NODE_ENV='development' & webpack -w & nodemon server",
+    "start": "NODE_ENV='production' webpack -w & node server",
     "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js fire/**/*.test.js",
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
@@ -28,10 +28,9 @@
   },
   "keywords": [
     "react",
-    "redux",
-    "skeleton"
+    "redux"
   ],
-  "author": "Ashi Krishnan <me@ashi.works>",
+  "author": "Sierra Saitta, Julia Jaspers, Ko-Hsin Chu, Leah Gerald",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/queerviolet/bones/issues"

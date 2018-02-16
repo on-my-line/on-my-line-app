@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import firebase from '../../fire'
+
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import firebase from '../../fire'
+
 const auth = firebase.auth()
 
-const emailProvider = new firebase.auth.EmailAuthProvider()
-
-
-class SignUpClass extends React.Component {
+class SignUpClass extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -52,7 +51,7 @@ class SignUpClass extends React.Component {
             <div className="center-screen fade">
                 <h1> Sign Up </h1>
                 <form name="sign-up-form" onSubmit={this.handleClick}>
-                <TextField
+                    <TextField
                         name="disName"
                         value={this.state.disName}
                         floatingLabelText="Name"
