@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const volleyball = require('volleyball')
 const bodyParser = require('body-parser')
-const PORT = 1337
+const PORT = 3000
 
 const app = express()
 
